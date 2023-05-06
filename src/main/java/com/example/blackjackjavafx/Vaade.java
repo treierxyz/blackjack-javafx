@@ -2,6 +2,7 @@ package com.example.blackjackjavafx;
 
 public enum Vaade {
     MÄNGIJAD("mängijad.fxml"),
+    MÄNG("mäng.fxml"),
     MÄNGIJANIMED("mängija-nimed.fxml");
 
     private String failinimi;

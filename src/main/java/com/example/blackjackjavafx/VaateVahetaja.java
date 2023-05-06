@@ -1,5 +1,6 @@
 package com.example.blackjackjavafx;
 
+import com.example.blackjackjavafx.kontrollerid.MängijaNimedKontroller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,17 +19,20 @@ public class VaateVahetaja {
         return stseen;
     }
 
-    public static void vaheta(Vaade vaade) {
+    public static <T> T vaheta(Vaade vaade) {
         if (stseen == null) {
             System.out.println("Stseen valimata");
-            return;
+            return null;
         }
         try {
-            Parent juur = FXMLLoader.load(VaateVahetaja.class.getResource(vaade.getFailinimi()));
+            FXMLLoader fxmlLoader = new FXMLLoader(VaateVahetaja.class.getResource(vaade.getFailinimi()));
+            Parent juur = fxmlLoader.load();
+            T kontroller = fxmlLoader.getController();
             stseen.setRoot(juur);
+            return kontroller;
         } catch (IOException e){
             e.printStackTrace();
+            return null;
         }
-
     }
 }

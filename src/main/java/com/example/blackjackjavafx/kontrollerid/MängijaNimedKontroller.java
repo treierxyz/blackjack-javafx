@@ -1,14 +1,19 @@
 package com.example.blackjackjavafx.kontrollerid;
 
+import com.example.blackjackjavafx.Mängija;
 import com.example.blackjackjavafx.Vaade;
 import com.example.blackjackjavafx.VaateVahetaja;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MängijaNimedKontroller {
 
@@ -33,6 +38,13 @@ public class MängijaNimedKontroller {
     }
 
     public void edasi(ActionEvent event) {
-        System.out.println("TODO");
+        List<Mängija> mängijad = new ArrayList<>();
+        for (int i = 0; i < nimedVbox.getChildren().size(); i++) {
+            String nimi = ((TextField) VaateVahetaja.getStseen().lookup("#mängija"+(i+1)+"nimi")).getText();
+            mängijad.add(new Mängija(nimi, 300));
+        }
+        MängKontroller mängKontroller = VaateVahetaja.vaheta(Vaade.MÄNG);
+        mängKontroller.setMängijad(mängijad);
+        mängKontroller.mängijadPaan();
     }
 }
