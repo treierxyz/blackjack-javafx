@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<FlowPane alignment="CENTER" prefHeight="400.0" prefWidth="600.0" prefWrapLength="0.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mitu mängijat?" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <VBox prefHeight="155.0" prefWidth="143.0">
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="TOP" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="1" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <graphic>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <FontIcon boundsType="VISUAL" iconLiteral="mdmz-person_outline" iconSize="42">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </FontIcon>
+                                 </children>
+                              </HBox>
+                           </graphic>
+                        </Button>
+                        <Button alignment="CENTER" contentDisplay="TOP" layoutX="51.0" layoutY="24.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="2" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <graphic>
+                              <HBox>
+                                 <children>
+                                    <FontIcon boundsType="VISUAL" iconLiteral="mdmz-person_outline" iconSize="42" />
+                                    <FontIcon boundsType="VISUAL" iconLiteral="mdmz-person_outline" iconSize="42" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="3" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" layoutX="51.0" layoutY="24.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="4" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" layoutX="82.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="5" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="79.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="6" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" layoutX="51.0" layoutY="24.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="7" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" layoutX="82.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="8" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <FlowPane.margin>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </FlowPane.margin>
+      </VBox>
+   </children>
+</FlowPane>
