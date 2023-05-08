@@ -2,6 +2,8 @@ package com.example.blackjackjavafx;
 
 public enum MängijaSeis {
     INIT,
-    PANUS_VALMIS;
+    PANUS_VALMIS,
+    STAND,
+    BUST;
 
 }
