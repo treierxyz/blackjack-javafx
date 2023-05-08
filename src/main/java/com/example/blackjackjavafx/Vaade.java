@@ -1,7 +1,7 @@
 package com.example.blackjackjavafx;
 
 public enum Vaade {
-    MÄNGIJATEARV("mängijate-arv.fxml"),
+    PEAMENÜÜ("peamenüü.fxml"),
     ABI("abi.fxml"),
 
     MÄNG("mäng.fxml"),

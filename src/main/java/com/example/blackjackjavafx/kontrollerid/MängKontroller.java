@@ -67,7 +67,8 @@ public class MängKontroller {
             Button ok = new Button("OK");
             ok.disableProperty().bind(panus.textProperty().isEmpty());
             ok.disableProperty().bind(panus.disabledProperty());
-            ok.setOnMouseClicked(event -> {
+            panus.setOnAction(event -> {ok.fire();});
+            ok.setOnAction(event -> {
                 try {
                     int panusKogus = Integer.parseInt(panus.getText());
                     if (panusKogus > mängija.getKrediit() || panusKogus <= 0) return;

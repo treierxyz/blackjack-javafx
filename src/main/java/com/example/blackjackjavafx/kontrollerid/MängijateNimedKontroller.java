@@ -26,6 +26,7 @@ public class MängijateNimedKontroller {
             Text text = new Text("Mängija "+(i+1)+" nimi:");
             TextField textField = new TextField();
             textField.setId("mängija"+(i+1)+"nimi");
+//            textField.setOnAction(event -> {}); // TODO: nimede väljal Enter võiks viia järgmise välja/edasi nuppu juurde
             HBox.setHgrow(textField, Priority.ALWAYS);
             hbox.getChildren().addAll(text, textField);
             nimedVbox.getChildren().add(hbox);
@@ -33,7 +34,7 @@ public class MängijateNimedKontroller {
     }
 
     public void tagasi(ActionEvent event) {
-        VaateVahetaja.vaheta(Vaade.MÄNGIJATEARV);
+        VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
     }
 
     public void edasi(ActionEvent event) {

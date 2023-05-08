@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class MängijateArvKontroller {
+public class PeamenüüKontroller {
 
     public void mängijaid(ActionEvent event) throws IOException {
         int mängijaid = Integer.parseInt(((Button) event.getSource()).getText());
