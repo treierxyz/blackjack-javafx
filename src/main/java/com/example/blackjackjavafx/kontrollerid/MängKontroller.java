@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -112,9 +113,7 @@ public class MängKontroller {
         for (int i = 0; i < 2; i++)
             diiler.getKäsi().lisaKaart(mänguPakk.suvaline());
         // Näita ühte diileri kaarti
-        Text näita = new Text(diiler.getKäsi().getKaardid().get(0).toString());
-        näita.setFont(new Font(16));
-        diileriKaardid.getChildren().add(näita);
+        diileriKaardid.getChildren().add(diiler.getKäsi().getKaardidLabelid().get(0));
 
         // Teised diileri kaardid küsimärgid
         for (int i = 1; i < diiler.getKäsi().getKaardid().size(); i++) {
@@ -129,10 +128,8 @@ public class MängKontroller {
             for (int i = 0; i < 2; i++)
                 mängija.getKäsi().lisaKaart(mänguPakk.suvaline());
 
-            for (Kaart kaart : mängija.getKäsi().getKaardid()) {
-                Text kaartTekst = new Text(kaart.toString());
-                kaartTekst.setFont(new Font(16));
-                mängija.getMängijaHbox().getChildren().add(kaartTekst);
+            for (Label kaart : mängija.getKäsi().getKaardidLabelid()) {
+                mängija.getMängijaHbox().getChildren().add(kaart);
             }
         }
         for (Mängija mängija : mängijadList) {

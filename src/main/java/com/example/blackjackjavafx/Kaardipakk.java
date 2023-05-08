@@ -1,4 +1,5 @@
 package com.example.blackjackjavafx;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +10,7 @@ public class Kaardipakk {
 
     /**
      * Uus kaardipakk
+     *
      * @param pakid mitu kaardipakki kokku panna
      */
     public Kaardipakk(int pakid) {
@@ -20,14 +22,11 @@ public class Kaardipakk {
      * Loob mängukaardid.
      */
     public void uusPakk(int pakid) {
-        List<String> mastid = List.of("♦", "♣", "♥", "♠");
-        List<String> vaartused = List.of("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A");
-
         this.kaardid.clear();
         for (int i = 0; i < pakid; i++)
-            for (String mast : mastid)
-                for (String vaartus : vaartused)
-                    this.kaardid.add(new Kaart(mast, vaartus));
+            for (Mast mast : Mast.values())
+                for (Väärtus väärtus : Väärtus.values())
+                    this.kaardid.add(new Kaart(mast,väärtus));
     }
 
     /**
@@ -40,12 +39,13 @@ public class Kaardipakk {
     /**
      * @return pakis olevate kaartide arv
      */
-    public int kaarteAlles(){
+    public int kaarteAlles() {
         return this.kaardid.size();
     }
 
     /**
      * Tagastab suvalise kaardi allesolevatest kaartidest.
+     *
      * @return suvaline kaart pakist
      */
     public Kaart suvaline() {

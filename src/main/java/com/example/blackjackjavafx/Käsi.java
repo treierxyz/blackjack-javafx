@@ -1,4 +1,6 @@
 package com.example.blackjackjavafx;
+import javafx.scene.control.Label;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class Käsi {
         for (Kaart kaart : kaardid) {
             summa += kaart.getVaartusArv();
         }
-        if (kaardid.contains(new Kaart("","A")) && (summa+10 <= 21)) { // kui kaart on äss ja kaartide summa+10 ei ületaks 21te
+        if (kaardid.contains(new Kaart(null,Väärtus.ÄSS)) && (summa+10 <= 21)) { // kui kaart on äss ja kaartide summa+10 ei ületaks 21te
             summa += 10;
         }
         return summa;
@@ -48,6 +50,14 @@ public class Käsi {
      */
     public List<Kaart> getKaardid(){
         return this.kaardid;
+    }
+
+    public List<Label> getKaardidLabelid(){
+        List<Label> a = new ArrayList<>();
+        for (Kaart kaart : kaardid) {
+            a.add(kaart.kaartLabel());
+        }
+        return a;
     }
 
     /**
