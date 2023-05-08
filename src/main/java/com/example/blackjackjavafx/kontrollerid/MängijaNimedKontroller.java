@@ -5,7 +5,6 @@ import com.example.blackjackjavafx.Vaade;
 import com.example.blackjackjavafx.VaateVahetaja;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -41,11 +40,15 @@ public class MängijaNimedKontroller {
         List<Mängija> mängijad = new ArrayList<>();
         for (int i = 0; i < nimedVbox.getChildren().size(); i++) {
             String nimi = ((TextField) VaateVahetaja.getStseen().lookup("#mängija"+(i+1)+"nimi")).getText();
+            if (nimi.equals("")) {
+                nimi = "Mängija "+(i+1);
+            }
             mängijad.add(new Mängija(nimi, 300));
         }
         MängKontroller mängKontroller = VaateVahetaja.vaheta(Vaade.MÄNG);
         mängKontroller.setMängijad(mängijad);
-        mängKontroller.mängijadPaan();
-        mängKontroller.lisaMängijad();
+        mängKontroller.mängijadInit();
+        mängKontroller.küsiPanuseid();
+        mängKontroller.edetabelInit();
     }
 }
