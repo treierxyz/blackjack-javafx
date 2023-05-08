@@ -1,10 +1,16 @@
 package com.example.blackjackjavafx.kontrollerid;
 
-import com.example.blackjackjavafx.*;
+import com.example.blackjackjavafx.Kaardipakk;
+import com.example.blackjackjavafx.Kaart;
+import com.example.blackjackjavafx.Mängija;
+import com.example.blackjackjavafx.MängijaSeis;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,14 +28,11 @@ public class MängKontroller {
     private HBox mängijadHBox;
     @FXML
     private HBox diileriKaardid;
+
     @FXML
     private ButtonBar actionBar;
 
     private List<Mängija> mängijadList;
-    private List<Mängija> lõpetanudList;
-    private Mängija kelleKäik;
-    private Kaardipakk mänguPakk;
-    private Mäng mäng;
 
     public void edetabelInit() {
         for (Mängija m : mängijadList) {
@@ -61,26 +64,18 @@ public class MängKontroller {
             ok.disableProperty().bind(panus.textProperty().isEmpty());
             ok.disableProperty().bind(panus.disabledProperty());
             ok.setOnMouseClicked(event -> {
-                int mPanus = -1;
-                // Et ei viskaks tühja sisendi korral erroreid
                 try {
-                    mPanus = Integer.parseInt(panus.getText());
-                } catch (NumberFormatException e) {}
+                    int panusKogus = Integer.parseInt(panus.getText());
+                    mängija.setPanus(panusKogus);
+                } catch (NumberFormatException e) {
+                    return;
+                }
+                panus.setDisable(true);
 
-                if (mPanus > mängija.getKrediit() || mPanus <= 0) {}
-                else {
-                    panus.setDisable(true);
-                    mängija.setSeis(MängijaSeis.PANUS_VALMIS);
-                    mängija.setPanus(mPanus);
-                    if (panusedTehtud()) {
-                        actionBar.disableProperty().set(false);
-                        mänguPakk = new Kaardipakk(mängijadList.size());
-                        jagaKaardid();
-                        mängijadHalliks();
-
-                        mäng = new Mäng(this);
-                        mäng.alusta();
-                    }
+                mängija.setSeis(MängijaSeis.PANUS_VALMIS);
+                if (panusedTehtud()) {
+                    actionBar.disableProperty().set(false);
+                    jagaKaardid();
                 }
             });
             mängija.getMängijaHbox().getChildren().addAll(panus, ok);
@@ -96,41 +91,23 @@ public class MängKontroller {
         return true;
     }
 
-    public void mängijadHalliks() {
-        for (Mängija m : mängijadList) {
-            m.getMängijaHbox().getParent().setOpacity(0.6);
-        }
-    }
-
     public void jagaKaardid() {
-        // Diiler
-        Mängija diiler = new Mängija("Diiler", 1000);
-        for (int i = 0; i < 2; i++)
-            diiler.getKäsi().lisaKaart(mänguPakk.suvaline());
-        // Näita ühte diileri kaarti
-        Text näita = new Text(diiler.getKäsi().getKaardid().get(0).toString());
-        näita.setFont(new Font(16));
-        diileriKaardid.getChildren().add(näita);
-
-        // Teised diileri kaardid küsimärgid
-        for (int i = 1; i < diiler.getKäsi().getKaardid().size(); i++) {
-            Text küsimärk = new Text(" ? ");
-            küsimärk.setFont(new Font(16));
-            diileriKaardid.getChildren().add(küsimärk);
-        }
-
-        // Mängijad
+        // Testiks
+        Kaardipakk pakk = new Kaardipakk(2);
         for (Mängija mängija : mängijadList) {
             mängija.getMängijaHbox().getChildren().clear();
             // Jaga paar kaarti
             for (int i = 0; i < 2; i++)
-                mängija.getKäsi().lisaKaart(mänguPakk.suvaline());
+                mängija.getKäsi().lisaKaart(pakk.suvaline());
 
             for (Kaart kaart : mängija.getKäsi().getKaardid()) {
                 Text kaartTekst = new Text(kaart.toString());
                 kaartTekst.setFont(new Font(16));
                 mängija.getMängijaHbox().getChildren().add(kaartTekst);
             }
+        }
+        for (Mängija mängija : mängijadList) {
+            System.out.println(mängija.getPanus());
         }
     }
 
@@ -159,71 +136,13 @@ public class MängKontroller {
     }
 
     public void standNupp() {
-        kelleKäik.setSeis(MängijaSeis.STAND);
-        lõpetanudList.add(kelleKäik);
-        kelleKäik.getMängijaHbox().getParent().setOpacity(0.3);
-    }
 
+    }
     public void hitNupp() {
-        Käsi käsi = kelleKäik.getKäsi();
-        Kaart uusKaart = mänguPakk.suvaline();
-        käsi.lisaKaart(uusKaart);
 
-        // Lisa kaart ekraanile
-        Text kaartTekst = new Text(uusKaart.toString());
-        kaartTekst.setFont(new Font(16));
-        kelleKäik.getMängijaHbox().getChildren().add(kaartTekst);
-
-        System.out.println("Kaartide summa: " + käsi.summa());
-
-        switch (Integer.compare(käsi.summa(), 21)) {
-            case 0 -> {
-                System.out.println("21 käes!");
-                kelleKäik.setSeis(MängijaSeis.STAND);
-                lõpetanudList.add(kelleKäik);
-            }
-            case 1 -> {
-                System.out.println("Bust! Oled mängust väljas");
-                kelleKäik.setSeis(MängijaSeis.BUST);
-                lõpetanudList.add(kelleKäik);
-                kelleKäik.getMängijaHbox().getParent().setOpacity(0.3);
-            }
-        }
     }
-
     public void doubleNupp() {
-        if (kelleKäik.getKrediit() < kelleKäik.getPanus()) return; // kui mängijal ei ole krediiti et doubleida
 
-        kelleKäik.lisaKrediit(-kelleKäik.getPanus()); // vähenda krediiti
-        kelleKäik.setPanus(kelleKäik.getPanus()*2); // kahekordista panust
-        System.out.println("Panus on nüüd "+kelleKäik.getPanus());
-        Kaart uusKaart = mänguPakk.suvaline();
-        System.out.println("Tuli kaart " + uusKaart.toString());
-        Käsi käsi = kelleKäik.getKäsi();
-        käsi.lisaKaart(uusKaart);
-
-        // Lisa kaart ekraanile
-        Text kaartTekst = new Text(uusKaart.toString());
-        kaartTekst.setFont(new Font(16));
-        kelleKäik.getMängijaHbox().getChildren().add(kaartTekst);
-
-        switch (Integer.compare(käsi.summa(), 21)) {
-            case -1 -> {
-                kelleKäik.setSeis(MängijaSeis.STAND);
-            }
-            case 0 -> {
-                System.out.println("21 käes!");
-                kelleKäik.setSeis(MängijaSeis.STAND);
-            }
-            case 1 -> {
-                System.out.println("Bust! Oled mängust väljas");
-                kelleKäik.setSeis(MängijaSeis.BUST);
-            }
-        }
-
-        lõpetanudList.add(kelleKäik);
-        kelleKäik.getMängijaHbox().getParent().setOpacity(0.3);
-        System.out.println("Lõpetasid mängu tulemusega " + käsi.summa());
     }
 
     public void initialize() {
@@ -232,15 +151,5 @@ public class MängKontroller {
     public void setMängijad(List<Mängija> mängijad) {
         mängijadList = mängijad;
     }
-    public List<Mängija> getMängijad() {
-        return this.mängijadList;
-    }
 
-    public void setKelleKäik(Mängija kelleKäik) {
-        this.kelleKäik = kelleKäik;
-    }
-
-    public void setLõpetanudList(List<Mängija> lõpetanudList) {
-        this.lõpetanudList = lõpetanudList;
-    }
 }
