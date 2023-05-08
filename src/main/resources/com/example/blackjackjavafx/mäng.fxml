@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.blackjackjavafx.kontrollerid.MängKontroller">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.blackjackjavafx.kontrollerid.MängKontroller">
    <children>
       <SplitPane dividerPositions="0.29797979797979796" layoutX="141.0" layoutY="80.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -13,7 +15,43 @@
                   <ListView fx:id="mängijadVaade" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="200.0" prefWidth="200.0" prefWrapLength="0.0">
+                     <children>
+                        <VBox alignment="CENTER" spacing="50.0">
+                           <children>
+                               <VBox alignment="CENTER">
+                                   <children>
+                                       <FontIcon boundsType="VISUAL" iconLiteral="mdmz-person_outline" iconSize="42" text="" />
+                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Diiler">
+                                           <font>
+                                               <Font size="20.0" />
+                                           </font>
+                                       </Text>
+                                       <HBox fx:id="diileriKaardid" alignment="CENTER" />
+                                   </children>
+                               </VBox>
+                              <HBox fx:id="mängijadHBox" alignment="CENTER" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </FlowPane>
+                  <ButtonBar>
+                    <buttons>
+                        <Button mnemonicParsing="false" text="Double" ButtonBar.buttonData="RIGHT" />
+                        <Button mnemonicParsing="false" text="Hit" />
+                        <Button mnemonicParsing="false" text="Stand" ButtonBar.buttonData="LEFT" />
+                    </buttons>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="25.0" />
+                     </VBox.margin>
+                  </ButtonBar>
+               </children>
+            </VBox>
         </items>
       </SplitPane>
    </children>

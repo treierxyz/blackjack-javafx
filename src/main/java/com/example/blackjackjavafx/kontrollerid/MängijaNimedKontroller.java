@@ -46,5 +46,6 @@ public class MängijaNimedKontroller {
         MängKontroller mängKontroller = VaateVahetaja.vaheta(Vaade.MÄNG);
         mängKontroller.setMängijad(mängijad);
         mängKontroller.mängijadPaan();
+        mängKontroller.lisaMängijad();
     }
 }
