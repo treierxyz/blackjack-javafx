@@ -10,7 +10,7 @@ import java.util.List;
 public class Mängija implements Comparable<Mängija> {
     private String nimi;
     private SimpleIntegerProperty krediit = new SimpleIntegerProperty();
-    private int panus;
+    private SimpleIntegerProperty panus = new SimpleIntegerProperty();
     private Käsi käsi;
     private MängijaSeis seis;
     private HBox mängijaHbox = new HBox();
@@ -89,14 +89,18 @@ public class Mängija implements Comparable<Mängija> {
      * @return mängija panus
      */
     public int getPanus() {
-        return this.panus;
+        return this.panus.get();
     }
 
     /**
      * Väärtustab mängija panuse
      */
     public void setPanus(int panus) {
-        this.panus = panus;
+        this.panus.set(panus);
+    }
+
+    public IntegerProperty panusProperty() {
+        return panus;
     }
 
     /**

@@ -14,7 +14,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MängijaNimedKontroller {
+public class MängijateNimedKontroller {
 
     @FXML
     private VBox nimedVbox;

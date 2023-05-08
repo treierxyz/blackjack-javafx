@@ -1,6 +1,7 @@
 package com.example.blackjackjavafx.kontrollerid;
 
 import com.example.blackjackjavafx.*;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -37,11 +39,15 @@ public class MängKontroller {
             nimi.setTextOverrun(OverrunStyle.CENTER_ELLIPSIS); // miks ei tööta???
 
             Label krediit = new Label();
+            Label panus = new Label();
             krediit.textProperty().bind(m.krediitProperty().asString());
+            panus.textProperty().bind(Bindings.when(m.panusProperty().isEqualTo(0)).then("").otherwise(Bindings.concat("-",m.panusProperty().asString())));
+            panus.setTextFill(Paint.valueOf("a89f23"));
+            HBox krediitbox = new HBox(krediit,panus);
 
             BorderPane borderPane = new BorderPane();
             borderPane.setLeft(nimi);
-            borderPane.setRight(krediit);
+            borderPane.setRight(krediitbox);
             BorderPane.setMargin(nimi, new Insets(0,25,0,0));
 
             VBox.setMargin(borderPane, new Insets(0,5,0,5));
@@ -194,7 +200,6 @@ public class MängKontroller {
     public void doubleNupp() {
         if (kelleKäik.getKrediit() < kelleKäik.getPanus()) return; // kui mängijal ei ole krediiti et doubleida
 
-        kelleKäik.lisaKrediit(-kelleKäik.getPanus()); // vähenda krediiti
         kelleKäik.setPanus(kelleKäik.getPanus()*2); // kahekordista panust
         System.out.println("Panus on nüüd "+kelleKäik.getPanus());
         Kaart uusKaart = mänguPakk.suvaline();

@@ -1,6 +1,5 @@
 package com.example.blackjackjavafx;
 
-import com.example.blackjackjavafx.kontrollerid.MängijaNimedKontroller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
