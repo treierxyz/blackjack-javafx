@@ -33,7 +33,7 @@ public class MängijateNimedKontroller {
     }
 
     public void tagasi(ActionEvent event) {
-        VaateVahetaja.vaheta(Vaade.MÄNGIJAD);
+        VaateVahetaja.vaheta(Vaade.MÄNGIJATEARV);
     }
 
     public void edasi(ActionEvent event) {

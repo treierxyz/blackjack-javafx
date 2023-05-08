@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.blackjackjavafx.kontrollerid.AbiKontroller">
+   <children>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <TextFlow fx:id="abiTextFlow" textAlignment="JUSTIFY">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Blackjack (mida tuntakse ka nime &quot;21&quot; või &quot;Pontoon&quot; all) on üks maailma populaarsemaid kasiinodes mängitavaid kaardimänge. Populaarseks muudab selle mängu tema omapära, kus oskused ja õnn mängivad mõlemad olulist rolli, ning avalikkuse huvi, mis seostub eelkõige kaardilugemisega (pidades arvestust mängust väljas olevate madalate ja kõrgete kaartide suhte kohta).">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
+                  <Hyperlink onAction="#avaLink" text="https://et.wikipedia.org/wiki/Blackjack" />
+               </children>
+               <padding>
+                  <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+               </padding>
+            </TextFlow>
+         </content>
+      </ScrollPane>
+      <Button layoutX="559.0" layoutY="384.0" mnemonicParsing="false" onAction="#tagasi" text="Tagasi" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+   </children>
+</AnchorPane>

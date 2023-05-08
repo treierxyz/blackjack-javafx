@@ -4,6 +4,5 @@ public enum MängijaSeis {
     INIT,
     PANUS_VALMIS,
     STAND,
-    BUST;
-
+    BUST
 }

@@ -12,7 +12,11 @@ public class MängijateArvKontroller {
     public void mängijaid(ActionEvent event) throws IOException {
         int mängijaid = Integer.parseInt(((Button) event.getSource()).getText());
 
-        MängijateNimedKontroller mängijateNimedKontroller = VaateVahetaja.vaheta(Vaade.MÄNGIJANIMED);
+        MängijateNimedKontroller mängijateNimedKontroller = VaateVahetaja.vaheta(Vaade.MÄNGIJATENIMED);
         mängijateNimedKontroller.genereeriTekstiväljad(mängijaid);
+    }
+
+    public void abi() {
+        VaateVahetaja.vaheta(Vaade.ABI);
     }
 }
