@@ -64,7 +64,14 @@ public class MängKontroller {
             ok.disableProperty().bind(panus.textProperty().isEmpty());
             ok.disableProperty().bind(panus.disabledProperty());
             ok.setOnMouseClicked(event -> {
+                try {
+                    int panusKogus = Integer.parseInt(panus.getText());
+                    mängija.setPanus(panusKogus);
+                } catch (NumberFormatException e) {
+                    return;
+                }
                 panus.setDisable(true);
+
                 mängija.setSeis(MängijaSeis.PANUS_VALMIS);
                 if (panusedTehtud()) {
                     actionBar.disableProperty().set(false);
@@ -98,6 +105,9 @@ public class MängKontroller {
                 kaartTekst.setFont(new Font(16));
                 mängija.getMängijaHbox().getChildren().add(kaartTekst);
             }
+        }
+        for (Mängija mängija : mängijadList) {
+            System.out.println(mängija.getPanus());
         }
     }
 
