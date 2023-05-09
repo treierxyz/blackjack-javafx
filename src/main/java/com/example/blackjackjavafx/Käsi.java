@@ -38,7 +38,7 @@ public class Käsi {
         for (Kaart kaart : kaardid) {
             summa += kaart.getVaartusArv();
         }
-        if (kaardid.contains(new Kaart(null,Väärtus.ÄSS)) && (summa+10 <= 21)) { // kui kaart on äss ja kaartide summa+10 ei ületaks 21te
+        if (kaardid.contains(new Kaart(null,Väärtus.ÄSS)) && (summa+10 <= 21)) { // kui on vähemalt üks äss (sest ainult ühte ässa saab lugeda 11-na) ja kaartide summa+10 ei ületaks 21te
             summa += 10;
         }
         return summa;

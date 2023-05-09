@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -16,7 +17,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.blackjackjavafx.kontrollerid.MängKontroller">
    <children>
-      <SplitPane dividerPositions="0.29797979797979796" layoutX="141.0" layoutY="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.2809364548494983" layoutX="141.0" layoutY="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <VBox>
                <children>
@@ -35,43 +36,41 @@
                   </ScrollPane>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0">
-               <children>
-                  <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="200.0" prefWidth="200.0" prefWrapLength="0.0">
-                     <children>
-                        <VBox alignment="CENTER" spacing="50.0">
-                           <children>
-                               <VBox alignment="CENTER">
-                                   <children>
-                                       <FontIcon boundsType="VISUAL" iconLiteral="mdmz-person_outline" iconSize="42" />
-                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Diiler">
-                                           <font>
-                                               <Font size="20.0" />
-                                           </font>
-                                       </Text>
-                                       <HBox fx:id="diileriKaardid" alignment="CENTER" />
-                                   </children>
-                               </VBox>
-                              <HBox fx:id="mängijadHBox" alignment="CENTER" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </FlowPane>
-                  <ButtonBar fx:id="actionBar" disable="true">
+            <BorderPane>
+               <bottom>
+                  <ButtonBar fx:id="actionBar" disable="true" BorderPane.alignment="CENTER">
                     <buttons>
                         <Button fx:id="doubleBtn" mnemonicParsing="false" onAction="#doubleNupp" text="Double" ButtonBar.buttonData="RIGHT" />
                         <Button fx:id="hitBtn" mnemonicParsing="false" onAction="#hitNupp" text="Hit" />
                         <Button fx:id="standBtn" mnemonicParsing="false" onAction="#standNupp" text="Stand" ButtonBar.buttonData="LEFT" />
                     </buttons>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
                   </ButtonBar>
-               </children>
-            </VBox>
+               </bottom>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <center>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+                     <children>
+                         <VBox fx:id="diiler" alignment="CENTER">
+                             <children>
+                                 <FontIcon boundsType="VISUAL" iconLiteral="mdmz-person_outline" iconSize="42" />
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Diiler">
+                                     <font>
+                                         <Font size="20.0" />
+                                     </font>
+                                 </Text>
+                                 <HBox fx:id="diileriKaardid" alignment="CENTER" />
+                             </children>
+                         </VBox>
+                        <FlowPane fx:id="mängijadFlow" alignment="CENTER" columnHalignment="CENTER" hgap="25.0" vgap="15.0" />
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
         </items>
       </SplitPane>
    </children>

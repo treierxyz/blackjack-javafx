@@ -1,8 +1,23 @@
 package com.example.blackjackjavafx;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.css.SimpleStyleableDoubleProperty;
+
 public enum MängijaSeis {
-    INIT,
-    PANUS_VALMIS,
-    STAND,
-    BUST
+    INIT(1.0),
+    PANUS_VALMIS(1.0),
+    MÄNGIB(1.0),
+    OOTAB(0.6),
+    STAND(0.6),
+    BUST(0.3);
+
+    private final double läbipaistvus;
+
+    MängijaSeis(double läbipaistvus) {
+        this.läbipaistvus = läbipaistvus;
+    }
+
+    public double getLäbipaistvus() {
+        return läbipaistvus;
+    }
 }

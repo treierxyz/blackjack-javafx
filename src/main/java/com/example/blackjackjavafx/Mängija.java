@@ -1,7 +1,6 @@
 package com.example.blackjackjavafx;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -12,10 +11,11 @@ import java.util.List;
 
 public class Mängija implements Comparable<Mängija> {
     private final String nimi;
-    private SimpleIntegerProperty krediit = new SimpleIntegerProperty();
-    private SimpleIntegerProperty panus = new SimpleIntegerProperty();
+    private IntegerProperty krediit = new SimpleIntegerProperty();
+    private IntegerProperty panus = new SimpleIntegerProperty();
     private Käsi käsi;
-    private MängijaSeis seis;
+    private MängijaSeisProperty seis = new MängijaSeisProperty();
+    private DoubleProperty läbipaistvus = new SimpleDoubleProperty();
     private HBox mängijaHbox = new HBox();
     private static final List<String> debugNimed = new ArrayList<>(List.of("Artur", "Peeter", "Joonas", "Kaarel", "Johanna", "Liina", "Mia", "Lisete"));
 
@@ -29,7 +29,11 @@ public class Mängija implements Comparable<Mängija> {
         this.nimi = nimi;
         this.krediit.set(krediit);
         this.käsi = new Käsi();
-        this.seis = MängijaSeis.INIT;
+        this.seis.addListener(((observable, oldValue, newValue) -> {
+            läbipaistvus.set(newValue.getLäbipaistvus());
+            System.out.println(newValue.getLäbipaistvus());
+        }));
+        this.seis.setValue(MängijaSeis.INIT);
     }
 
     /**
@@ -42,7 +46,11 @@ public class Mängija implements Comparable<Mängija> {
         debugNimed.remove(nimi);
         this.krediit.set(krediit);
         this.käsi = new Käsi();
-        this.seis = MängijaSeis.INIT;
+        this.seis.addListener(((observable, oldValue, newValue) -> {
+            läbipaistvus.set(newValue.getLäbipaistvus());
+            System.out.println(newValue.getLäbipaistvus());
+        }));
+        this.seis.setValue(MängijaSeis.INIT);
     }
 
     /**
@@ -77,9 +85,7 @@ public class Mängija implements Comparable<Mängija> {
     }
 
     public void strikeThroughNimi() {
-        VBox vBox = (VBox) mängijaHbox.getParent();
-
-        for (Node child : vBox.getChildren()) {
+        for (Node child : ((VBox) mängijaHbox.getParent()).getChildren()) {
             if (child.getClass() == Text.class) {
                 ((Text) child).setStrikethrough(true);
             }
@@ -101,7 +107,14 @@ public class Mängija implements Comparable<Mängija> {
      * @return mängija seis
      */
     public MängijaSeis getSeis() {
-        return seis;
+        return seis.get();
+    }
+
+    /**
+     * Määrab mängija seisu (stand, bust, blackjack)
+     */
+    public void setSeis(MängijaSeis seis) {
+        this.seis.set(seis);
     }
 
     /**
@@ -124,19 +137,20 @@ public class Mängija implements Comparable<Mängija> {
         return panus;
     }
 
-    /**
-     * Määrab mängija seisu (stand, bust, blackjack)
-     */
-    public void setSeis(MängijaSeis seis) {
-        this.seis = seis;
-    }
-
     public HBox getMängijaHbox() {
         return mängijaHbox;
     }
 
     public void setMängijaHbox(HBox mängijaHbox) {
         this.mängijaHbox = mängijaHbox;
+    }
+
+    public double getLäbipaistvus() {
+        return läbipaistvus.get();
+    }
+
+    public DoubleProperty läbipaistvusProperty() {
+        return läbipaistvus;
     }
 
     /**

@@ -5,9 +5,9 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
@@ -23,6 +23,9 @@ public class MängKontroller {
     private VBox edetabel;
     @FXML
     private HBox mängijadHBox;
+
+    @FXML
+    private FlowPane mängijadFlow;
     @FXML
     private HBox diileriKaardid;
     @FXML
@@ -107,7 +110,7 @@ public class MängKontroller {
 
     public void mängijadHalliks() {
         for (Mängija m : mängijadList) {
-            m.getMängijaHbox().getParent().setOpacity(0.6);
+            m.setSeis(MängijaSeis.OOTAB);
         }
     }
 
@@ -137,14 +140,10 @@ public class MängKontroller {
                 mängija.getMängijaHbox().getChildren().add(kaart);
             }
         }
-        for (Mängija mängija : mängijadList) {
-            System.out.println(mängija.getPanus());
-        }
     }
 
     public void mängijadInit() {
-        mängijadHBox.getChildren().clear();
-        mängijadHBox.setSpacing(25);
+        mängijadFlow.getChildren().clear();
 
         for (Mängija m : mängijadList) {
             FontIcon icon = new FontIcon("mdmz-person_outline");
@@ -163,7 +162,8 @@ public class MängKontroller {
             hBox.setSpacing(5);
 
             vBox.getChildren().add(hBox);
-            mängijadHBox.getChildren().add(vBox);
+            m.getMängijaHbox().getParent().opacityProperty().bind(m.läbipaistvusProperty());
+            mängijadFlow.getChildren().add(vBox);
         }
     }
 
@@ -171,7 +171,6 @@ public class MängKontroller {
         kelleKäik.setSeis(MängijaSeis.STAND);
         lõpetanudList.add(kelleKäik);
 
-        kelleKäik.getMängijaHbox().getParent().setOpacity(0.3);
         mäng.järgmineMängija();
     }
 
@@ -181,13 +180,12 @@ public class MängKontroller {
         käsi.lisaKaart(uusKaart);
 
         // Lisa kaart ekraanile
-        Text kaartTekst = new Text(uusKaart.toString());
-        kaartTekst.setFont(new Font(16));
-        kelleKäik.getMängijaHbox().getChildren().add(kaartTekst);
+        kelleKäik.getMängijaHbox().getChildren().add(uusKaart.kaartLabel());
 
         System.out.println("Kaartide summa: " + käsi.summa());
 
         switch (Integer.compare(käsi.summa(), 21)) {
+            case -1 -> kelleKäik.setSeis(MängijaSeis.OOTAB);
             case 0 -> {
                 System.out.println("21 käes!");
                 kelleKäik.setSeis(MängijaSeis.STAND);
@@ -201,7 +199,6 @@ public class MängKontroller {
             }
         }
 
-        kelleKäik.getMängijaHbox().getParent().setOpacity(0.3);
         mäng.järgmineMängija();
     }
 
@@ -234,7 +231,6 @@ public class MängKontroller {
         }
 
         lõpetanudList.add(kelleKäik);
-        kelleKäik.getMängijaHbox().getParent().setOpacity(0.3); // halliks
         System.out.println("Lõpetasid mängu tulemusega " + käsi.summa());
 
         mäng.järgmineMängija();

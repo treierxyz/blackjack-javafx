@@ -41,7 +41,7 @@ public class Mäng {
             }
         }
 
-        järgmine.getMängijaHbox().getParent().setOpacity(1.0);
+        järgmine.setSeis(MängijaSeis.MÄNGIB);
         mängKontroller.setKelleKäik(järgmine);
     }
 

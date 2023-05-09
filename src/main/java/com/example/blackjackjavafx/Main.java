@@ -15,7 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage pealava) {
-        Scene stseen = new Scene(new Pane());
+        Scene stseen = new Scene(new Pane(),640,480);
         VaateVahetaja.setStseen(stseen);
         VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
         pealava.setScene(stseen);
