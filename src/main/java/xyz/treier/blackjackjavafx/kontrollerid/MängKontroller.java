@@ -1,6 +1,5 @@
-package com.example.blackjackjavafx.kontrollerid;
+package xyz.treier.blackjackjavafx.kontrollerid;
 
-import com.example.blackjackjavafx.*;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -14,6 +13,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.kordamp.ikonli.javafx.FontIcon;
+import xyz.treier.blackjackjavafx.*;
 
 import java.util.Collections;
 import java.util.List;

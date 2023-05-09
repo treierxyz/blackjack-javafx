@@ -1,4 +1,4 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

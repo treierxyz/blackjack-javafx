@@ -1,4 +1,4 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
 public class MängijadOtsasErind extends Exception {
 

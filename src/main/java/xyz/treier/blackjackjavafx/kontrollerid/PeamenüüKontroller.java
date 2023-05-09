@@ -1,7 +1,7 @@
-package com.example.blackjackjavafx.kontrollerid;
+package xyz.treier.blackjackjavafx.kontrollerid;
 
-import com.example.blackjackjavafx.Vaade;
-import com.example.blackjackjavafx.VaateVahetaja;
+import xyz.treier.blackjackjavafx.Vaade;
+import xyz.treier.blackjackjavafx.VaateVahetaja;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 

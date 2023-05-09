@@ -5,8 +5,8 @@ module com.example.blackjackjavafx {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.material2;
     requires java.desktop;
-    opens com.example.blackjackjavafx.kontrollerid;
+    opens xyz.treier.blackjackjavafx.kontrollerid;
 
-    exports com.example.blackjackjavafx;
-    exports com.example.blackjackjavafx.kontrollerid;
+    exports xyz.treier.blackjackjavafx;
+    exports xyz.treier.blackjackjavafx.kontrollerid;
 }

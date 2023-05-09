@@ -1,4 +1,4 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.css.SimpleStyleableDoubleProperty;

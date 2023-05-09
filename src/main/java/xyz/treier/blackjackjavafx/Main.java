@@ -1,4 +1,4 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     // TODO: README lisamine
+    // TODO: äkki liiguta mõned klassid omaette paketti?
 
     public static void main(String[] args) {
         launch(args);
@@ -19,6 +20,7 @@ public class Main extends Application {
         VaateVahetaja.setStseen(stseen);
         VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
         pealava.setScene(stseen);
+        pealava.setTitle("Blackjack");
         pealava.show();
     }
 }

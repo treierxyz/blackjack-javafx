@@ -1,4 +1,4 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
 import java.util.ArrayList;
 import java.util.Collections;

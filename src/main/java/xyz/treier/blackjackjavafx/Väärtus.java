@@ -1,4 +1,4 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
 public enum Väärtus {
     ÄSS(1,"A"),

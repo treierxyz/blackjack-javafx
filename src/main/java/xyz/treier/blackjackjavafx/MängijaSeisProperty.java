@@ -1,8 +1,6 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
-import javafx.beans.property.SimpleObjectProperty;
 
 public class MängijaSeisProperty extends ObjectPropertyBase<MängijaSeis> {
 

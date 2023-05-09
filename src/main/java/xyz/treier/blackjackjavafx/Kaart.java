@@ -1,4 +1,4 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;

@@ -1,4 +1,4 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
 import javafx.beans.property.*;
 import javafx.scene.Node;

@@ -1,8 +1,8 @@
-package com.example.blackjackjavafx.kontrollerid;
+package xyz.treier.blackjackjavafx.kontrollerid;
 
-import com.example.blackjackjavafx.Mängija;
-import com.example.blackjackjavafx.Vaade;
-import com.example.blackjackjavafx.VaateVahetaja;
+import xyz.treier.blackjackjavafx.Mängija;
+import xyz.treier.blackjackjavafx.Vaade;
+import xyz.treier.blackjackjavafx.VaateVahetaja;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;

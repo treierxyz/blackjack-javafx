@@ -1,7 +1,7 @@
-package com.example.blackjackjavafx;
+package xyz.treier.blackjackjavafx;
 
-import com.example.blackjackjavafx.kontrollerid.LõppKontroller;
-import com.example.blackjackjavafx.kontrollerid.MängKontroller;
+import xyz.treier.blackjackjavafx.kontrollerid.LõppKontroller;
+import xyz.treier.blackjackjavafx.kontrollerid.MängKontroller;
 
 import java.util.*;
 

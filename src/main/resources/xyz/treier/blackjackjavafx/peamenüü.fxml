@@ -10,7 +10,7 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 
-<FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" prefWrapLength="0.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.blackjackjavafx.kontrollerid.PeamenüüKontroller">
+<FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" prefWrapLength="0.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.treier.blackjackjavafx.kontrollerid.PeamenüüKontroller">
    <children>
       <Label text="Blackjack">
          <font>
