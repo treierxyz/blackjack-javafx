@@ -49,6 +49,6 @@ public class MängijateNimedKontroller {
         mängKontroller.setMängijad(mängijad);
         mängKontroller.mängijadInit();
         mängKontroller.küsiPanuseid();
-        mängKontroller.edetabelInit();
+        mängKontroller.edetabel();
     }
 }

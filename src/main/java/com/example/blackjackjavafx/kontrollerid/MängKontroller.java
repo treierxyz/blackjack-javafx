@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MängKontroller {
@@ -37,24 +38,30 @@ public class MängKontroller {
     private Kaardipakk mänguPakk;
     private Mäng mäng;
 
-    public void edetabelInit() {
+    /**
+     * Kutsutakse iga kord kui on vaja edetabelit värskendada
+     * Hetkel luuakse kõik elemendid uuesti, võibolla on võimalik kasutada ka getChildren().sort(), kuid see lahendus hetkel sobib
+     */
+    public void edetabel() {
+        edetabel.getChildren().clear();
+        Collections.sort(mängijadList, Collections.reverseOrder());
         for (Mängija m : mängijadList) {
             Label nimi = new Label(m.getNimi());
-            nimi.setTextOverrun(OverrunStyle.CENTER_ELLIPSIS); // miks ei tööta???
+            nimi.setTextOverrun(OverrunStyle.CENTER_ELLIPSIS); // TODO: miks overrun ei tööta???
 
             Label krediit = new Label();
             Label panus = new Label();
             krediit.textProperty().bind(m.krediitProperty().asString());
-            panus.textProperty().bind(Bindings.when(m.panusProperty().isEqualTo(0)).then("").otherwise(Bindings.concat("-",m.panusProperty().asString())));
+            panus.textProperty().bind(Bindings.when(m.panusProperty().isEqualTo(0)).then("").otherwise(Bindings.concat("-", m.panusProperty().asString())));
             panus.setTextFill(Paint.valueOf("a89f23"));
-            HBox krediitbox = new HBox(krediit,panus);
+            HBox krediitbox = new HBox(krediit, panus);
 
             BorderPane borderPane = new BorderPane();
             borderPane.setLeft(nimi);
             borderPane.setRight(krediitbox);
-            BorderPane.setMargin(nimi, new Insets(0,25,0,0));
+            BorderPane.setMargin(nimi, new Insets(0, 25, 0, 0));
 
-            VBox.setMargin(borderPane, new Insets(0,5,0,5));
+            VBox.setMargin(borderPane, new Insets(0, 5, 0, 5));
 
             edetabel.setSpacing(5);
             edetabel.getChildren().add(borderPane);
@@ -205,8 +212,8 @@ public class MängKontroller {
     public void doubleNupp() {
         if (kelleKäik.getKrediit() < kelleKäik.getPanus()) return; // kui mängijal ei ole krediiti et doubleida
 
-        kelleKäik.setPanus(kelleKäik.getPanus()*2); // kahekordista panust
-        System.out.println("Panus on nüüd "+kelleKäik.getPanus());
+        kelleKäik.setPanus(kelleKäik.getPanus() * 2); // kahekordista panust
+        System.out.println("Panus on nüüd " + kelleKäik.getPanus());
         Kaart uusKaart = mänguPakk.suvaline();
         System.out.println("Tuli kaart " + uusKaart.toString());
         Käsi käsi = kelleKäik.getKäsi();

@@ -7,8 +7,8 @@ public enum MängijaSeis {
     INIT(1.0),
     PANUS_VALMIS(1.0),
     MÄNGIB(1.0),
-    OOTAB(0.6),
-    STAND(0.6),
+    OOTAB(0.5),
+    STAND(0.5),
     BUST(0.3);
 
     private final double läbipaistvus;
