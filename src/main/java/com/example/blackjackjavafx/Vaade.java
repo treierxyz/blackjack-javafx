@@ -7,7 +7,7 @@ public enum Vaade {
     MÄNG("mäng.fxml"),
     MÄNGIJATENIMED("mängijate-nimed.fxml");
 
-    private String failinimi;
+    private final String failinimi;
 
     Vaade(String failinimi) {
         this.failinimi = failinimi;

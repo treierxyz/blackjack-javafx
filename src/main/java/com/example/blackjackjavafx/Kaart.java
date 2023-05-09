@@ -9,8 +9,8 @@ import javafx.scene.text.Text;
 import java.util.Objects;
 
 public class Kaart {
-    private Mast mast;
-    private Väärtus väärtus;
+    private final Mast mast;
+    private final Väärtus väärtus;
 
     /**
      * Uus mängukaart
