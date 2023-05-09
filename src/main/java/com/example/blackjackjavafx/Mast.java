@@ -6,7 +6,7 @@ public enum Mast {
     RISTI("♣"),
     POTI("♠");
 
-    private String sümbol;
+    private final String sümbol;
 
     Mast(String sümbol) {
         this.sümbol = sümbol;

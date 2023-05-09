@@ -3,7 +3,6 @@ package com.example.blackjackjavafx.kontrollerid;
 import com.example.blackjackjavafx.Mängija;
 import com.example.blackjackjavafx.Vaade;
 import com.example.blackjackjavafx.VaateVahetaja;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -33,11 +32,11 @@ public class MängijateNimedKontroller {
         }
     }
 
-    public void tagasi(ActionEvent event) {
+    public void tagasi() {
         VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
     }
 
-    public void edasi(ActionEvent event) {
+    public void edasi() {
         List<Mängija> mängijad = new ArrayList<>();
         for (int i = 0; i < nimedVbox.getChildren().size(); i++) {
             String nimi = ((TextField) VaateVahetaja.getStseen().lookup("#mängija"+(i+1)+"nimi")).getText();

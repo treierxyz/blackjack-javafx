@@ -15,8 +15,8 @@ public enum Väärtus {
     EMAND(10,"Q"),
     KUNINGAS(10,"K");
 
-    private int väärtus;
-    private String lühend;
+    private final int väärtus;
+    private final String lühend;
 
     Väärtus(int väärtus, String lühend) {
         this.väärtus = väärtus;

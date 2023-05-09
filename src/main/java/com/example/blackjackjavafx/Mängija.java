@@ -1,7 +1,7 @@
 package com.example.blackjackjavafx;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mängija implements Comparable<Mängija> {
-    private String nimi;
+    private final String nimi;
     private SimpleIntegerProperty krediit = new SimpleIntegerProperty();
     private SimpleIntegerProperty panus = new SimpleIntegerProperty();
     private Käsi käsi;
     private MängijaSeis seis;
     private HBox mängijaHbox = new HBox();
-    private static List<String> debugNimed = new ArrayList<>(List.of("Artur","Peeter","Joonas","Kaarel","Johanna","Liina","Mia","Lisete"));
+    private static final List<String> debugNimed = new ArrayList<>(List.of("Artur","Peeter","Joonas","Kaarel","Johanna","Liina","Mia","Lisete"));
 
     /**
      * Mängija, kelle nime saab määrata

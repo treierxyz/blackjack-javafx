@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -68,7 +67,7 @@ public class MängKontroller {
             Button ok = new Button("OK");
             ok.disableProperty().bind(panus.textProperty().isEmpty());
             ok.disableProperty().bind(panus.disabledProperty());
-            panus.setOnAction(event -> {ok.fire();});
+            panus.setOnAction(event -> ok.fire());
             ok.setOnAction(event -> {
                 try {
                     int panusKogus = Integer.parseInt(panus.getText());
@@ -222,9 +221,7 @@ public class MängKontroller {
         kelleKäik.getMängijaHbox().getChildren().add(kaartTekst);
 
         switch (Integer.compare(käsi.summa(), 21)) {
-            case -1 -> {
-                kelleKäik.setSeis(MängijaSeis.STAND);
-            }
+            case -1 -> kelleKäik.setSeis(MängijaSeis.STAND);
             case 0 -> {
                 System.out.println("21 käes!");
                 kelleKäik.setSeis(MängijaSeis.STAND);
