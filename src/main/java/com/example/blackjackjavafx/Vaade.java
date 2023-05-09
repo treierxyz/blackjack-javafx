@@ -5,7 +5,8 @@ public enum Vaade {
     ABI("abi.fxml"),
 
     MÄNG("mäng.fxml"),
-    MÄNGIJATENIMED("mängijate-nimed.fxml");
+    MÄNGIJATENIMED("mängijate-nimed.fxml"),
+    LÕPP("lõpp.fxml");
 
     private String failinimi;
 

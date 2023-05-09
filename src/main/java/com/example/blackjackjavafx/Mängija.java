@@ -3,6 +3,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,16 @@ public class Mängija implements Comparable<Mängija> {
 
     public IntegerProperty krediitProperty() {
         return krediit;
+    }
+
+    public void strikeThroughNimi() {
+        VBox vBox = (VBox)mängijaHbox.getParent();
+
+        for (Node child : vBox.getChildren()) {
+            if (child.getClass() == Text.class) {
+                ((Text) child).setStrikethrough(true);
+            }
+        }
     }
 
     /**

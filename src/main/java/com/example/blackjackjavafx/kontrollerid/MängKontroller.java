@@ -5,6 +5,7 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -84,7 +85,11 @@ public class MängKontroller {
                     mänguPakk = new Kaardipakk(mängijadList.size());
                     jagaKaardid();
                     mängijadHalliks();
-                    mäng = new Mäng(this);
+                    try {
+                        mäng = new Mäng(this);
+                    } catch (MängijadOtsasErind e) {
+                        throw new RuntimeException(e);
+                    }
                     mäng.alusta();
                 }
             });
@@ -147,6 +152,7 @@ public class MängKontroller {
             icon.setIconSize(42);
 
             Text nimi = new Text(m.getNimi());
+            nimi.setId(m.getNimi());
             nimi.setFont(new Font(20));
 
             VBox vBox = new VBox(icon, nimi);
@@ -165,7 +171,9 @@ public class MängKontroller {
     public void standNupp() {
         kelleKäik.setSeis(MängijaSeis.STAND);
         lõpetanudList.add(kelleKäik);
+
         kelleKäik.getMängijaHbox().getParent().setOpacity(0.3);
+        mäng.järgmineMängija();
     }
 
     public void hitNupp() {
@@ -190,9 +198,12 @@ public class MängKontroller {
                 System.out.println("Bust! Oled mängust väljas");
                 kelleKäik.setSeis(MängijaSeis.BUST);
                 lõpetanudList.add(kelleKäik);
-                kelleKäik.getMängijaHbox().getParent().setOpacity(0.3);
+                kelleKäik.strikeThroughNimi();
             }
         }
+
+        kelleKäik.getMängijaHbox().getParent().setOpacity(0.3);
+        mäng.järgmineMängija();
     }
 
     public void doubleNupp() {
@@ -221,12 +232,15 @@ public class MängKontroller {
             case 1 -> {
                 System.out.println("Bust! Oled mängust väljas");
                 kelleKäik.setSeis(MängijaSeis.BUST);
+                kelleKäik.strikeThroughNimi();
             }
         }
 
         lõpetanudList.add(kelleKäik);
-        kelleKäik.getMängijaHbox().getParent().setOpacity(0.3);
+        kelleKäik.getMängijaHbox().getParent().setOpacity(0.3); // halliks
         System.out.println("Lõpetasid mängu tulemusega " + käsi.summa());
+
+        mäng.järgmineMängija();
     }
 
     public void initialize() {
@@ -244,7 +258,15 @@ public class MängKontroller {
         this.kelleKäik = kelleKäik;
     }
 
+    public Mängija getKelleKäik() {
+        return kelleKäik;
+    }
+
     public void setLõpetanudList(List<Mängija> lõpetanudList) {
         this.lõpetanudList = lõpetanudList;
+    }
+
+    public List<Mängija> getLõpetanudList() {
+        return lõpetanudList;
     }
 }
