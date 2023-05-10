@@ -9,6 +9,11 @@ plugins {
 group 'xyz.treier'
 version '1.0-SNAPSHOT'
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_19
+    targetCompatibility = JavaVersion.VERSION_19
+}
+
 repositories {
     mavenCentral()
 }
@@ -16,9 +21,6 @@ repositories {
 ext {
     junitVersion = '5.9.1'
 }
-
-sourceCompatibility = '19'
-targetCompatibility = '19'
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
@@ -31,15 +33,15 @@ application {
 
 javafx {
     version = '19'
-    modules = ['javafx.controls', 'javafx.fxml']
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web']
 }
 
 dependencies {
-
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     implementation("org.kordamp.ikonli:ikonli-javafx:12.3.1")
     implementation("org.kordamp.ikonli:ikonli-material2-pack:12.3.1")
+    implementation('org.commonmark:commonmark:0.21.0')
 }
 
 test {

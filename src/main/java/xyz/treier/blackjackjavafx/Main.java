@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     // TODO: README lisamine
-    // TODO: äkki liiguta mõned klassid omaette paketti?
+    // TODO: äkki liigutaks mõned klassid omaette paketti?
 
     public static void main(String[] args) {
         launch(args);

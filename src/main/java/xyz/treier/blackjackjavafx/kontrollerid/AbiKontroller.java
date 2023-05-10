@@ -1,5 +1,11 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import xyz.treier.blackjackjavafx.Vaade;
 import xyz.treier.blackjackjavafx.VaateVahetaja;
 import javafx.event.ActionEvent;
@@ -11,13 +17,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.io.IOException;
 import java.net.URI;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class AbiKontroller {
     @FXML
-    private TextFlow abiTextFlow;
+    private WebView markdownVaade;
 
     public void tagasi() {
         VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
@@ -44,12 +53,16 @@ public class AbiKontroller {
         }
     }
 
-    public void initialize() {
-        for (Node child : abiTextFlow.getChildren()) {
-            if (child.getClass() == Text.class) {
-                ((Text) child).setText(((Text) child).getText()+"\n\n");
-            }
-        }
+    public void initialize() throws IOException {
+        String mdFail = "/media/NaxosA/Documents/UT/OOP/blackjack-javafx/src/main/resources/xyz/treier/blackjackjavafx/abi.md";
+        Path mdPath = Path.of(mdFail);
+        String mdSisu = Files.readString(mdPath);
+
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+
+        String html = renderer.render(parser.parse(mdSisu));
+        markdownVaade.getEngine().loadContent(html);
     }
 
 }
