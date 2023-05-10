@@ -3,6 +3,7 @@ package xyz.treier.blackjackjavafx.kontrollerid;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import xyz.treier.blackjackjavafx.Mängija;
@@ -39,48 +40,67 @@ public class LõppKontroller {
 
         switch(Integer.compare(diiler.getKäsi().summa(), 21)) {
             case 0 -> {
-                Text blackjack = new Text("(Blackjack!)");
+                Label blackjack = new Label("Blackjack!");
                 blackjack.setFont(new Font(16));
+                blackjack.setTextFill(Color.GREEN);
                 diileriKaardidHBox.getChildren().add(blackjack);
             }
             case 1 -> {
-                Text bust = new Text("(Bust!)");
+                Label bust = new Label("Bust!");
                 bust.setFont(new Font(16));
+                bust.setTextFill(Color.RED);
                 diileriKaardidHBox.getChildren().add(bust);
             }
         }
 
         for (Mängija m : mängijadList) {
             MängijaSeis seis = m.getSeis();
-            Text nimi = new Text(m.getNimi());
+            Label nimi = new Label(m.getNimi());
             nimi.setFont(new Font(16));
 
             switch(seis) {
                 // Kaotajad
                 case BUST -> {
                     kaotajadVBox.getChildren().add(nimi);
-                    m.lisaKrediit(-m.getPanus());
+                    m.lisaKrediit(-m.getPanus()); // 1:1 kaotus
                 }
 
                 case STAND -> {
-                    // Kui diiler bust siis kõik standijad võidavad
-                    if (diiler.getKäsi().summa() > 21) {
+                    int mängijaTulemus = m.getKäsi().summa();
+                    int diileriTulemus = diiler.getKäsi().summa();
+
+                    // Kui mängijal on 21
+                    if (mängijaTulemus == 21) {
+                        // Viik
+                        if (diileriTulemus == 21) {
+                            viikVBox.getChildren().add(nimi);
+                            m.setPanus(0);
+                            continue;
+                        }
+                        // Võit
                         võitjadVBox.getChildren().add(nimi);
-                        m.lisaKrediit(m.getPanus());
+                        m.lisaKrediit((int)Math.round(m.getPanus() * 3.0/2.0)); // 3:2 võit
+                        m.setPanus(0);
+                        continue;
+                    }
+
+                    // Kui diiler bust siis kõik standijad võidavad
+                    if (diileriTulemus > 21) {
+                        võitjadVBox.getChildren().add(nimi);
+                        m.lisaKrediit(m.getPanus()); // 1:1 võit
                         break;
                     }
 
                     // Võrdle mängija tulemust diileri omaga
-                    int tulemus = m.getKäsi().summa();
-                    switch (Integer.compare(tulemus, diiler.getKäsi().summa())) {
+                    switch (Integer.compare(mängijaTulemus, diileriTulemus)) {
                         case -1 -> {
                             kaotajadVBox.getChildren().add(nimi);
-                            m.lisaKrediit(-m.getPanus());
+                            m.lisaKrediit(-m.getPanus()); // 1:1 kaotus
                         }
                         case 0 -> viikVBox.getChildren().add(nimi);
                         case 1 -> {
                             võitjadVBox.getChildren().add(nimi);
-                            m.lisaKrediit(m.getPanus());
+                            m.lisaKrediit(m.getPanus()); // 1:1 võit
                         }
                     }
                 }

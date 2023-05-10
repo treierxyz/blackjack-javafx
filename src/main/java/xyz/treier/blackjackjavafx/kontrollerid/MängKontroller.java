@@ -164,12 +164,13 @@ public class MängKontroller {
         }
 
         for (Mängija mängija : mängijadList) {
-            mängija.getMängijaHbox().getChildren().clear();
             mängija.getKäsi().tühjendaKäsi();
 
             // 0 krediidiga mängijale kaarte ei jaga
             if (mängija.getKrediit() == 0)
                 continue;
+
+            mängija.getMängijaHbox().getChildren().clear();
 
             // Jaga paar kaarti
             for (int i = 0; i < 2; i++)
