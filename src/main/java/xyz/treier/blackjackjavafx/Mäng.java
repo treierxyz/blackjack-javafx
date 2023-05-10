@@ -17,38 +17,22 @@ public class Mäng {
     public Mäng(MängKontroller mängKontroller) {
         this.mängKontroller = mängKontroller;
         mängijad = new LinkedList<>();
-        lisaOsalejad(this.mängKontroller.getMängijad(), new ArrayList<>());
+        lisaOsalejad(this.mängKontroller.getMängijad(), mängKontroller.getLõpetanudList());
     }
 
-    public void alusta() {
-        List<Mängija> lõpetanudList = new ArrayList<>();
-        mängKontroller.setLõpetanudList(lõpetanudList);
-
+    public void init() {
         järgmineMängija();
     }
 
     /**
      * Seab järjekorrast järgmise mängija mängukontrolleri aktiivseks mängijaks.
-     * Ringi lõpus lisab ka diilerile kaardi juurde.
+     * Ringi lõpus lisab sooritab ka diileri käigu.
      */
     public void järgmineMängija() {
         Mängija järgmine;
 
         // Kui järjekord on tühi ehk mängijate ring tehtud
         if ((järgmine = mängijad.poll()) == null) {
-            // Kui kõik mängijad on lõpetanud, kuva lõpustseen
-            if (mängKontroller.getLõpetanudList().size() == mängKontroller.getMängijad().size()) {
-                LõppKontroller lõppKontroller = mängKontroller.getLõppEkraanController();
-                mängKontroller.näitaLõppEkraan(true);
-                lõppKontroller.setMängijadList(mängKontroller.getMängijad());
-                lõppKontroller.setDiiler(mängKontroller.getDiiler());
-                lõppKontroller.lõpuEdetabel();
-                mängKontroller.edetabel();
-
-                System.out.println("Mängijad otsas");
-                return;
-            }
-
             // Diileri käik
             Mängija diiler = mängKontroller.getDiiler();
 
@@ -62,6 +46,12 @@ public class Mäng {
                 Text küsimärk = new Text(" ? ");
                 küsimärk.setFont(new Font(16));
                 diileriKaardid.getChildren().add(küsimärk);
+            }
+
+            // Kui kõik mängijad on lõpetanud, kuva lõpustseen
+            if (mängKontroller.getLõpetanudList().size() == mängKontroller.getMängijad().size()) {
+                lõpuStseen(); //
+                return;
             }
 
             // Lisa allesjäänud mängijad uuesti järjekorda
@@ -83,5 +73,16 @@ public class Mäng {
             if (lõpetanud.contains(m)) continue;
             this.mängijad.add(m);
         }
+    }
+
+    public void lõpuStseen() {
+        LõppKontroller lõppKontroller = mängKontroller.getLõppEkraanController();
+        mängKontroller.näitaLõppEkraan(true);
+        lõppKontroller.setMängijadList(mängKontroller.getMängijad());
+        lõppKontroller.setDiiler(mängKontroller.getDiiler());
+        lõppKontroller.lõpuTabel();
+        mängKontroller.edetabel();
+
+        System.out.println("Mängijad otsas");
     }
 }

@@ -1,6 +1,7 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
-import javafx.scene.layout.FlowPane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import xyz.treier.blackjackjavafx.Mängija;
@@ -21,11 +22,31 @@ public class LõppKontroller {
     private VBox kaotajadVBox;
     @FXML
     private VBox viikVBox;
+    @FXML
+    private HBox diileriKaardidHBox;
 
     private List<Mängija> mängijadList;
     private Mängija diiler;
 
-    public void lõpuEdetabel() {
+    public void lõpuTabel() {
+        for (Label kaart : diiler.getKäsi().getKaardidLabelid()) {
+            kaart.setText(kaart.getText() + " ");
+            diileriKaardidHBox.getChildren().add(kaart);
+        }
+
+        switch(Integer.compare(diiler.getKäsi().summa(), 21)) {
+            case 0 -> {
+                Text blackjack = new Text("(Blackjack!)");
+                blackjack.setFont(new Font(16));
+                diileriKaardidHBox.getChildren().add(blackjack);
+            }
+            case 1 -> {
+                Text bust = new Text("(Bust!)");
+                bust.setFont(new Font(16));
+                diileriKaardidHBox.getChildren().add(bust);
+            }
+        }
+
         for (Mängija m : mängijadList) {
             MängijaSeis seis = m.getSeis();
             Text nimi = new Text(m.getNimi());
@@ -36,7 +57,6 @@ public class LõppKontroller {
                 case BUST -> {
                     kaotajadVBox.getChildren().add(nimi);
                     m.lisaKrediit(-m.getPanus());
-                    m.setPanus(0);
                 }
 
                 case STAND -> {
@@ -44,31 +64,25 @@ public class LõppKontroller {
                     if (diiler.getKäsi().summa() > 21) {
                         võitjadVBox.getChildren().add(nimi);
                         m.lisaKrediit(m.getPanus());
-                        m.setPanus(0);
                         break;
                     }
 
+                    // Võrdle mängija tulemust diileri omaga
                     int tulemus = m.getKäsi().summa();
-                    System.out.println(m.getNimi() + ": " + tulemus);
-                    System.out.println("Diiler: " + diiler.getKäsi().summa());
                     switch (Integer.compare(tulemus, diiler.getKäsi().summa())) {
                         case -1 -> {
                             kaotajadVBox.getChildren().add(nimi);
                             m.lisaKrediit(-m.getPanus());
-                            m.setPanus(0);
                         }
-                        case 0 -> {
-                            viikVBox.getChildren().add(nimi);
-                            m.setPanus(0);
-                        }
+                        case 0 -> viikVBox.getChildren().add(nimi);
                         case 1 -> {
                             võitjadVBox.getChildren().add(nimi);
                             m.lisaKrediit(m.getPanus());
-                            m.setPanus(0);
                         }
                     }
                 }
             }
+            m.setPanus(0); // Mängija panus nulliks
         }
     }
 
@@ -78,7 +92,6 @@ public class LõppKontroller {
 
     public void jätka() {
         MängKontroller mängKontroller = VaateVahetaja.vaheta(Vaade.MÄNG);
-        // lisaMängijateVõidusumma();
         mängKontroller.setMängijad(mängijadList);
         mängKontroller.mängijadInit();
         mängKontroller.mängijadMustaks();
@@ -88,12 +101,6 @@ public class LõppKontroller {
 
     public void välju() {
         Platform.exit();
-    }
-
-    public void lisaMängijateVõidusumma() {
-        for (Mängija m : mängijadList) {
-            m.lisaKrediit(m.getKrediit() - m.getPanus());
-        }
     }
 
     public void setMängijadList(List<Mängija> mängijadList) {

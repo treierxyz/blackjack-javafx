@@ -5,6 +5,7 @@ import javafx.css.SimpleStyleableDoubleProperty;
 
 public enum MängijaSeis {
     INIT(1.0),
+    VÄLJAS(0.3),
     PANUS_VALMIS(1.0),
     MÄNGIB(1.0),
     OOTAB(0.5),

@@ -73,8 +73,27 @@ public class MängKontroller {
     }
 
     public void küsiPanuseid() {
+        mäng = new Mäng(this);
+
         for (Mängija mängija : mängijadList) {
             mängija.getMängijaHbox().getChildren().clear();
+
+            // Kui pole krediiti et alustada mängu
+            if (mängija.getKrediit() == 0) {
+                lõpetanudList.add(mängija);
+
+                // TODO: Kui kõigil on krediit otsas
+
+                mängija.setSeis(MängijaSeis.VÄLJAS);
+                mängija.strikeThroughNimi();
+
+                Text väljas = new Text("VÄLJAS");
+                väljas.setFont(new Font(16));
+                mängija.getMängijaHbox().getChildren().add(väljas);
+
+                continue;
+            }
+
             TextField panus = new TextField();
             panus.setPromptText("Panus");
             panus.setPrefWidth(70.0);
@@ -99,8 +118,8 @@ public class MängKontroller {
                     jagaKaardid();
                     mängijadHalliks();
 
-                    mäng = new Mäng(this);
-                    mäng.alusta();
+
+                    mäng.init();
                 }
             });
             mängija.getMängijaHbox().getChildren().addAll(panus, ok);
@@ -109,6 +128,9 @@ public class MängKontroller {
 
     public boolean panusedTehtud() {
         for (Mängija mängija : mängijadList) {
+            if (mängija.getSeis() == MängijaSeis.VÄLJAS)
+                continue;
+
             if (mängija.getSeis() != MängijaSeis.PANUS_VALMIS) {
                 return false;
             }
@@ -159,6 +181,7 @@ public class MängKontroller {
     }
 
     public void mängijadInit() {
+        lõpetanudList = new ArrayList<>();
         mängijadFlow.getChildren().clear();
 
         for (Mängija m : mängijadList) {
@@ -272,10 +295,6 @@ public class MängKontroller {
 
     public void setKelleKäik(Mängija kelleKäik) {
         this.kelleKäik = kelleKäik;
-    }
-
-    public Mängija getKelleKäik() {
-        return kelleKäik;
     }
 
     public Mängija getDiiler() {
