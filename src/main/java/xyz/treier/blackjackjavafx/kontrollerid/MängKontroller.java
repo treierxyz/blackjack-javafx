@@ -15,8 +15,10 @@ import javafx.scene.text.Text;
 import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.treier.blackjackjavafx.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MängKontroller {
 
@@ -42,8 +44,9 @@ public class MängKontroller {
      */
     public void edetabel() {
         edetabel.getChildren().clear();
-        Collections.sort(mängijadList, Collections.reverseOrder());
-        for (Mängija m : mängijadList) {
+        List<Mängija> sorteeritudMängijadList = new ArrayList<>(mängijadList); // kloonitud list et mängijate järjekord mängus ei muutuks
+        Collections.sort(sorteeritudMängijadList, Collections.reverseOrder());
+        for (Mängija m : sorteeritudMängijadList) {
             Label nimi = new Label(m.getNimi());
             nimi.setTextOverrun(OverrunStyle.CENTER_ELLIPSIS); // TODO: miks overrun ei tööta???
 
