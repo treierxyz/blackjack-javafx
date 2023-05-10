@@ -73,8 +73,6 @@ public class MängKontroller {
     }
 
     public void küsiPanuseid() {
-        mäng = new Mäng(this);
-
         for (Mängija mängija : mängijadList) {
             mängija.getMängijaHbox().getChildren().clear();
 
@@ -118,7 +116,7 @@ public class MängKontroller {
                     jagaKaardid();
                     mängijadHalliks();
 
-
+                    mäng = new Mäng(this);
                     mäng.init();
                 }
             });
@@ -242,7 +240,7 @@ public class MängKontroller {
     }
 
     public void doubleNupp() {
-        if (kelleKäik.getKrediit() < kelleKäik.getPanus()) return; // kui mängijal ei ole krediiti et doubleida
+        if (kelleKäik.getKrediit() < kelleKäik.getPanus() * 2) return; // kui mängijal ei ole krediiti et doubleida
 
         kelleKäik.setPanus(kelleKäik.getPanus() * 2); // kahekordista panust
         System.out.println("Panus on nüüd " + kelleKäik.getPanus());

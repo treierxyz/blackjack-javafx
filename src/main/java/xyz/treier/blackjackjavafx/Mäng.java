@@ -1,7 +1,5 @@
 package xyz.treier.blackjackjavafx;
 
-import javafx.beans.Observable;
-import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,7 +24,7 @@ public class Mäng {
     public Mäng(MängKontroller mängKontroller) {
         this.mängKontroller = mängKontroller;
         mängijad = new LinkedList<>();
-        lisaOsalejad(this.mängKontroller.getMängijad(), mängKontroller.getLõpetanudList());
+        lisaJärjekorda(this.mängKontroller.getMängijad(), this.mängKontroller.getLõpetanudList());
         for (Mängija mängija : mängKontroller.getMängijad()) {
             krediitSumma.add(mängija.krediitProperty());
         }
@@ -63,12 +61,21 @@ public class Mäng {
 
             // Kui kõik mängijad on lõpetanud, kuva lõpustseen
             if (mängKontroller.getLõpetanudList().size() == mängKontroller.getMängijad().size()) {
-                lõpuStseen(); //
+                LõppKontroller lõppKontroller = mängKontroller.getLõppEkraanController();
+                System.out.println(krediitSumma.toString());
+                lõppKontroller.getJätkaNupp().disableProperty().bind(krediitSumma.greaterThan(0));
+                mängKontroller.näitaLõppEkraan(true);
+                lõppKontroller.setMängijadList(mängKontroller.getMängijad());
+                lõppKontroller.setDiiler(mängKontroller.getDiiler());
+                lõppKontroller.lõpuTabel();
+                mängKontroller.edetabel();
+
+                System.out.println("Mängijad otsas");
                 return;
             }
 
             // Lisa allesjäänud mängijad uuesti järjekorda
-            lisaOsalejad(mängKontroller.getMängijad(), mängKontroller.getLõpetanudList());
+            lisaJärjekorda(mängKontroller.getMängijad(), mängKontroller.getLõpetanudList());
             järgmine = mängijad.poll(); // võta järjekorrast järgmine mängija
         }
 
@@ -81,24 +88,11 @@ public class Mäng {
      * @param mängijad Mängu mängijad
      * @param lõpetanud Mängu lõpetanud mängijad
      */
-    public void lisaOsalejad(List<Mängija> mängijad, List<Mängija> lõpetanud) {
+    public void lisaJärjekorda(List<Mängija> mängijad, List<Mängija> lõpetanud) {
         for (Mängija m : mängijad) {
             if (lõpetanud.contains(m)) continue;
             this.mängijad.add(m);
         }
-    }
-
-    public void lõpuStseen() {
-        LõppKontroller lõppKontroller = mängKontroller.getLõppEkraanController();
-        System.out.println(krediitSumma.toString());
-        lõppKontroller.getJätkaNupp().disableProperty().bind(krediitSumma.greaterThan(0));
-        mängKontroller.näitaLõppEkraan(true);
-        lõppKontroller.setMängijadList(mängKontroller.getMängijad());
-        lõppKontroller.setDiiler(mängKontroller.getDiiler());
-        lõppKontroller.lõpuTabel();
-        mängKontroller.edetabel();
-
-        System.out.println("Mängijad otsas");
     }
 
     public int getKrediitSumma() {
