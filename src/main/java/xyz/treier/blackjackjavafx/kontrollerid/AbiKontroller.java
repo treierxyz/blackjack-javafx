@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.net.URI;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
@@ -25,7 +26,15 @@ public class AbiKontroller {
     public void avaLink(ActionEvent event) {
         String link = ((Hyperlink) event.getTarget()).getText();
         System.out.println("Ava link: "+link);
-        //TODO: Lingi avamine brauseris
+
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                Desktop.getDesktop().browse(new URI(link));
+            } catch (Exception e) {
+                System.out.println("Lingi avamine ebaõnnestus:");
+                e.printStackTrace();
+            }
+        }
     }
 
     public void kopeeriLink(MouseEvent event) {
