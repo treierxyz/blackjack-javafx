@@ -36,7 +36,7 @@ public class Mäng {
 
     /**
      * Seab järjekorrast järgmise mängija mängukontrolleri aktiivseks mängijaks.
-     * Ringi lõpus lisab sooritab ka diileri käigu.
+     * Ringi lõpus sooritab ka diileri käigu.
      */
     public void järgmineMängija() {
         Mängija järgmine;
@@ -84,9 +84,9 @@ public class Mäng {
     }
 
     /**
-     * Lisab kõik mängijad, kes ei ole lõpetanud, käigu järjekorda
-     * @param mängijad Mängu mängijad
-     * @param lõpetanud Mängu lõpetanud mängijad
+     * Lisab kõik mängijad, kes ei ole lõpetanud, käigu järjekorda.
+     * @param mängijad Mängu mängijad.
+     * @param lõpetanud Mängu lõpetanud mängijad.
      */
     public void lisaJärjekorda(List<Mängija> mängijad, List<Mängija> lõpetanud) {
         for (Mängija m : mängijad) {

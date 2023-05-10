@@ -80,8 +80,6 @@ public class MängKontroller {
             if (mängija.getKrediit() == 0) {
                 lõpetanudList.add(mängija);
 
-                // TODO: Kui kõigil on krediit otsas
-
                 mängija.setSeis(MängijaSeis.VÄLJAS);
                 mängija.strikeThroughNimi();
 
@@ -168,6 +166,11 @@ public class MängKontroller {
         for (Mängija mängija : mängijadList) {
             mängija.getMängijaHbox().getChildren().clear();
             mängija.getKäsi().tühjendaKäsi();
+
+            // 0 krediidiga mängijale kaarte ei jaga
+            if (mängija.getKrediit() == 0)
+                continue;
+
             // Jaga paar kaarti
             for (int i = 0; i < 2; i++)
                 mängija.getKäsi().lisaKaart(mänguPakk.suvaline());
@@ -305,10 +308,6 @@ public class MängKontroller {
 
     public Kaardipakk getMänguPakk() {
         return mänguPakk;
-    }
-
-    public void setLõpetanudList(List<Mängija> lõpetanudList) {
-        this.lõpetanudList = lõpetanudList;
     }
 
     public List<Mängija> getLõpetanudList() {
