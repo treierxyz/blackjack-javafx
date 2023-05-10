@@ -137,6 +137,10 @@ public class Mängija implements Comparable<Mängija> {
         return panus;
     }
 
+    /**
+     * HBox mängija kaartide hoidmiseks
+     * @return Mängija kaartide HBox
+     */
     public HBox getMängijaHbox() {
         return mängijaHbox;
     }

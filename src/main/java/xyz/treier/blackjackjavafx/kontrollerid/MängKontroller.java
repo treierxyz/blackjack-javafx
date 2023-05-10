@@ -23,9 +23,6 @@ public class MängKontroller {
     @FXML
     private VBox edetabel;
     @FXML
-    private HBox mängijadHBox;
-
-    @FXML
     private FlowPane mängijadFlow;
     @FXML
     private HBox diileriKaardid;
@@ -35,6 +32,7 @@ public class MängKontroller {
     private List<Mängija> mängijadList;
     private List<Mängija> lõpetanudList;
     private Mängija kelleKäik;
+    private Mängija diiler;
     private Kaardipakk mänguPakk;
     private Mäng mäng;
 
@@ -94,11 +92,8 @@ public class MängKontroller {
                     mänguPakk = new Kaardipakk(mängijadList.size());
                     jagaKaardid();
                     mängijadHalliks();
-                    try {
-                        mäng = new Mäng(this);
-                    } catch (MängijadOtsasErind e) {
-                        throw new RuntimeException(e);
-                    }
+
+                    mäng = new Mäng(this);
                     mäng.alusta();
                 }
             });
@@ -120,11 +115,18 @@ public class MängKontroller {
             m.setSeis(MängijaSeis.OOTAB);
         }
     }
+    public void mängijadMustaks() {
+        for (Mängija m : mängijadList) {
+            m.setSeis(MängijaSeis.INIT);
+        }
+    }
 
     public void jagaKaardid() {
-        // Testiks
         // Diiler
         Mängija diiler = new Mängija("Diiler", 1000);
+        this.diiler = diiler;
+
+        // Jaga diilerile 2 kaarti
         for (int i = 0; i < 2; i++)
             diiler.getKäsi().lisaKaart(mänguPakk.suvaline());
         // Näita ühte diileri kaarti
@@ -139,6 +141,7 @@ public class MängKontroller {
 
         for (Mängija mängija : mängijadList) {
             mängija.getMängijaHbox().getChildren().clear();
+            mängija.getKäsi().tühjendaKäsi();
             // Jaga paar kaarti
             for (int i = 0; i < 2; i++)
                 mängija.getKäsi().lisaKaart(mänguPakk.suvaline());
@@ -260,6 +263,18 @@ public class MängKontroller {
 
     public Mängija getKelleKäik() {
         return kelleKäik;
+    }
+
+    public Mängija getDiiler() {
+        return this.diiler;
+    }
+
+    public HBox getDiileriKaardid() {
+        return diileriKaardid;
+    }
+
+    public Kaardipakk getMänguPakk() {
+        return mänguPakk;
     }
 
     public void setLõpetanudList(List<Mängija> lõpetanudList) {
