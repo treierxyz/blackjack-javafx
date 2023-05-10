@@ -1,5 +1,6 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -24,6 +25,8 @@ public class LõppKontroller {
     private VBox viikVBox;
     @FXML
     private HBox diileriKaardidHBox;
+    @FXML
+    private Button jätkaNupp;
 
     private List<Mängija> mängijadList;
     private Mängija diiler;
@@ -109,5 +112,9 @@ public class LõppKontroller {
 
     public void setDiiler(Mängija diiler) {
         this.diiler = diiler;
+    }
+
+    public Button getJätkaNupp() {
+        return jätkaNupp;
     }
 }

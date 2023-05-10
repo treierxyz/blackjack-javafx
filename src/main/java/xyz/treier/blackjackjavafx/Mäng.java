@@ -1,5 +1,12 @@
 package xyz.treier.blackjackjavafx;
 
+import javafx.beans.Observable;
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -12,12 +19,18 @@ import java.util.*;
 public class Mäng {
     private MängKontroller mängKontroller;
     private Queue<Mängija> mängijad;
+    private ObservableList<IntegerProperty> krediitList = FXCollections.observableArrayList();
+    private IntegerProperty krediitSumma = new SimpleIntegerProperty();
 
 
     public Mäng(MängKontroller mängKontroller) {
         this.mängKontroller = mängKontroller;
         mängijad = new LinkedList<>();
         lisaOsalejad(this.mängKontroller.getMängijad(), mängKontroller.getLõpetanudList());
+        for (Mängija mängija : mängKontroller.getMängijad()) {
+            krediitSumma.add(mängija.krediitProperty());
+        }
+        krediitSumma.bind(Bindings.createIntegerBinding(() -> krediitList.stream().mapToInt(IntegerProperty::get).sum(), krediitList));
     }
 
     public void init() {
@@ -77,6 +90,8 @@ public class Mäng {
 
     public void lõpuStseen() {
         LõppKontroller lõppKontroller = mängKontroller.getLõppEkraanController();
+        System.out.println(krediitSumma.toString());
+        lõppKontroller.getJätkaNupp().disableProperty().bind(krediitSumma.greaterThan(0));
         mängKontroller.näitaLõppEkraan(true);
         lõppKontroller.setMängijadList(mängKontroller.getMängijad());
         lõppKontroller.setDiiler(mängKontroller.getDiiler());
@@ -84,5 +99,13 @@ public class Mäng {
         mängKontroller.edetabel();
 
         System.out.println("Mängijad otsas");
+    }
+
+    public int getKrediitSumma() {
+        return krediitSumma.get();
+    }
+
+    public IntegerProperty krediitSummaProperty() {
+        return krediitSumma;
     }
 }
