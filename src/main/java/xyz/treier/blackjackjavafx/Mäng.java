@@ -26,9 +26,8 @@ public class Mäng {
         mängijad = new LinkedList<>();
         lisaJärjekorda(this.mängKontroller.getMängijad(), this.mängKontroller.getLõpetanudList());
         for (Mängija mängija : mängKontroller.getMängijad()) {
-            krediitSumma.add(mängija.krediitProperty());
+            krediitList.add(mängija.krediitProperty());
         }
-        krediitSumma.bind(Bindings.createIntegerBinding(() -> krediitList.stream().mapToInt(IntegerProperty::get).sum(), krediitList));
     }
 
     public void init() {
@@ -62,14 +61,15 @@ public class Mäng {
             // Kui kõik mängijad on lõpetanud, kuva lõpustseen
             if (mängKontroller.getLõpetanudList().size() == mängKontroller.getMängijad().size()) {
                 LõppKontroller lõppKontroller = mängKontroller.getLõppEkraanController();
-                System.out.println(krediitSumma.toString());
-                lõppKontroller.getJätkaNupp().disableProperty().bind(krediitSumma.greaterThan(0));
-                mängKontroller.näitaLõppEkraan(true);
                 lõppKontroller.setMängijadList(mängKontroller.getMängijad());
                 lõppKontroller.setDiiler(mängKontroller.getDiiler());
                 lõppKontroller.lõpuTabel();
                 mängKontroller.edetabel();
 
+                krediitSumma.bind(Bindings.createIntegerBinding(() -> krediitList.stream().mapToInt(IntegerProperty::get).sum(), krediitList));
+                lõppKontroller.getJätkaNupp().disableProperty().bind(krediitSumma.lessThanOrEqualTo(0));
+
+                mängKontroller.näitaLõppEkraan(true);
                 System.out.println("Mängijad otsas");
                 return;
             }
@@ -93,13 +93,5 @@ public class Mäng {
             if (lõpetanud.contains(m)) continue;
             this.mängijad.add(m);
         }
-    }
-
-    public int getKrediitSumma() {
-        return krediitSumma.get();
-    }
-
-    public IntegerProperty krediitSummaProperty() {
-        return krediitSumma;
     }
 }
