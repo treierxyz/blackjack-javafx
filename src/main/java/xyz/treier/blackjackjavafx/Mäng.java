@@ -1,6 +1,5 @@
 package xyz.treier.blackjackjavafx;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -39,10 +38,12 @@ public class Mäng {
         if ((järgmine = mängijad.poll()) == null) {
             // Kui kõik mängijad on lõpetanud, kuva lõpustseen
             if (mängKontroller.getLõpetanudList().size() == mängKontroller.getMängijad().size()) {
-                LõppKontroller lõppKontroller = VaateVahetaja.vaheta(Vaade.LÕPP);
+                LõppKontroller lõppKontroller = mängKontroller.getLõppEkraanController();
+                mängKontroller.näitaLõppEkraan(true);
                 lõppKontroller.setMängijadList(mängKontroller.getMängijad());
                 lõppKontroller.setDiiler(mängKontroller.getDiiler());
                 lõppKontroller.lõpuEdetabel();
+                mängKontroller.edetabel();
 
                 System.out.println("Mängijad otsas");
                 return;

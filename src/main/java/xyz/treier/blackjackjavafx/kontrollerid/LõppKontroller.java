@@ -1,5 +1,6 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
+import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import xyz.treier.blackjackjavafx.Mängija;
@@ -15,14 +16,14 @@ import java.util.List;
 public class LõppKontroller {
 
     @FXML
-    VBox võitjadVBox;
+    private VBox võitjadVBox;
     @FXML
-    VBox kaotajadVBox;
+    private VBox kaotajadVBox;
     @FXML
-    VBox viikVBox;
+    private VBox viikVBox;
 
-    List<Mängija> mängijadList;
-    Mängija diiler;
+    private List<Mängija> mängijadList;
+    private Mängija diiler;
 
     public void lõpuEdetabel() {
         for (Mängija m : mängijadList) {
@@ -69,7 +70,6 @@ public class LõppKontroller {
                 }
             }
         }
-
     }
 
     public void uusMäng() {

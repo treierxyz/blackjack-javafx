@@ -4,11 +4,9 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -18,7 +16,6 @@ import xyz.treier.blackjackjavafx.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MängKontroller {
 
@@ -30,6 +27,12 @@ public class MängKontroller {
     private HBox diileriKaardid;
     @FXML
     private ButtonBar actionBar;
+    @FXML
+    private Parent lõppEkraan;
+    @FXML
+    private LõppKontroller lõppEkraanController; // siin peab olema formaadis id+"Controller", muidu ei tööta
+    @FXML
+    private BorderPane mängEkraan;
 
     private List<Mängija> mängijadList;
     private List<Mängija> lõpetanudList;
@@ -249,7 +252,14 @@ public class MängKontroller {
         mäng.järgmineMängija();
     }
 
+    public void näitaLõppEkraan(boolean näita) {
+        mängEkraan.setVisible(!näita);
+        lõppEkraan.setVisible(näita);
+    }
+
     public void initialize() {
+        lõppEkraan.setVisible(false);
+//        System.out.println(lõppEkraanController);
     }
 
     public void setMängijad(List<Mängija> mängijad) {
@@ -286,5 +296,9 @@ public class MängKontroller {
 
     public List<Mängija> getLõpetanudList() {
         return lõpetanudList;
+    }
+
+    public LõppKontroller getLõppEkraanController() {
+        return lõppEkraanController;
     }
 }
