@@ -25,18 +25,16 @@ public class Mäng {
         this.mängKontroller = mängKontroller;
         mängijad = new LinkedList<>();
         lisaJärjekorda(this.mängKontroller.getMängijad(), this.mängKontroller.getLõpetanudList());
+
         for (Mängija mängija : mängKontroller.getMängijad()) {
             krediitList.add(mängija.krediitProperty());
         }
     }
 
-    public void init() {
-        järgmineMängija();
-    }
-
     /**
      * Seab järjekorrast järgmise mängija mängukontrolleri aktiivseks mängijaks.
      * Ringi lõpus sooritab ka diileri käigu.
+     * Kui kõik mängijad on lõpetanud, siis kuvab lõpuvaate.
      */
     public void järgmineMängija() {
         Mängija järgmine;
@@ -45,27 +43,30 @@ public class Mäng {
         if ((järgmine = mängijad.poll()) == null) {
             // Diileri käik
             Mängija diiler = mängKontroller.getDiiler();
-
-            // Kui diileril on alla 17-ne, siis lisa kaart
-            if (diiler.getKäsi().summa() < 17)
-                diileriKäik(diiler);
-
+            // Kui diileril on alla 17-ne või on soft 17, siis lisa kaart
+            if (diiler.getKäsi().summa() < 17 ||
+                diiler.getKäsi().summa() == 17 && diiler.getKäsi().getKaardid().contains(new Kaart(null, Väärtus.ÄSS)))
+                lisaDiilerileKaart(diiler);
 
             // Kui kõik mängijad on lõpetanud, kuva lõpustseen
             if (mängKontroller.getLõpetanudList().size() == mängKontroller.getMängijad().size()) {
-                // Mängu lõpus lisa diilerile kaarte kuni vähemalt 17 on koos
-                while (diiler.getKäsi().summa() < 17)
-                    diileriKäik(diiler);
+                // Mängu lõpus lisa diilerile kaarte kuni vähemalt 17 on koos ja ei ole soft 17
+                while (diiler.getKäsi().summa() < 17 ||
+                       diiler.getKäsi().summa() == 17 && diiler.getKäsi().getKaardid().contains(new Kaart(null, Väärtus.ÄSS)))
+                    lisaDiilerileKaart(diiler);
 
+                // Lõpuvaate initsialiseerimine
                 LõppKontroller lõppKontroller = mängKontroller.getLõppEkraanController();
                 lõppKontroller.setMängijadList(mängKontroller.getMängijad());
                 lõppKontroller.setDiiler(mängKontroller.getDiiler());
                 lõppKontroller.lõpuTabel();
                 mängKontroller.edetabel();
 
+                // kui kõikidel mängijatel on krediit otsas, siis ei saa "jätka" nuppu vajutada
                 krediitSumma.bind(Bindings.createIntegerBinding(() -> krediitList.stream().mapToInt(IntegerProperty::get).sum(), krediitList));
                 lõppKontroller.getJätkaNupp().disableProperty().bind(krediitSumma.lessThanOrEqualTo(0));
 
+                // Kuva mängu lõpuvaade
                 mängKontroller.näitaLõppEkraan(true);
 //                System.out.println("Mängijad otsas");
                 return;
@@ -92,12 +93,16 @@ public class Mäng {
         }
     }
 
-    public void diileriKäik(Mängija diiler) {
+    /**
+     * Lisab diilerile kaardi juurde.
+     * @param diiler Mängu diiler
+     */
+    public void lisaDiilerileKaart(Mängija diiler) {
         HBox diileriKaardid = mängKontroller.getDiileriKaardid();
         Kaardipakk pakk = mängKontroller.getMänguPakk();
         diiler.getKäsi().lisaKaart(pakk.suvaline());
 
-        // Lisa küsimärk ekraanile
+        // Lisa küsimärk ekraanile kaardi asemel
         Text küsimärk = new Text(" ? ");
         küsimärk.setFont(new Font(16));
         diileriKaardid.getChildren().add(küsimärk);

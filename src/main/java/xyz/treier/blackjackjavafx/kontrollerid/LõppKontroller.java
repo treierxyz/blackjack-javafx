@@ -28,6 +28,9 @@ public class LõppKontroller {
     private List<Mängija> mängijadList;
     private Mängija diiler;
 
+    /**
+     * Kuvab mängu lõpus võitjad, kaotajad ja viiki jäänud mängijad ja nende kaardid.
+     */
     public void lõpuTabel() {
         // Näita diileri kaardid
         for (Label kaart : diiler.getKäsi().getKaardidLabelid()) {
@@ -35,6 +38,7 @@ public class LõppKontroller {
             diileriKaardidHBox.getChildren().add(kaart);
         }
 
+        boolean diilerilBlackjack = false;
         // Lisa diileri tulemusele kas blackjack või bust kiri
         switch(Integer.compare(diiler.getKäsi().summa(), 21)) {
             case 0 -> {
@@ -42,6 +46,7 @@ public class LõppKontroller {
                 if (diiler.getKäsi().getKaardid().size() > 2)
                     break;
 
+                diilerilBlackjack = true;
                 Label blackjack = new Label("Blackjack!");
                 blackjack.setFont(new Font(16));
                 blackjack.setTextFill(Color.GREEN);
@@ -55,6 +60,7 @@ public class LõppKontroller {
             }
         }
 
+        // Mängija tulemus
         for (Mängija m : mängijadList) {
             MängijaSeis seis = m.getSeis();
 
@@ -85,7 +91,7 @@ public class LõppKontroller {
                     // Kui mängijal on blackjack
                     if (mängijaTulemus == 21 && m.getKäsi().getKaardid().size() == 2) {
                         // Viik, kui diileril on ka blackjack
-                        if (diileriTulemus == 21 && diiler.getKäsi().getKaardid().size() == 2) {
+                        if (diilerilBlackjack) {
                             viikVBox.getChildren().add(mängijaHBox);
                             m.setPanus(0);
                             continue;
@@ -110,7 +116,14 @@ public class LõppKontroller {
                             kaotajadVBox.getChildren().add(mängijaHBox);
                             m.lisaKrediit(-m.getPanus()); // 1:1 kaotus
                         }
-                        case 0 -> viikVBox.getChildren().add(mängijaHBox);
+                        case 0 -> {
+                            // Kui diileril blackjack ja mängijal ei ole, siis mängija kaotab
+                            if (diilerilBlackjack) {
+                                kaotajadVBox.getChildren().add(mängijaHBox);
+                                continue;
+                            }
+                            viikVBox.getChildren().add(mängijaHBox);
+                        }
                         case 1 -> {
                             võitjadVBox.getChildren().add(mängijaHBox);
                             m.lisaKrediit(m.getPanus()); // 1:1 võit
@@ -122,10 +135,16 @@ public class LõppKontroller {
         }
     }
 
+    /**
+     * Uus mäng nupp. Viib tagasi peamenüüsse.
+     */
     public void uusMäng() {
         VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
     }
 
+    /**
+     * Jätka nupp. Jätkab mängu samade mängijate ja tulemustega.
+     */
     public void jätka() {
         MängKontroller mängKontroller = VaateVahetaja.vaheta(Vaade.MÄNG);
         mängKontroller.setMängijad(mängijadList);
@@ -135,6 +154,9 @@ public class LõppKontroller {
         mängKontroller.edetabel();
     }
 
+    /**
+     * Välju nupp. Sulgeb programmi.
+     */
     public void välju() {
         Platform.exit();
     }

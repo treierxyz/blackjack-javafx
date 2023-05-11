@@ -9,9 +9,8 @@ public class Kaardipakk {
     private List<Kaart> kaardid;
 
     /**
-     * Uus kaardipakk
-     *
-     * @param pakid mitu kaardipakki kokku panna
+     * Uus kaardipakk.
+     * @param pakid mitu kaardipakki kokku panna.
      */
     public Kaardipakk(int pakid) {
         this.kaardid = new ArrayList<>();
@@ -30,23 +29,15 @@ public class Kaardipakk {
     }
 
     /**
-     * Segab kaardipaki.
+     * Segab kaardipakis olevad kaardid.
      */
     public void sega() {
         Collections.shuffle(this.kaardid);
     }
 
     /**
-     * @return pakis olevate kaartide arv
-     */
-    public int kaarteAlles() {
-        return this.kaardid.size();
-    }
-
-    /**
      * Tagastab suvalise kaardi allesolevatest kaartidest.
-     *
-     * @return suvaline kaart pakist
+     * @return suvaline kaart pakist.
      */
     public Kaart suvaline() {
         if (this.kaardid.isEmpty())

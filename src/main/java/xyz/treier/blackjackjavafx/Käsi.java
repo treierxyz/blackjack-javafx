@@ -52,6 +52,10 @@ public class Käsi {
         return this.kaardid;
     }
 
+    /**
+     * Kaartide Labelid.
+     * @return Kaartide Labelite list.
+     */
     public List<Label> getKaardidLabelid(){
         List<Label> a = new ArrayList<>();
         for (Kaart kaart : kaardid) {

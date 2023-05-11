@@ -37,9 +37,8 @@ public class Mängija implements Comparable<Mängija> {
     }
 
     /**
-     * Mängija kellele antakse suvaline nimi
-     *
-     * @param krediit mängija krediit
+     * Mängija kellele antakse suvaline nimi.
+     * @param krediit mängija krediit.
      */
     public Mängija(int krediit) {
         this.nimi = debugNimed.get((int) (Math.random() * debugNimed.size()));
@@ -54,36 +53,40 @@ public class Mängija implements Comparable<Mängija> {
     }
 
     /**
-     * Tagastab mängija nime
-     *
-     * @return mängija nimi
+     * Tagastab mängija nime.
+     * @return mängija nimi.
      */
     public String getNimi() {
         return nimi;
     }
 
     /**
-     * Tagastab mängija krediidi
-     *
-     * @return mängija krediit
+     * Tagastab mängija krediidi.
+     * @return mängija krediit.
      */
     public int getKrediit() {
         return krediit.get();
     }
 
     /**
-     * Lisab mängijale krediiti
-     *
-     * @param krediit lisatav krediidi kogus
+     * Lisab mängijale krediiti.
+     * @param krediit lisatav krediidi kogus.
      */
     public void lisaKrediit(int krediit) {
         this.krediit.set(getKrediit() + krediit);
     }
 
+    /**
+     * Võimaldab mängijate krediidi kogusumma siduda lõpuekraani "jätka" nupu keelamisega.
+     * @return Mängija krediit.
+     */
     public IntegerProperty krediitProperty() {
         return krediit;
     }
 
+    /**
+     * Kriipsutab ekraanilt mängija nime läbi.
+     */
     public void strikeThroughNimi() {
         for (Node child : ((VBox) mängijaHbox.getParent()).getChildren()) {
             if (child.getClass() == Text.class) {
@@ -93,41 +96,38 @@ public class Mängija implements Comparable<Mängija> {
     }
 
     /**
-     * Tagastab mängija käe
-     *
-     * @return mängija käsi
+     * Tagastab mängija käe.
+     * @return mängija käsi.
      */
     public Käsi getKäsi() {
         return käsi;
     }
 
     /**
-     * Tagastab mängija seisu (stand, bust, blackjack)
-     *
-     * @return mängija seis
+     * Tagastab mängija seisu.
+     * @return mängija seis.
      */
     public MängijaSeis getSeis() {
         return seis.get();
     }
 
     /**
-     * Määrab mängija seisu (stand, bust, blackjack)
+     * Määrab mängija seisu.
      */
     public void setSeis(MängijaSeis seis) {
         this.seis.set(seis);
     }
 
     /**
-     * Tagastab mängija panuse
-     *
-     * @return mängija panus
+     * Tagastab mängija panuse.
+     * @return mängija panus.
      */
     public int getPanus() {
         return this.panus.get();
     }
 
     /**
-     * Väärtustab mängija panuse
+     * Väärtustab mängija panuse.
      */
     public void setPanus(int panus) {
         this.panus.set(panus);
@@ -138,21 +138,25 @@ public class Mängija implements Comparable<Mängija> {
     }
 
     /**
-     * HBox mängija kaartide hoidmiseks
-     * @return Mängija kaartide HBox
+     * HBox mängija kaartide hoidmiseks.
+     * @return Mängija kaartide HBox.
      */
     public HBox getMängijaHbox() {
         return mängijaHbox;
     }
 
-    public void setMängijaHbox(HBox mängijaHbox) {
-        this.mängijaHbox = mängijaHbox;
-    }
-
-    public double getLäbipaistvus() {
+    /**
+     * Mängija
+     * @return Mängija läbipaistvuse väärtus.
+     */
+    /*public double getLäbipaistvus() {
         return läbipaistvus.get();
-    }
+    }*/
 
+    /**
+     * Võimaldab siduda mängija läbipaistvuse ekraanil tema seisuga.
+     * @return mängija läbipaistvuse väärtus.
+     */
     public DoubleProperty läbipaistvusProperty() {
         return läbipaistvus;
     }

@@ -32,6 +32,10 @@ public enum Väärtus {
         return väärtus;
     }
 
+    /**
+     * Tagastab kaardi väärtuse lühendi.
+     * @return kaardi väärtuse lühendi.
+     */
     public String getLühend() {
         return lühend;
     }
