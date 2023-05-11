@@ -33,6 +33,10 @@ public class Kaart {
         return this.väärtus.getLühend() + this.mast.getSümbol();
     }
 
+    /**
+     * Kaardi Label. Teeb ärtu ja ruutu mastid punaseks, teised mustaks.
+     * @return Kaardi värvitud Label.
+     */
     public Label kaartLabel() {
         Label kaart = new Label();
 
@@ -41,6 +45,7 @@ public class Kaart {
         väärtus.setFont(new Font(16));
         mast.setFont(new Font(16));
 
+        // Ärtu ja ruutu mastid punaseks
         if (this.mast.equals(Mast.ÄRTU) || this.mast.equals(Mast.RUUTU)) {
             mast.setFill(Color.RED);
         }
@@ -49,14 +54,19 @@ public class Kaart {
     }
 
     /**
-     * Leiab kaardi arvulise väärtuse blackjack mängu reeglite järgi
-     *
-     * @return kaardi arvuline väärtus
+     * Leiab kaardi arvulise väärtuse blackjack mängu reeglite järgi.
+     * @return kaardi arvuline väärtus.
      */
     public int getVaartusArv() {
         return this.väärtus.getVäärtus();
     }
 
+    /**
+     * Võimaldab võrrelda kaarte väärtuse järgi.
+     *
+     * @param o Suvaline klassi isend
+     * @return Tõeväärtus, kas on parameetriks antud kaardi väärtus on võrdne selle isendi kaardiga.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

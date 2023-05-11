@@ -81,8 +81,9 @@ public class MängKontroller {
                 lõpetanudList.add(mängija);
 
                 mängija.setSeis(MängijaSeis.VÄLJAS);
-                mängija.strikeThroughNimi();
+                mängija.strikeThroughNimi(); // Kriipsuta mängija nimi läbi
 
+                // Kaartide asemel näita "VÄLJAS"
                 Text väljas = new Text("VÄLJAS");
                 väljas.setFont(new Font(16));
                 mängija.getMängijaHbox().getChildren().add(väljas);
@@ -97,7 +98,11 @@ public class MängKontroller {
             ok.disableProperty().bind(panus.textProperty().isEmpty());
             ok.disableProperty().bind(panus.disabledProperty());
             panus.setOnAction(event -> ok.fire());
+
+            // OK nupule vajutades
             ok.setOnAction(event -> {
+                // kontrolli, kas sisestatud panus sobib
+                // Kui panus sobib, siis seab mängija panus, kui ei sobi, siis ei tee midagi
                 try {
                     int panusKogus = Integer.parseInt(panus.getText());
                     if (panusKogus > mängija.getKrediit() || panusKogus <= 0) return;
@@ -105,28 +110,43 @@ public class MängKontroller {
                 } catch (NumberFormatException e) {
                     return;
                 }
+
+                // Korrektse panuse sisestamisel keelab panuse sisestamise välja
                 panus.setDisable(true);
-
                 mängija.setSeis(MängijaSeis.PANUS_VALMIS);
-                if (panusedTehtud()) {
-                    actionBar.disableProperty().set(false);
-                    mänguPakk = new Kaardipakk(mängijadList.size());
-                    jagaKaardid();
-                    mängijadHalliks();
 
+                // Kui kõik on panused teinud, siis alusta mänguga
+                if (panusedTehtud()) {
+                    actionBar.disableProperty().set(false); // käigu nupud aktiivseks
+
+                    // Uus kaardipakk. Pakkide arv võrdne mängijate arvuga, kuid minimaalselt 2.
+                    mänguPakk = new Kaardipakk(Math.max(mängijadList.size(), 2));
+                    jagaKaardid(); // jaga mängijatele kaardid
+                    mängijadHalliks(); // mängijad halliks
+
+                    // Alusta mängijate ringlusega
                     mäng = new Mäng(this);
-                    mäng.init();
+                    mäng.järgmineMängija();
                 }
             });
+
+            // Lisa iga mängija puhul ekraanile panuse kast ja ok nupp
             mängija.getMängijaHbox().getChildren().addAll(panus, ok);
         }
     }
 
+    /**
+     * Kontrollib, kas kõik mängijad on oma panused teinud.
+     * @return true, kui kõik panused on tehtud,
+     *         false, kui ei ole.
+     */
     public boolean panusedTehtud() {
         for (Mängija mängija : mängijadList) {
+            // Kui mängija on väljas ehk krediit otsas, siis võib ta vahele jätta
             if (mängija.getSeis() == MängijaSeis.VÄLJAS)
                 continue;
 
+            // Kui mingilgi mängijal pole panus tehtud, siis tagasta false
             if (mängija.getSeis() != MängijaSeis.PANUS_VALMIS) {
                 return false;
             }
@@ -134,17 +154,26 @@ public class MängKontroller {
         return true;
     }
 
+    /**
+     * Teeb kõik mängijad mänguvaates halliks.
+     */
     public void mängijadHalliks() {
         for (Mängija m : mängijadList) {
             m.setSeis(MängijaSeis.OOTAB);
         }
     }
+    /**
+     * Teeb kõik mängijad mänguvaates mustaks.
+     */
     public void mängijadMustaks() {
         for (Mängija m : mängijadList) {
             m.setSeis(MängijaSeis.INIT);
         }
     }
 
+    /**
+     * Jagab diilerile ja mängijatele mängu alguses 2 kaarti.
+     */
     public void jagaKaardid() {
         // Diiler
         Mängija diiler = new Mängija("Diiler", 1000);
@@ -163,6 +192,7 @@ public class MängKontroller {
             diileriKaardid.getChildren().add(küsimärk);
         }
 
+        // Jaga mängijatele
         for (Mängija mängija : mängijadList) {
             mängija.getKäsi().tühjendaKäsi();
 
@@ -172,24 +202,30 @@ public class MängKontroller {
 
             mängija.getMängijaHbox().getChildren().clear();
 
-            // Jaga paar kaarti
+            // Jaga 2 kaarti
             for (int i = 0; i < 2; i++)
                 mängija.getKäsi().lisaKaart(mänguPakk.suvaline());
 
+            // Kuva kaardid ekraanil
             for (Label kaart : mängija.getKäsi().getKaardidLabelid()) {
                 mängija.getMängijaHbox().getChildren().add(kaart);
             }
         }
     }
 
+    /**
+     * Lisab mängijad ekraanile.
+     */
     public void mängijadInit() {
         lõpetanudList = new ArrayList<>();
         mängijadFlow.getChildren().clear();
 
         for (Mängija m : mängijadList) {
+            // Mängija ikoon
             FontIcon icon = new FontIcon("mdmz-person_outline");
             icon.setIconSize(42);
 
+            // Mängija nimi
             Text nimi = new Text(m.getNimi());
             nimi.setId(m.getNimi());
             nimi.setFont(new Font(20));
@@ -197,17 +233,20 @@ public class MängKontroller {
             VBox vBox = new VBox(icon, nimi);
             vBox.setAlignment(Pos.CENTER);
 
-            // Kuva mängija hbox
+            // Kuva mängija kaardid
             HBox hBox = m.getMängijaHbox();
             hBox.setAlignment(Pos.CENTER);
             hBox.setSpacing(5);
-
             vBox.getChildren().add(hBox);
+
             m.getMängijaHbox().getParent().opacityProperty().bind(m.läbipaistvusProperty());
             mängijadFlow.getChildren().add(vBox);
         }
     }
 
+    /**
+     * Stand nupp. Seab mängija lõpetanuks ja enam käia ei saa.
+     */
     public void standNupp() {
         kelleKäik.setSeis(MängijaSeis.STAND);
         lõpetanudList.add(kelleKäik);
@@ -215,16 +254,20 @@ public class MängKontroller {
         mäng.järgmineMängija();
     }
 
+    /**
+     * Hit nupp. Lisab mängijale kaardi ja kontrollib, kas läks üle 21.
+     */
     public void hitNupp() {
         Käsi käsi = kelleKäik.getKäsi();
-        Kaart uusKaart = mänguPakk.suvaline();
-        käsi.lisaKaart(uusKaart);
+        Kaart uusKaart = mänguPakk.suvaline(); // Võta pakist uus kaart
+        käsi.lisaKaart(uusKaart); // lisa kaart mängijale
 
         // Lisa kaart ekraanile
         kelleKäik.getMängijaHbox().getChildren().add(uusKaart.kaartLabel());
 
-        System.out.println("Kaartide summa: " + käsi.summa());
+        System.out.println(kelleKäik.getNimi() + " kaartide summa: " + käsi.summa());
 
+        // Võrdle uut tulemust 21-ga
         switch (Integer.compare(käsi.summa(), 21)) {
             case -1 -> kelleKäik.setSeis(MängijaSeis.OOTAB);
             case 0 -> {
@@ -240,24 +283,32 @@ public class MängKontroller {
             }
         }
 
+        // võta järgmine mängija
         mäng.järgmineMängija();
     }
 
+    /**
+     * Double nupp. Kahekordistab mängija panuse (kui võimalik) ja võtab mängijale viimase kaardi.
+     * Kontrollib saadud tulemust 21-ga.
+     */
     public void doubleNupp() {
-        if (kelleKäik.getKrediit() < kelleKäik.getPanus() * 2) return; // kui mängijal ei ole krediiti et doubleida
+        // kui mängijal ei ole krediiti et doubleida
+        if (kelleKäik.getKrediit() < kelleKäik.getPanus() * 2) return;
 
         kelleKäik.setPanus(kelleKäik.getPanus() * 2); // kahekordista panust
-        System.out.println("Panus on nüüd " + kelleKäik.getPanus());
-        Kaart uusKaart = mänguPakk.suvaline();
-        System.out.println("Tuli kaart " + uusKaart.toString());
+        Kaart uusKaart = mänguPakk.suvaline(); // uus kaart
         Käsi käsi = kelleKäik.getKäsi();
-        käsi.lisaKaart(uusKaart);
+        käsi.lisaKaart(uusKaart); // lisa uus kaart mängijale
+
+        System.out.println("Panus on nüüd " + kelleKäik.getPanus());
+        System.out.println("Tuli kaart " + uusKaart.toString());
 
         // Lisa kaart ekraanile
         Text kaartTekst = new Text(uusKaart.toString());
         kaartTekst.setFont(new Font(16));
         kelleKäik.getMängijaHbox().getChildren().add(kaartTekst);
 
+        // Võrdle uut tulemust 21-ga
         switch (Integer.compare(käsi.summa(), 21)) {
             case -1 -> kelleKäik.setSeis(MängijaSeis.STAND);
             case 0 -> {
@@ -274,9 +325,14 @@ public class MängKontroller {
         lõpetanudList.add(kelleKäik);
         System.out.println("Lõpetasid mängu tulemusega " + käsi.summa());
 
-        mäng.järgmineMängija();
+        mäng.järgmineMängija(); // käik järgmisele mängijale
     }
 
+    /**
+     * Näita lõppekraani või mitte.
+     * Näitamisel peidab mänguekraani, peitmisel kuvab mänguekraani.
+     * @param näita Tõeväärtus, kas näidata lõppekraani.
+     */
     public void näitaLõppEkraan(boolean näita) {
         mängEkraan.setVisible(!näita);
         lõppEkraan.setVisible(näita);

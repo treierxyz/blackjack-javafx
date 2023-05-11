@@ -1,5 +1,8 @@
 package xyz.treier.blackjackjavafx;
 
+/**
+ * Kaardi mastid.
+ */
 public enum Mast {
     ÄRTU("♥"),
     RUUTU("♦"),

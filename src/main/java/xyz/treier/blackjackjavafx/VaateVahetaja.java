@@ -18,6 +18,12 @@ public class VaateVahetaja {
         return stseen;
     }
 
+    /**
+     * Vahetab mängu ekraani vaadete vahel.
+     *
+     * @param vaade Millisele vaatele vahetada.
+     * @return Uue vaate kontroller.
+     */
     public static <T> T vaheta(Vaade vaade) {
         if (stseen == null) {
             System.out.println("Stseen valimata");

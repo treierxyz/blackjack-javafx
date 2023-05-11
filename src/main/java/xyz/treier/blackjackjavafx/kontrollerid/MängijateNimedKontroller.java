@@ -18,6 +18,10 @@ public class MängijateNimedKontroller {
     @FXML
     private VBox nimedVbox;
 
+    /**
+     * Genereerib mängijate nimede sisestamise kastid.
+     * @param arv Genereeritavate kastide arv (mänmgijate arv)
+     */
     public void genereeriTekstiväljad(int arv) {
         for (int i = 0; i < arv; i++) {
             HBox hbox = new HBox();
@@ -32,12 +36,19 @@ public class MängijateNimedKontroller {
         }
     }
 
+    /**
+     * Tagasi nupp. Viib tagasi peamenüüsse.
+     */
     public void tagasi() {
         VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
     }
 
+    /**
+     * Edasi nupp. Viib edasi mängu.
+     */
     public void edasi() {
         List<Mängija> mängijad = new ArrayList<>();
+        // Leiab mängijate nimed. Kui nime ei sisestatud, saab mägnija nimeks "Mängija x", kus x on järjekorranumber.
         for (int i = 0; i < nimedVbox.getChildren().size(); i++) {
             String nimi = ((TextField) VaateVahetaja.getStseen().lookup("#mängija"+(i+1)+"nimi")).getText();
             if (nimi.equals("")) {
@@ -45,6 +56,7 @@ public class MängijateNimedKontroller {
             }
             mängijad.add(new Mängija(nimi, 300));
         }
+        // Mängu initsialiseerimine
         MängKontroller mängKontroller = VaateVahetaja.vaheta(Vaade.MÄNG);
         mängKontroller.setMängijad(mängijad);
         mängKontroller.mängijadInit();

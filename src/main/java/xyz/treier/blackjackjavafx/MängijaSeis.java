@@ -1,8 +1,8 @@
 package xyz.treier.blackjackjavafx;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.css.SimpleStyleableDoubleProperty;
-
+/**
+ * Mängija seisu järgi määratakse mängija läbipaistvus ekraanil.
+ */
 public enum MängijaSeis {
     INIT(1.0),
     VÄLJAS(0.3),
