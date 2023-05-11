@@ -4,8 +4,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.commonmark.Extension;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.commonmark.ext.gfm.tables.TablesExtension;
 import xyz.treier.blackjackjavafx.Vaade;
 import xyz.treier.blackjackjavafx.VaateVahetaja;
 import javafx.event.ActionEvent;
@@ -21,8 +23,14 @@ import java.io.IOException;
 import java.net.URI;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class AbiKontroller {
     @FXML
@@ -53,16 +61,19 @@ public class AbiKontroller {
         }
     }
 
-    public void initialize() throws IOException {
-        String mdFail = "/media/NaxosA/Documents/UT/OOP/blackjack-javafx/src/main/resources/xyz/treier/blackjackjavafx/abi.md";
-        Path mdPath = Path.of(mdFail);
-        String mdSisu = Files.readString(mdPath);
+    public void initialize() throws IOException, URISyntaxException {
+        URL mdUrl = VaateVahetaja.class.getResource("abi.md");
+        URL cssUrl = VaateVahetaja.class.getResource("abi.css");
+        String mdSisu = new Scanner(mdUrl.openStream(), StandardCharsets.UTF_8).useDelimiter("\\A").next();
 
-        Parser parser = Parser.builder().build();
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        List<Extension> laiendused = Arrays.asList(TablesExtension.create());
+        Parser parser = Parser.builder().extensions(laiendused).build();
+        HtmlRenderer renderer = HtmlRenderer.builder().extensions(laiendused).build();
 
         String html = renderer.render(parser.parse(mdSisu));
-        markdownVaade.getEngine().loadContent(html);
+        WebEngine webEngine = markdownVaade.getEngine();
+        webEngine.setUserStyleSheetLocation(cssUrl.toString());
+        webEngine.loadContent(html);
     }
 
 }

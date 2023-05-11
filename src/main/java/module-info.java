@@ -7,6 +7,7 @@ module com.example.blackjackjavafx {
     requires java.desktop;
     requires org.commonmark;
     requires javafx.web;
+    requires org.commonmark.ext.gfm.tables;
     opens xyz.treier.blackjackjavafx.kontrollerid;
 
     exports xyz.treier.blackjackjavafx;
