@@ -223,17 +223,17 @@ public class MängKontroller {
         // Lisa kaart ekraanile
         kelleKäik.getMängijaHbox().getChildren().add(uusKaart.kaartLabel());
 
-        System.out.println("Kaartide summa: " + käsi.summa());
+//        System.out.println("Kaartide summa: " + käsi.summa());
 
         switch (Integer.compare(käsi.summa(), 21)) {
             case -1 -> kelleKäik.setSeis(MängijaSeis.OOTAB);
             case 0 -> {
-                System.out.println("21 käes!");
+//                System.out.println("21 käes!");
                 kelleKäik.setSeis(MängijaSeis.STAND);
                 lõpetanudList.add(kelleKäik);
             }
             case 1 -> {
-                System.out.println("Bust! Oled mängust väljas");
+//                System.out.println("Bust! Oled mängust väljas");
                 kelleKäik.setSeis(MängijaSeis.BUST);
                 lõpetanudList.add(kelleKäik);
                 kelleKäik.strikeThroughNimi();
@@ -247,9 +247,9 @@ public class MängKontroller {
         if (kelleKäik.getKrediit() < kelleKäik.getPanus() * 2) return; // kui mängijal ei ole krediiti et doubleida
 
         kelleKäik.setPanus(kelleKäik.getPanus() * 2); // kahekordista panust
-        System.out.println("Panus on nüüd " + kelleKäik.getPanus());
+//        System.out.println("Panus on nüüd " + kelleKäik.getPanus());
         Kaart uusKaart = mänguPakk.suvaline();
-        System.out.println("Tuli kaart " + uusKaart.toString());
+//        System.out.println("Tuli kaart " + uusKaart.toString());
         Käsi käsi = kelleKäik.getKäsi();
         käsi.lisaKaart(uusKaart);
 
@@ -261,18 +261,18 @@ public class MängKontroller {
         switch (Integer.compare(käsi.summa(), 21)) {
             case -1 -> kelleKäik.setSeis(MängijaSeis.STAND);
             case 0 -> {
-                System.out.println("21 käes!");
+//                System.out.println("21 käes!");
                 kelleKäik.setSeis(MängijaSeis.STAND);
             }
             case 1 -> {
-                System.out.println("Bust! Oled mängust väljas");
+//                System.out.println("Bust! Oled mängust väljas");
                 kelleKäik.setSeis(MängijaSeis.BUST);
                 kelleKäik.strikeThroughNimi();
             }
         }
 
         lõpetanudList.add(kelleKäik);
-        System.out.println("Lõpetasid mängu tulemusega " + käsi.summa());
+//        System.out.println("Lõpetasid mängu tulemusega " + käsi.summa());
 
         mäng.järgmineMängija();
     }

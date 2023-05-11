@@ -48,7 +48,7 @@ public class Mängija implements Comparable<Mängija> {
         this.käsi = new Käsi();
         this.seis.addListener(((observable, oldValue, newValue) -> {
             läbipaistvus.set(newValue.getLäbipaistvus());
-            System.out.println(newValue.getLäbipaistvus());
+//            System.out.println(newValue.getLäbipaistvus());
         }));
         this.seis.setValue(MängijaSeis.INIT);
     }

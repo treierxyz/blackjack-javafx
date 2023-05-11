@@ -20,7 +20,7 @@ public class VaateVahetaja {
 
     public static <T> T vaheta(Vaade vaade) {
         if (stseen == null) {
-            System.out.println("Stseen valimata");
+//            System.out.println("Stseen valimata");
             return null;
         }
         try {

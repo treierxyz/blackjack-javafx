@@ -67,7 +67,7 @@ public class Mäng {
                 lõppKontroller.getJätkaNupp().disableProperty().bind(krediitSumma.lessThanOrEqualTo(0));
 
                 mängKontroller.näitaLõppEkraan(true);
-                System.out.println("Mängijad otsas");
+//                System.out.println("Mängijad otsas");
                 return;
             }
 
