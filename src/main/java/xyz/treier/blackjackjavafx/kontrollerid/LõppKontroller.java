@@ -5,11 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import xyz.treier.blackjackjavafx.Mängija;
-import xyz.treier.blackjackjavafx.MängijaSeis;
-import xyz.treier.blackjackjavafx.Vaade;
-import xyz.treier.blackjackjavafx.VaateVahetaja;
+import xyz.treier.blackjackjavafx.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -33,13 +29,19 @@ public class LõppKontroller {
     private Mängija diiler;
 
     public void lõpuTabel() {
+        // Näita diileri kaardid
         for (Label kaart : diiler.getKäsi().getKaardidLabelid()) {
             kaart.setText(kaart.getText() + " ");
             diileriKaardidHBox.getChildren().add(kaart);
         }
 
+        // Lisa diileri tulemusele kas blackjack või bust kiri
         switch(Integer.compare(diiler.getKäsi().summa(), 21)) {
             case 0 -> {
+                // Kui on üle kahe kaardi siis blackjack olla ei saa
+                if (diiler.getKäsi().getKaardid().size() > 2)
+                    break;
+
                 Label blackjack = new Label("Blackjack!");
                 blackjack.setFont(new Font(16));
                 blackjack.setTextFill(Color.GREEN);
@@ -55,13 +57,24 @@ public class LõppKontroller {
 
         for (Mängija m : mängijadList) {
             MängijaSeis seis = m.getSeis();
-            Label nimi = new Label(m.getNimi());
+
+            HBox mängijaHBox = new HBox(); // nimi + kaardid
+
+            // Mängija nimi
+            Label nimi = new Label(m.getNimi() + ": ");
             nimi.setFont(new Font(16));
+            mängijaHBox.getChildren().add(nimi);
+
+            // lisa mängija kaardid ekraanile
+            for (Label kaart : m.getKäsi().getKaardidLabelid()) {
+                kaart.setText(kaart.getText() + " ");
+                mängijaHBox.getChildren().add(kaart);
+            }
 
             switch(seis) {
                 // Kaotajad
                 case BUST -> {
-                    kaotajadVBox.getChildren().add(nimi);
+                    kaotajadVBox.getChildren().add(mängijaHBox);
                     m.lisaKrediit(-m.getPanus()); // 1:1 kaotus
                 }
 
@@ -69,16 +82,16 @@ public class LõppKontroller {
                     int mängijaTulemus = m.getKäsi().summa();
                     int diileriTulemus = diiler.getKäsi().summa();
 
-                    // Kui mängijal on 21
-                    if (mängijaTulemus == 21) {
-                        // Viik
-                        if (diileriTulemus == 21) {
-                            viikVBox.getChildren().add(nimi);
+                    // Kui mängijal on blackjack
+                    if (mängijaTulemus == 21 && m.getKäsi().getKaardid().size() == 2) {
+                        // Viik, kui diileril on ka blackjack
+                        if (diileriTulemus == 21 && diiler.getKäsi().getKaardid().size() == 2) {
+                            viikVBox.getChildren().add(mängijaHBox);
                             m.setPanus(0);
                             continue;
                         }
                         // Võit
-                        võitjadVBox.getChildren().add(nimi);
+                        võitjadVBox.getChildren().add(mängijaHBox);
                         m.lisaKrediit((int)Math.round(m.getPanus() * 3.0/2.0)); // 3:2 võit
                         m.setPanus(0);
                         continue;
@@ -86,7 +99,7 @@ public class LõppKontroller {
 
                     // Kui diiler bust siis kõik standijad võidavad
                     if (diileriTulemus > 21) {
-                        võitjadVBox.getChildren().add(nimi);
+                        võitjadVBox.getChildren().add(mängijaHBox);
                         m.lisaKrediit(m.getPanus()); // 1:1 võit
                         break;
                     }
@@ -94,12 +107,12 @@ public class LõppKontroller {
                     // Võrdle mängija tulemust diileri omaga
                     switch (Integer.compare(mängijaTulemus, diileriTulemus)) {
                         case -1 -> {
-                            kaotajadVBox.getChildren().add(nimi);
+                            kaotajadVBox.getChildren().add(mängijaHBox);
                             m.lisaKrediit(-m.getPanus()); // 1:1 kaotus
                         }
-                        case 0 -> viikVBox.getChildren().add(nimi);
+                        case 0 -> viikVBox.getChildren().add(mängijaHBox);
                         case 1 -> {
-                            võitjadVBox.getChildren().add(nimi);
+                            võitjadVBox.getChildren().add(mängijaHBox);
                             m.lisaKrediit(m.getPanus()); // 1:1 võit
                         }
                     }

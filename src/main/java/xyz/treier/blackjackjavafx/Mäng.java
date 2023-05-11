@@ -47,19 +47,16 @@ public class Mäng {
             Mängija diiler = mängKontroller.getDiiler();
 
             // Kui diileril on alla 17-ne, siis lisa kaart
-            if (diiler.getKäsi().summa() < 17) {
-                HBox diileriKaardid = mängKontroller.getDiileriKaardid();
-                Kaardipakk pakk = mängKontroller.getMänguPakk();
-                diiler.getKäsi().lisaKaart(pakk.suvaline());
+            if (diiler.getKäsi().summa() < 17)
+                diileriKäik(diiler);
 
-                // Lisa küsimärk ekraanile
-                Text küsimärk = new Text(" ? ");
-                küsimärk.setFont(new Font(16));
-                diileriKaardid.getChildren().add(küsimärk);
-            }
 
             // Kui kõik mängijad on lõpetanud, kuva lõpustseen
             if (mängKontroller.getLõpetanudList().size() == mängKontroller.getMängijad().size()) {
+                // Mängu lõpus lisa diilerile kaarte kuni vähemalt 17 on koos
+                while (diiler.getKäsi().summa() < 17)
+                    diileriKäik(diiler);
+
                 LõppKontroller lõppKontroller = mängKontroller.getLõppEkraanController();
                 lõppKontroller.setMängijadList(mängKontroller.getMängijad());
                 lõppKontroller.setDiiler(mängKontroller.getDiiler());
@@ -93,5 +90,16 @@ public class Mäng {
             if (lõpetanud.contains(m)) continue;
             this.mängijad.add(m);
         }
+    }
+
+    public void diileriKäik(Mängija diiler) {
+        HBox diileriKaardid = mängKontroller.getDiileriKaardid();
+        Kaardipakk pakk = mängKontroller.getMänguPakk();
+        diiler.getKäsi().lisaKaart(pakk.suvaline());
+
+        // Lisa küsimärk ekraanile
+        Text küsimärk = new Text(" ? ");
+        küsimärk.setFont(new Font(16));
+        diileriKaardid.getChildren().add(küsimärk);
     }
 }
