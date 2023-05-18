@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane prefHeight="480.0" prefWidth="640.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.treier.blackjackjavafx.kontrollerid.MängijateNimedKontroller">
    <bottom>
       <BorderPane BorderPane.alignment="CENTER">
@@ -31,7 +30,7 @@
                   <Insets bottom="15.0" />
                </FlowPane.margin>
             </Label>
-            <VBox fx:id="nimedVbox" alignment="CENTER_LEFT" prefWidth="403.0" styleClass="nimed" />
+            <VBox fx:id="nimedVbox" alignment="CENTER_LEFT" prefWidth="403.0" spacing="5.0" styleClass="nimed" />
          </children>
       </FlowPane>
    </center>

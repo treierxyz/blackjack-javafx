@@ -20,7 +20,7 @@
         <items>
             <VBox SplitPane.resizableWithParent="false">
                <children>
-                  <Label text="Edetabel" textOverrun="CENTER_ELLIPSIS">
+                  <Label styleClass="accentColor" text="Edetabel" textOverrun="CENTER_ELLIPSIS">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -46,9 +46,6 @@
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
                      <center>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
                            <children>
@@ -70,6 +67,9 @@
                            </padding>
                         </VBox>
                      </center>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
                   </BorderPane>
                   <fx:include fx:id="lõppEkraan" source="lõpp.fxml" />
                </children>

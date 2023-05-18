@@ -1,4 +1,4 @@
-.root {
+.root, .split-pane {
     -fx-background-color: #394050;
     -fx-border-style: none;
 }
@@ -7,13 +7,12 @@
     -fx-text-fill: #F8F8F7;
 }
 
-.split-pane {
-    -fx-background-color: #394050;
+.accentColor {
+    -fx-text-fill: #CE6243;
 }
 
-.split-pane-divider {
-    -fx-padding: 0 0.1em 0 0.1em;
-    -fx-background-color: #CE6243;
+.panus {
+    -fx-text-fill: #9CA8AD;
 }
 
 .button {
@@ -23,16 +22,18 @@
     -fx-font-variant-numeric: lining-nums;
 }
 
-.panus {
-    -fx-text-fill: #9CA8AD;
-}
-
 .button:hover {
     -fx-background-color: #9CA8AD;
 }
 
-.title {
-    -fx-text-fill: #CE6243;
+.split-pane-divider {
+    -fx-padding: 0 0.1em 0 0.1em;
+    -fx-background-color: #CE6243;
+}
+
+.separator .line{
+    -fx-border-width: 1;
+    -fx-border-color: #CE6243;
 }
 
 .mangijanupud .button {
