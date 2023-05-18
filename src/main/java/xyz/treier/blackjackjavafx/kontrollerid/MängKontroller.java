@@ -61,7 +61,7 @@ public class MängKontroller {
             Label panus = new Label();
             krediit.textProperty().bind(m.krediitProperty().asString());
             panus.textProperty().bind(Bindings.when(m.panusProperty().isEqualTo(0)).then("").otherwise(Bindings.concat("-", m.panusProperty().asString())));
-            panus.setTextFill(Paint.valueOf("a89f23"));
+            panus.getStyleClass().add("panus");
             HBox krediitbox = new HBox(krediit, panus);
 
             BorderPane borderPane = new BorderPane();
@@ -309,9 +309,7 @@ public class MängKontroller {
         System.out.println("Tuli kaart " + uusKaart.toString());
 
         // Lisa kaart ekraanile
-        Text kaartTekst = new Text(uusKaart.toString());
-        kaartTekst.setFont(new Font(16));
-        kelleKäik.getMängijaHbox().getChildren().add(kaartTekst);
+        kelleKäik.getMängijaHbox().getChildren().add(uusKaart.kaartLabel());
 
         // Võrdle uut tulemust 21-ga
         switch (Integer.compare(käsi.summa(), 21)) {

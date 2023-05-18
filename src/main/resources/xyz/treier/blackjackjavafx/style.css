@@ -23,6 +23,10 @@
     -fx-font-variant-numeric: lining-nums;
 }
 
+.panus {
+    -fx-text-fill: #9CA8AD;
+}
+
 .button:hover {
     -fx-background-color: #9CA8AD;
 }
