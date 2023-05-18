@@ -5,6 +5,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -103,7 +104,7 @@ public class Mäng {
         diiler.getKäsi().lisaKaart(pakk.suvaline());
 
         // Lisa küsimärk ekraanile kaardi asemel
-        Text küsimärk = new Text(" ? ");
+        Label küsimärk = new Label(" ? ");
         küsimärk.setFont(new Font(16));
         diileriKaardid.getChildren().add(küsimärk);
     }

@@ -40,7 +40,7 @@ public class Kaart {
     public Label kaartLabel() {
         Label kaart = new Label();
 
-        Text väärtus = new Text(this.väärtus.getLühend());
+        Label väärtus = new Label(this.väärtus.getLühend());
         Text mast = new Text(this.mast.getSümbol());
         väärtus.setFont(new Font(16));
         mast.setFont(new Font(16));

@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -13,14 +12,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.treier.blackjackjavafx.kontrollerid.MängKontroller">
+<AnchorPane prefHeight="480.0" prefWidth="640.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.treier.blackjackjavafx.kontrollerid.MängKontroller">
    <children>
-      <SplitPane dividerPositions="0.2809364548494983" layoutX="141.0" layoutY="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.2" layoutX="141.0" layoutY="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-            <VBox>
+            <VBox SplitPane.resizableWithParent="false">
                <children>
                   <Label text="Edetabel" textOverrun="CENTER_ELLIPSIS">
                      <font>
@@ -30,11 +28,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
-                     <content>
-                        <VBox fx:id="edetabel" />
-                     </content>
-                  </ScrollPane>
+                  <VBox fx:id="edetabel" styleClass="root" />
                </children>
             </VBox>
             <StackPane>
@@ -60,17 +54,20 @@
                            <children>
                                <VBox fx:id="diilerVbox" alignment="CENTER">
                                    <children>
-                                       <FontIcon boundsType="VISUAL" iconLiteral="mdmz-person_outline" iconSize="42" />
-                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Diiler">
-                                           <font>
-                                               <Font size="20.0" />
-                                           </font>
-                                       </Text>
+                                       <FontIcon boundsType="VISUAL" iconColor="WHITE" iconLiteral="mdmz-person_outline" iconSize="42" />
+                                    <Label text="Diiler">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
                                        <HBox fx:id="diileriKaardid" alignment="CENTER" />
                                    </children>
                                </VBox>
                               <FlowPane fx:id="mängijadFlow" alignment="CENTER" columnHalignment="CENTER" hgap="25.0" vgap="15.0" />
                            </children>
+                           <padding>
+                              <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                           </padding>
                         </VBox>
                      </center>
                   </BorderPane>

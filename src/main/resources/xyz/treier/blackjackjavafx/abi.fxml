@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.web.WebView?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.treier.blackjackjavafx.kontrollerid.AbiKontroller">
-   <children>
-      <WebView fx:id="markdownVaade" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Button layoutX="559.0" layoutY="384.0" mnemonicParsing="false" onAction="#tagasi" text="Tagasi" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
-      <HBox alignment="CENTER" layoutX="430.0" layoutY="365.0" spacing="3.0" visible="false" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="14.0">
+
+<BorderPane prefHeight="480.0" prefWidth="640.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.treier.blackjackjavafx.kontrollerid.AbiKontroller">
+   <center>
+      <AnchorPane>
          <children>
-            <FontIcon iconLiteral="mdal-insert_link" iconSize="24" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parem klikk = kopeeri" />
+            <WebView fx:id="markdownVaade" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
-      </HBox>
-   </children>
-</AnchorPane>
+      </AnchorPane>
+   </center>
+   <bottom>
+      <BorderPane BorderPane.alignment="CENTER">
+         <left>
+            <Button mnemonicParsing="false" onAction="#tagasi" text="Tagasi" BorderPane.alignment="CENTER" />
+         </left>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </BorderPane>
+   </bottom>
+</BorderPane>

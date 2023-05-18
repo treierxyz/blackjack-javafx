@@ -1,0 +1,41 @@
+.root {
+    -fx-background-color: #394050;
+    -fx-border-style: none;
+}
+
+.label, .text {
+    -fx-text-fill: #F8F8F7;
+}
+
+.split-pane {
+    -fx-background-color: #394050;
+}
+
+.split-pane-divider {
+    -fx-padding: 0 0.1em 0 0.1em;
+    -fx-background-color: #CE6243;
+}
+
+.button {
+    -fx-background-color: #CE6243;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #F8F8F7;
+    -fx-font-variant-numeric: lining-nums;
+}
+
+.button:hover {
+    -fx-background-color: #9CA8AD;
+}
+
+.title {
+    -fx-text-fill: #CE6243;
+}
+
+.mangijanupud .button {
+    -fx-font-size: 18pt;
+    -fx-font-variant-numeric: lining-nums;
+}
+
+.nimed .label {
+    -fx-font-size: 11pt;
+}

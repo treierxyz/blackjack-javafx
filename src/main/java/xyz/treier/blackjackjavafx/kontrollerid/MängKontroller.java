@@ -6,6 +6,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -13,6 +16,7 @@ import javafx.scene.text.Text;
 import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.treier.blackjackjavafx.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,7 +67,7 @@ public class MängKontroller {
             BorderPane borderPane = new BorderPane();
             borderPane.setLeft(nimi);
             borderPane.setRight(krediitbox);
-            BorderPane.setMargin(nimi, new Insets(0, 25, 0, 0));
+            BorderPane.setMargin(nimi, new Insets(0, 40, 0, 0));
 
             VBox.setMargin(borderPane, new Insets(0, 5, 0, 5));
 
@@ -187,7 +191,7 @@ public class MängKontroller {
 
         // Teised diileri kaardid küsimärgid
         for (int i = 1; i < diiler.getKäsi().getKaardid().size(); i++) {
-            Text küsimärk = new Text(" ? ");
+            Label küsimärk = new Label(" ? ");
             küsimärk.setFont(new Font(16));
             diileriKaardid.getChildren().add(küsimärk);
         }
@@ -223,10 +227,11 @@ public class MängKontroller {
         for (Mängija m : mängijadList) {
             // Mängija ikoon
             FontIcon icon = new FontIcon("mdmz-person_outline");
+            icon.setIconColor(Paint.valueOf("#F8F8F7"));
             icon.setIconSize(42);
 
             // Mängija nimi
-            Text nimi = new Text(m.getNimi());
+            Label nimi = new Label(m.getNimi());
             nimi.setId(m.getNimi());
             nimi.setFont(new Font(20));
 
