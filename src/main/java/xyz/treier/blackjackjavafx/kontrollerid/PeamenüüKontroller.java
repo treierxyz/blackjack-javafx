@@ -1,6 +1,7 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
 import javafx.application.Platform;
+import xyz.treier.blackjackjavafx.Main;
 import xyz.treier.blackjackjavafx.Vaade;
 import xyz.treier.blackjackjavafx.VaateVahetaja;
 import javafx.event.ActionEvent;
@@ -31,6 +32,6 @@ public class PeamenüüKontroller {
      * Välju nupp. Sulgeb programmi.
      */
     public void välju() {
-        Platform.exit();
+        Main.sulge();
     }
 }

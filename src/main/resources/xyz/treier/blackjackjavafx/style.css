@@ -7,6 +7,10 @@
     -fx-text-fill: #F8F8F7;
 }
 
+.dialog-pane .header-panel {
+    -fx-background-color: #CE6243;
+}
+
 .accentColor {
     -fx-text-fill: #CE6243;
 }

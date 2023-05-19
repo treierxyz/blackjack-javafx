@@ -158,7 +158,7 @@ public class LõppKontroller {
      * Välju nupp. Sulgeb programmi.
      */
     public void välju() {
-        Platform.exit();
+        Main.sulge();
     }
 
     public void setMängijadList(List<Mängija> mängijadList) {
