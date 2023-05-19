@@ -16,6 +16,8 @@ public class Mängija implements Comparable<Mängija> {
     private final Käsi käsi;
     private final MängijaSeisProperty seis = new MängijaSeisProperty();
     private final DoubleProperty läbipaistvus = new SimpleDoubleProperty();
+    private final StringProperty värv = new SimpleStringProperty();
+
     private final HBox mängijaHbox = new HBox();
     private static final List<String> debugNimed = new ArrayList<>(List.of("Artur", "Peeter", "Joonas", "Kaarel", "Johanna", "Liina", "Mia", "Lisete"));
 
@@ -31,6 +33,7 @@ public class Mängija implements Comparable<Mängija> {
         this.käsi = new Käsi();
         this.seis.addListener(((observable, oldValue, newValue) -> {
             läbipaistvus.set(newValue.getLäbipaistvus());
+            värv.set("-fx-text-fill: "+newValue.getVärv());
 //            System.out.println(newValue.getLäbipaistvus());
         }));
         this.seis.setValue(MängijaSeis.INIT);
@@ -40,17 +43,18 @@ public class Mängija implements Comparable<Mängija> {
      * Mängija kellele antakse suvaline nimi.
      * @param krediit mängija krediit.
      */
-    public Mängija(int krediit) {
+/*    public Mängija(int krediit) {
         this.nimi = debugNimed.get((int) (Math.random() * debugNimed.size()));
         debugNimed.remove(nimi);
         this.krediit.set(krediit);
         this.käsi = new Käsi();
         this.seis.addListener(((observable, oldValue, newValue) -> {
             läbipaistvus.set(newValue.getLäbipaistvus());
+            värv.set(newValue.getVärv());
 //            System.out.println(newValue.getLäbipaistvus());
         }));
         this.seis.setValue(MängijaSeis.INIT);
-    }
+    }*/
 
     /**
      * Tagastab mängija nime.
@@ -159,6 +163,10 @@ public class Mängija implements Comparable<Mängija> {
      */
     public DoubleProperty läbipaistvusProperty() {
         return läbipaistvus;
+    }
+
+    public StringProperty värvProperty() {
+        return värv;
     }
 
     /**

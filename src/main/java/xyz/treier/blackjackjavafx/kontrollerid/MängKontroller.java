@@ -1,6 +1,7 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,6 +15,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.javafx.Icon;
 import xyz.treier.blackjackjavafx.*;
 
 import java.awt.*;
@@ -245,8 +247,22 @@ public class MängKontroller {
             vBox.getChildren().add(hBox);
 
             m.getMängijaHbox().getParent().opacityProperty().bind(m.läbipaistvusProperty());
+//            m.getMängijaHbox().getParent().getChildrenUnmodifiable().forEach(() label -> label.styleProperty().bind(m.värvProperty()));
+            rekursiivneStyleBind(m.getMängijaHbox().getParent(), m);
             mängijadFlow.getChildren().add(vBox);
         }
+    }
+
+    private void rekursiivneStyleBind(Parent vanem, Mängija mängija) {
+        vanem.getChildrenUnmodifiable().forEach(node -> {
+            if (node instanceof Label) {
+                Label label = (Label) node;
+                label.styleProperty().bind(mängija.värvProperty());
+            } else if (node instanceof Parent) {
+                Parent laps = (Parent) node;
+                rekursiivneStyleBind(laps, mängija);
+            }
+        });
     }
 
     /**
