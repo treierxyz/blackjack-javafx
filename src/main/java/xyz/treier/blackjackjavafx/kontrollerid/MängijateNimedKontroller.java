@@ -1,5 +1,6 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import xyz.treier.blackjackjavafx.Mängija;
 import xyz.treier.blackjackjavafx.Vaade;
@@ -27,6 +28,7 @@ public class MängijateNimedKontroller {
         for (int i = 0; i < arv; i++) {
             HBox hbox = new HBox();
             hbox.setSpacing(10);
+            hbox.setAlignment(Pos.CENTER);
             Label label = new Label("Mängija "+(i+1)+":");
             label.setPrefWidth(75); // kohutav hack selleks et nimeväljad ei oleks paari piksli võrra erineva laiusega
             TextField textField = new TextField();

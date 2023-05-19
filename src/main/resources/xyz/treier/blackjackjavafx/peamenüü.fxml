@@ -1,77 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="480.0" prefWidth="640.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.treier.blackjackjavafx.kontrollerid.PeamenüüKontroller">
-   <bottom>
-      <BorderPane BorderPane.alignment="CENTER">
-         <left>
-            <Button mnemonicParsing="false" onAction="#abi" text="Abi" BorderPane.alignment="CENTER" />
-         </left>
-         <right>
-            <Button mnemonicParsing="false" onAction="#välju" text="Välju" BorderPane.alignment="CENTER" />
-         </right>
-      </BorderPane>
-   </bottom>
-   <center>
-      <VBox alignment="CENTER" fillWidth="false" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Mitu mängijat?">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <HBox alignment="CENTER" prefWidth="53.0" spacing="5.0" styleClass="mangijanupud" VBox.vgrow="NEVER">
+
+<StackPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.treier.blackjackjavafx.kontrollerid.PeamenüüKontroller">
+   <children>
+      <ImageView fitHeight="331.0" fitWidth="553.0" opacity="0.16" preserveRatio="true" rotate="24.8" scaleX="3.0" scaleY="3.0" translateX="300.0" translateY="300.0" StackPane.alignment="CENTER">
+         <image>
+            <Image url="@kaardid.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <BorderPane prefHeight="480.0" prefWidth="640.0">
+         <bottom>
+            <BorderPane BorderPane.alignment="CENTER">
+               <left>
+                  <Button mnemonicParsing="false" onAction="#abi" text="Abi" BorderPane.alignment="CENTER" />
+               </left>
+               <right>
+                  <Button mnemonicParsing="false" onAction="#välju" text="Välju" BorderPane.alignment="CENTER" />
+               </right>
+            </BorderPane>
+         </bottom>
+         <center>
+            <VBox alignment="CENTER" fillWidth="false" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button alignment="CENTER" contentDisplay="TOP" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="1" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-                  <Button alignment="CENTER" contentDisplay="TOP" layoutX="51.0" layoutY="24.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="2" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-                  <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="3" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-                  <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="4" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-                  <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="5" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-                  <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="6" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-                  <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="7" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-                  <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="8" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </center>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="15.0" />
-   </padding>
-   <top>
-      <BorderPane BorderPane.alignment="CENTER">
-         <right>
-            <ImageView fitHeight="163.0" fitWidth="200.0" preserveRatio="true" BorderPane.alignment="CENTER">
-               <image>
-                  <Image url="@kaardid.png" />
-               </image>
-            </ImageView>
-         </right>
-         <left>
-            <VBox BorderPane.alignment="CENTER">
-               <children>
-                  <Label styleClass="accentColor" text="Blackjack">
+                  <Label text="Mitu mängijat?">
                      <font>
-                        <Font name="System Bold" size="50.0" />
+                        <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label text="Romek Hanson &amp; Oliver Jõgar">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
+                  <HBox alignment="CENTER" spacing="5.0" styleClass="mangijanupud" VBox.vgrow="NEVER">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="TOP" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="1" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" layoutX="51.0" layoutY="24.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="2" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="3" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="4" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="5" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="6" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="7" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mängijaid" text="8" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-         </left>
+         </center>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="15.0" />
+         </padding>
+         <top>
+            <BorderPane BorderPane.alignment="CENTER">
+               <left>
+                  <VBox BorderPane.alignment="CENTER">
+                     <children>
+                        <Label styleClass="accentColor" text="Blackjack">
+                           <font>
+                              <Font name="System Bold" size="50.0" />
+                           </font>
+                        </Label>
+                        <Label text="Romek Hanson &amp; Oliver Jõgar">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </left>
+            </BorderPane>
+         </top>
       </BorderPane>
-   </top>
-</BorderPane>
+   </children>
+</StackPane>

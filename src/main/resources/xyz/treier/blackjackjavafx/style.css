@@ -1,6 +1,21 @@
+@font-face
+{
+    -fx-font-family: "Raleway SemiBold";
+    src: url("fonts/Raleway-SemiBold.ttf");
+}
+
 .root, .split-pane {
     -fx-background-color: #394050;
     -fx-border-style: none;
+}
+
+.bg {
+    -fx-background-color: #394050;
+}
+
+.label, .button, .text-field {
+    -fx-font-family: "Raleway SemiBold";
+    -fx-font-variant-numeric: lining-nums;
 }
 
 .label {
