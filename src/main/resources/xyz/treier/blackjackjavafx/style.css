@@ -3,7 +3,7 @@
     -fx-border-style: none;
 }
 
-.label, .text {
+.label {
     -fx-text-fill: #F8F8F7;
 }
 

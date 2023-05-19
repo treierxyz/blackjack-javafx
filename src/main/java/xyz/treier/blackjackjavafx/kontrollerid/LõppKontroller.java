@@ -40,7 +40,7 @@ public class LõppKontroller {
 
         boolean diilerilBlackjack = false;
         // Lisa diileri tulemusele kas blackjack või bust kiri
-        switch(Integer.compare(diiler.getKäsi().summa(), 21)) {
+        switch (Integer.compare(diiler.getKäsi().summa(), 21)) {
             case 0 -> {
                 // Kui on üle kahe kaardi siis blackjack olla ei saa
                 if (diiler.getKäsi().getKaardid().size() > 2)
@@ -77,7 +77,7 @@ public class LõppKontroller {
                 mängijaHBox.getChildren().add(kaart);
             }
 
-            switch(seis) {
+            switch (seis) {
                 // Kaotajad
                 case BUST -> {
                     kaotajadVBox.getChildren().add(mängijaHBox);
@@ -98,7 +98,7 @@ public class LõppKontroller {
                         }
                         // Võit
                         võitjadVBox.getChildren().add(mängijaHBox);
-                        m.lisaKrediit((int)Math.round(m.getPanus() * 3.0/2.0)); // 3:2 võit
+                        m.lisaKrediit((int) Math.round(m.getPanus() * 3.0 / 2.0)); // 3:2 võit TODO: kas peaks ikka ümardama?
                         m.setPanus(0);
                         continue;
                     }
