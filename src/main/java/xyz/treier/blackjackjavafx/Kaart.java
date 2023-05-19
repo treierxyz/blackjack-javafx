@@ -43,7 +43,6 @@ public class Kaart {
         Label väärtus = new Label(this.väärtus.getLühend());
         Text mast = new Text(this.mast.getSümbol());
 
-        // see on kohutav, aga ikkagi lihtsam kui CSSi lisada
 //        väärtus.setFont(new Font(20));
 //        mast.setFont(new Font(20));
 
