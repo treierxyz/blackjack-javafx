@@ -2,6 +2,7 @@ package xyz.treier.blackjackjavafx.kontrollerid;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -79,6 +82,23 @@ public class MängKontroller {
     }
 
     public void küsiPanuseid() {
+
+        // TODO: EEMALDA SEE PEALE TESTIMIST
+        // AINULT DEBUGIMISEKS
+        // See ajutiselt määrab panusteks 100 ja alustab mänguga. See on väga väga VÄGA katkine kuid see pole mõeldud
+        // muuks kui debugimiseks. See on kasulik panuste kiireks sisestamiseks et katsetada mängu funktsionaalsust.
+        VaateVahetaja.getStseen().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.F8) {
+                for (Mängija mängija : mängijadList) {
+                    if (100 > mängija.getKrediit()) return;
+                    mängija.setPanus(100);
+                    mängija.setSeis(MängijaSeis.PANUS_VALMIS);
+                }
+                alustaMängu();
+            }
+        });
+        // AINULT DEBUGIMISEKS
+
         for (Mängija mängija : mängijadList) {
             mängija.getMängijaHbox().getChildren().clear();
 
@@ -90,8 +110,8 @@ public class MängKontroller {
                 mängija.strikeThroughNimi(); // Kriipsuta mängija nimi läbi
 
                 // Kaartide asemel näita "VÄLJAS"
-                Text väljas = new Text("VÄLJAS");
-                väljas.setFont(new Font(16));
+                Label väljas = new Label("VÄLJAS");
+//                väljas.setFont(new Font(16));
                 mängija.getMängijaHbox().getChildren().add(väljas);
 
                 continue;
@@ -123,16 +143,7 @@ public class MängKontroller {
 
                 // Kui kõik on panused teinud, siis alusta mänguga
                 if (panusedTehtud()) {
-                    actionBar.disableProperty().set(false); // käigu nupud aktiivseks
-
-                    // Uus kaardipakk. Pakkide arv võrdne mängijate arvuga, kuid minimaalselt 2.
-                    mänguPakk = new Kaardipakk(Math.max(mängijadList.size(), 2));
-                    jagaKaardid(); // jaga mängijatele kaardid
-                    mängijadHalliks(); // mängijad halliks
-
-                    // Alusta mängijate ringlusega
-                    mäng = new Mäng(this);
-                    mäng.järgmineMängija();
+                    alustaMängu();
                 }
             });
 
@@ -158,6 +169,19 @@ public class MängKontroller {
             }
         }
         return true;
+    }
+
+    public void alustaMängu() {
+        actionBar.disableProperty().set(false); // käigu nupud aktiivseks
+
+        // Uus kaardipakk. Pakkide arv võrdne mängijate arvuga, kuid minimaalselt 2.
+        mänguPakk = new Kaardipakk(Math.max(mängijadList.size(), 2));
+        jagaKaardid(); // jaga mängijatele kaardid
+        mängijadHalliks(); // mängijad halliks
+
+        // Alusta mängijate ringlusega
+        mäng = new Mäng(this);
+        mäng.järgmineMängija();
     }
 
     /**
@@ -189,6 +213,7 @@ public class MängKontroller {
         for (int i = 0; i < 2; i++)
             diiler.getKäsi().lisaKaart(mänguPakk.suvaline());
         // Näita ühte diileri kaarti
+        diileriKaardid.getChildren().clear();
         diileriKaardid.getChildren().add(diiler.getKäsi().getKaardidLabelid().get(0));
 
         // Teised diileri kaardid küsimärgid
@@ -235,7 +260,7 @@ public class MängKontroller {
             // Mängija nimi
             Label nimi = new Label(m.getNimi());
             nimi.setId(m.getNimi());
-            nimi.setFont(new Font(20));
+            nimi.getStyleClass().add("mangija");
 
             VBox vBox = new VBox(icon, nimi);
             vBox.setAlignment(Pos.CENTER);
@@ -244,6 +269,7 @@ public class MängKontroller {
             HBox hBox = m.getMängijaHbox();
             hBox.setAlignment(Pos.CENTER);
             hBox.setSpacing(5);
+            hBox.getStyleClass().add("kaardid");
             vBox.getChildren().add(hBox);
 
             m.getMängijaHbox().getParent().opacityProperty().bind(m.läbipaistvusProperty());

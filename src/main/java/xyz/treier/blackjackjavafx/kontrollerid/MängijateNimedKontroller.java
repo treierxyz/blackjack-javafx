@@ -20,17 +20,24 @@ public class MängijateNimedKontroller {
     @FXML
     private VBox nimedVbox;
 
+    @FXML
+    private Label sisestaPrompt;
+
     /**
      * Genereerib mängijate nimede sisestamise kastid.
      * @param arv Genereeritavate kastide arv (mänmgijate arv)
      */
     public void genereeriTekstiväljad(int arv) {
+        nimedVbox.getStyleClass().add("mangijanimi");
+        if (arv == 1) {
+            sisestaPrompt.setText("Sisesta nimi");
+        }
         for (int i = 0; i < arv; i++) {
             HBox hbox = new HBox();
             hbox.setSpacing(10);
             hbox.setAlignment(Pos.CENTER);
             Label label = new Label("Mängija "+(i+1)+":");
-            label.setPrefWidth(75); // kohutav hack selleks et nimeväljad ei oleks paari piksli võrra erineva laiusega
+            label.setPrefWidth(90); // kohutav hack selleks et nimeväljad ei oleks paari piksli võrra erineva laiusega
             TextField textField = new TextField();
             textField.setId("mängija"+(i+1)+"nimi");
 //            textField.setOnAction(event -> {}); // TODO: nimede väljal Enter võiks viia järgmise välja/edasi nuppu juurde

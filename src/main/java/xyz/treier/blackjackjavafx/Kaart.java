@@ -42,8 +42,10 @@ public class Kaart {
 
         Label väärtus = new Label(this.väärtus.getLühend());
         Text mast = new Text(this.mast.getSümbol());
-        väärtus.setFont(new Font(16));
-        mast.setFont(new Font(16));
+
+        // see on kohutav, aga ikkagi lihtsam kui CSSi lisada
+//        väärtus.setFont(new Font(20));
+//        mast.setFont(new Font(20));
 
         // Ärtu ja ruutu mastid punaseks
         if (this.mast.equals(Mast.ÄRTU) || this.mast.equals(Mast.RUUTU)) {

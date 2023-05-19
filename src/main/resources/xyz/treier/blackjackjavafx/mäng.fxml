@@ -22,13 +22,13 @@
                <children>
                   <Label styleClass="accentColor" text="Edetabel" textOverrun="CENTER_ELLIPSIS">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="22.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <VBox fx:id="edetabel" styleClass="root" />
+                  <VBox fx:id="edetabel" styleClass="edetabel" />
                </children>
             </VBox>
             <StackPane>
@@ -52,12 +52,12 @@
                                <VBox fx:id="diilerVbox" alignment="CENTER">
                                    <children>
                                        <FontIcon boundsType="VISUAL" iconColor="WHITE" iconLiteral="mdmz-person_outline" iconSize="42" />
-                                    <Label text="Diiler">
+                                    <Label styleClass="mangija" text="Diiler">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Label>
-                                       <HBox fx:id="diileriKaardid" alignment="CENTER" />
+                                       <HBox fx:id="diileriKaardid" alignment="CENTER" styleClass="kaardid" />
                                    </children>
                                </VBox>
                               <FlowPane fx:id="mängijadFlow" alignment="CENTER" columnHalignment="CENTER" hgap="25.0" vgap="15.0" />

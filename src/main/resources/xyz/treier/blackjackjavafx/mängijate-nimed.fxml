@@ -22,7 +22,7 @@
    <center>
       <FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="VERTICAL" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Sisestage nimed">
+            <Label fx:id="sisestaPrompt" text="Sisestage nimed">
                <font>
                   <Font name="System Bold" size="23.0" />
                </font>

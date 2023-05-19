@@ -48,13 +48,13 @@ public class LõppKontroller {
 
                 diilerilBlackjack = true;
                 Label blackjack = new Label("Blackjack!");
-                blackjack.setFont(new Font(16));
+//                blackjack.setFont(new Font(16));
                 blackjack.setTextFill(Color.GREEN);
                 diileriKaardidHBox.getChildren().add(blackjack);
             }
             case 1 -> {
                 Label bust = new Label("Bust!");
-                bust.setFont(new Font(16));
+//                bust.setFont(new Font(16));
                 bust.setTextFill(Color.RED);
                 diileriKaardidHBox.getChildren().add(bust);
             }
@@ -68,7 +68,7 @@ public class LõppKontroller {
 
             // Mängija nimi
             Label nimi = new Label(m.getNimi() + ": ");
-            nimi.setFont(new Font(16));
+//            nimi.setFont(new Font(16));
             mängijaHBox.getChildren().add(nimi);
 
             // lisa mängija kaardid ekraanile

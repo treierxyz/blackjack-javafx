@@ -18,6 +18,10 @@
     -fx-font-variant-numeric: lining-nums;
 }
 
+.text-field {
+    -fx-font-size: 11pt;
+}
+
 .label {
     -fx-text-fill: #F8F8F7;
 }
@@ -62,4 +66,28 @@
 
 .nimed .label {
     -fx-font-size: 11pt;
+}
+
+.edetabel {
+    -fx-font-size: 12pt;
+}
+
+.kaardid .label {
+    -fx-font-size: 16pt;
+}
+
+.mangija {
+    -fx-font-size: 16pt;
+}
+
+.diilerloppkaardid {
+    -fx-font-size: 14pt;
+}
+
+.loppkaardid .label {
+    -fx-font-size: 12pt;
+}
+
+.mangijanimi .label {
+    -fx-font-size: 14pt;
 }

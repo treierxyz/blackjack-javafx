@@ -19,7 +19,7 @@
                   <Font size="30.0" />
                </font>
             </Label>
-            <HBox fx:id="diileriKaardidHBox" alignment="CENTER">
+            <HBox fx:id="diileriKaardidHBox" alignment="CENTER" styleClass="diilerloppkaardid">
                <children>
                   <Label text="Diileri kaardid olid ">
                      <font>
@@ -33,7 +33,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="150.0">
                <children>
-                  <VBox fx:id="võitjadVBox" prefHeight="200.0">
+                  <VBox fx:id="võitjadVBox" prefHeight="200.0" styleClass="loppkaardid">
                      <children>
                         <Label alignment="TOP_LEFT" text="Võitjad" textAlignment="CENTER" underline="true">
                            <font>
@@ -46,7 +46,7 @@
                      </HBox.margin>
                   </VBox>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <VBox fx:id="kaotajadVBox" prefHeight="200.0">
+                  <VBox fx:id="kaotajadVBox" prefHeight="200.0" styleClass="loppkaardid">
                      <children>
                         <Label alignment="TOP_LEFT" text="Kaotajad" textAlignment="CENTER" underline="true">
                            <font>
@@ -59,7 +59,7 @@
                      </HBox.margin>
                   </VBox>
                   <Separator layoutX="149.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
-                  <VBox fx:id="viikVBox" prefHeight="200.0">
+                  <VBox fx:id="viikVBox" prefHeight="200.0" styleClass="loppkaardid">
                      <children>
                         <Label alignment="TOP_LEFT" text="Viik" textAlignment="CENTER" underline="true">
                            <font>
