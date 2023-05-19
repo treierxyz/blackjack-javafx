@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Käsi {
-    private List<Kaart> kaardid;
+    private final List<Kaart> kaardid;
 
     /**
      * Uus käsi

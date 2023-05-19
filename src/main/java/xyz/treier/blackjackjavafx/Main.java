@@ -3,21 +3,16 @@ package xyz.treier.blackjackjavafx;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -46,14 +41,14 @@ public class Main extends Application {
         kinnita.setHeaderText(väljuSõnumid.get(random.nextInt(väljuSõnumid.size())));
 
         Optional<ButtonType> kinnitus = kinnita.showAndWait();
-        if (!ButtonType.OK.equals(kinnitus.get())) {
+        if (kinnitus.isPresent() && !ButtonType.OK.equals(kinnitus.get())) {
             event.consume();
         }
     };
 
     @Override
     public void start(Stage pealava) throws IOException {
-        this.pealava = pealava;
+        Main.pealava = pealava;
         Scene stseen = new Scene(new Pane(),960,540);
         stseen.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         VaateVahetaja.setStseen(stseen);

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Kaardipakk {
-    private List<Kaart> kaardid;
+    private final List<Kaart> kaardid;
 
     /**
      * Uus kaardipakk.

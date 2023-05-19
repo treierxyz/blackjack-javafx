@@ -11,12 +11,12 @@ import java.util.List;
 
 public class Mängija implements Comparable<Mängija> {
     private final String nimi;
-    private IntegerProperty krediit = new SimpleIntegerProperty();
-    private IntegerProperty panus = new SimpleIntegerProperty();
-    private Käsi käsi;
-    private MängijaSeisProperty seis = new MängijaSeisProperty();
-    private DoubleProperty läbipaistvus = new SimpleDoubleProperty();
-    private HBox mängijaHbox = new HBox();
+    private final IntegerProperty krediit = new SimpleIntegerProperty();
+    private final IntegerProperty panus = new SimpleIntegerProperty();
+    private final Käsi käsi;
+    private final MängijaSeisProperty seis = new MängijaSeisProperty();
+    private final DoubleProperty läbipaistvus = new SimpleDoubleProperty();
+    private final HBox mängijaHbox = new HBox();
     private static final List<String> debugNimed = new ArrayList<>(List.of("Artur", "Peeter", "Joonas", "Kaarel", "Johanna", "Liina", "Mia", "Lisete"));
 
     /**

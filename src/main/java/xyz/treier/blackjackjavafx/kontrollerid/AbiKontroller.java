@@ -66,7 +66,7 @@ public class AbiKontroller {
         URL cssUrl = VaateVahetaja.class.getResource("abi.css");
         String mdSisu = new Scanner(mdUrl.openStream(), StandardCharsets.UTF_8).useDelimiter("\\A").next();
 
-        List<Extension> laiendused = Arrays.asList(TablesExtension.create());
+        List<Extension> laiendused = List.of(TablesExtension.create());
         Parser parser = Parser.builder().extensions(laiendused).build();
         HtmlRenderer renderer = HtmlRenderer.builder().extensions(laiendused).build();
 

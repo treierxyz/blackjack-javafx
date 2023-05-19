@@ -16,10 +16,10 @@ import java.util.*;
 
 
 public class Mäng {
-    private MängKontroller mängKontroller;
-    private Queue<Mängija> mängijad;
-    private ObservableList<IntegerProperty> krediitList = FXCollections.observableArrayList();
-    private IntegerProperty krediitSumma = new SimpleIntegerProperty();
+    private final MängKontroller mängKontroller;
+    private final Queue<Mängija> mängijad;
+    private final ObservableList<IntegerProperty> krediitList = FXCollections.observableArrayList();
+    private final IntegerProperty krediitSumma = new SimpleIntegerProperty();
 
 
     public Mäng(MängKontroller mängKontroller) {
