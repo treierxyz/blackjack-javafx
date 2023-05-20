@@ -1,4 +1,4 @@
-module com.example.blackjackjavafx {
+module xyz.treier.blackjackjavafx {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.kordamp.ikonli.core;
