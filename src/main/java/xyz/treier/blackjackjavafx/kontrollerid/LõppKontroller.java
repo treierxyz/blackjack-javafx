@@ -57,6 +57,10 @@ public class LõppKontroller {
 
         // Mängijate tulemused
         for (Mängija m : mängijadList) {
+            // Väljas mängijaid ei kontrolli
+            if (m.getSeis() == MängijaSeis.VÄLJAS)
+                continue;
+
             // Kõik mängija käed läbi
             for (Käsi käsi : m.getKäed()) {
                 // nimi + kaardid
