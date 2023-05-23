@@ -49,7 +49,7 @@ public class Main extends Application {
     @Override
     public void start(Stage pealava) throws IOException {
         Main.pealava = pealava;
-        Scene stseen = new Scene(new Pane(),960,540);
+        Scene stseen = new Scene(new Pane(),1280,720);
         stseen.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         VaateVahetaja.setStseen(stseen);
         VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
