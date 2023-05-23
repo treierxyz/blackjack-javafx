@@ -14,7 +14,7 @@
 
 <StackPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.treier.blackjackjavafx.kontrollerid.PeamenüüKontroller">
    <children>
-      <ImageView fitHeight="331.0" fitWidth="553.0" opacity="0.16" preserveRatio="true" rotate="24.8" scaleX="3.0" scaleY="3.0" translateX="-100.0" translateY="300.0" StackPane.alignment="CENTER_RIGHT">
+      <ImageView fitHeight="331.0" fitWidth="553.0" opacity="0.16" preserveRatio="true" scaleX="3.0" scaleY="3.0" translateX="-100.0" translateY="300.0" StackPane.alignment="CENTER_RIGHT">
          <image>
             <Image url="@kaardid.png" />
          </image>
