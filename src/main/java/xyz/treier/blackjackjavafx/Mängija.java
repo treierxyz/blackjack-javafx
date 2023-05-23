@@ -14,11 +14,14 @@ public class Mängija implements Comparable<Mängija> {
     private final IntegerProperty krediit = new SimpleIntegerProperty();
     private final IntegerProperty panus = new SimpleIntegerProperty();
     private final Käsi käsi;
+    private List<Käsi> käed; // split käed
     private final MängijaSeisProperty seis = new MängijaSeisProperty();
     private final DoubleProperty läbipaistvus = new SimpleDoubleProperty();
     private final StringProperty värv = new SimpleStringProperty();
 
     private final HBox mängijaHbox = new HBox();
+    private VBox mängijaVBox = new VBox();
+
     private static final List<String> debugNimed = new ArrayList<>(List.of("Artur", "Peeter", "Joonas", "Kaarel", "Johanna", "Liina", "Mia", "Lisete"));
 
     /**
@@ -30,7 +33,11 @@ public class Mängija implements Comparable<Mängija> {
     public Mängija(String nimi, int krediit) {
         this.nimi = nimi;
         this.krediit.set(krediit);
+
         this.käsi = new Käsi();
+        this.käed = new ArrayList<>();
+        this.käed.add(käsi);
+
         this.seis.addListener(((observable, oldValue, newValue) -> {
             läbipaistvus.set(newValue.getLäbipaistvus());
             värv.set("-fx-text-fill: "+newValue.getVärv());
@@ -92,7 +99,7 @@ public class Mängija implements Comparable<Mängija> {
      * Kriipsutab ekraanilt mängija nime läbi.
      */
     public void strikeThroughNimi() {
-        for (Node child : ((VBox) mängijaHbox.getParent()).getChildren()) {
+        for (Node child : mängijaVBox.getChildren()) {
             if (child.getClass() == Text.class) {
                 ((Text) child).setStrikethrough(true);
             }
@@ -105,6 +112,18 @@ public class Mängija implements Comparable<Mängija> {
      */
     public Käsi getKäsi() {
         return käsi;
+    }
+
+    public List<Käsi> getKäed() {
+        return käed;
+    }
+
+    public void lisaKäsi(Käsi käsi) {
+        käed.add(käsi);
+    }
+
+    public void lisaKäsi(Käsi käsi, int index) {
+        käed.add(index, käsi);
     }
 
     /**
@@ -141,6 +160,14 @@ public class Mängija implements Comparable<Mängija> {
         return panus;
     }
 
+    public int käePanused() {
+        int sum = 0;
+        for (Käsi k: käed)
+            sum += k.getPanus();
+
+        return sum;
+    }
+
     /**
      * HBox mängija kaartide hoidmiseks.
      * @return Mängija kaartide HBox.
@@ -149,13 +176,17 @@ public class Mängija implements Comparable<Mängija> {
         return mängijaHbox;
     }
 
-    /**
-     * Mängija
-     * @return Mängija läbipaistvuse väärtus.
-     */
-    /*public double getLäbipaistvus() {
-        return läbipaistvus.get();
-    }*/
+    public VBox getMängijaVBox() {
+        return mängijaVBox;
+    }
+
+    public void lisaHBox(HBox hbox) {
+        mängijaVBox.getChildren().add(hbox);
+    }
+
+    public void lisaHBox(HBox hbox, int index) {
+        mängijaVBox.getChildren().add(index, hbox);
+    }
 
     /**
      * Võimaldab siduda mängija läbipaistvuse ekraanil tema seisuga.

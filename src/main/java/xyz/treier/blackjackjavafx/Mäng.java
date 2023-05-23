@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import xyz.treier.blackjackjavafx.kontrollerid.LõppKontroller;
 import xyz.treier.blackjackjavafx.kontrollerid.MängKontroller;
 
@@ -80,6 +79,28 @@ public class Mäng {
 
         järgmine.setSeis(MängijaSeis.MÄNGIB);
         mängKontroller.setKelleKäik(järgmine); // sea järgmine mängija kontrolleris aktiivseks mängijaks
+
+        int mitmesKäsi = mitmesKäsiMängitav(järgmine.getKäed());
+        järgmine.getKäed().get(mitmesKäsi).setSeis(KäsiSeis.MÄNGIB);
+        mängKontroller.setMitmesKäsi(mitmesKäsi);
+    }
+
+    /**
+     * Leiab mängija käe, millega saab veel mängida.
+     *
+     * @param käed Mängija käed
+     * @return Indeks käele, mis ei ole stand ega bust
+     */
+    public int mitmesKäsiMängitav(List<Käsi> käed) {
+        int i;
+        for (i = 0; i < käed.size(); i++) {
+            Käsi käsi = käed.get(i);
+            // Kui käsi ei ole bust või stand, siis saab seda mängida
+            if (käsi.getSeis() != KäsiSeis.BUST &&
+                    käsi.getSeis() != KäsiSeis.STAND)
+                return i;
+        }
+        return i;
     }
 
     /**

@@ -1,4 +1,6 @@
 package xyz.treier.blackjackjavafx;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
 
 import java.util.ArrayList;
@@ -6,12 +8,21 @@ import java.util.List;
 
 public class Käsi {
     private final List<Kaart> kaardid;
+    private int panus;
+
+    private KasiSeisProperty seis = new KasiSeisProperty();
+    private DoubleProperty labipaistvus = new SimpleDoubleProperty();
 
     /**
      * Uus käsi
      */
     public Käsi() {
         this.kaardid = new ArrayList<>();
+
+        this.seis.addListener(((observable, oldValue, newValue) -> {
+            labipaistvus.set(newValue.getLabipaistvus());
+        }));
+        this.seis.setValue(KäsiSeis.OOTAB);
     }
 
     /**
@@ -50,6 +61,26 @@ public class Käsi {
      */
     public List<Kaart> getKaardid(){
         return this.kaardid;
+    }
+
+    public KäsiSeis getSeis() {
+        return seis.get();
+    }
+
+    public void setSeis(KäsiSeis seis) {
+        this.seis.set(seis);
+    }
+
+    public void setPanus(int panus) {
+        this.panus = panus;
+    }
+
+    public int getPanus() {
+        return panus;
+    }
+
+    public DoubleProperty labipaistvusProperty() {
+        return labipaistvus;
     }
 
     /**
