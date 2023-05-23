@@ -68,7 +68,6 @@ public class Mäng {
 
                 // Kuva mängu lõpuvaade
                 mängKontroller.näitaLõppEkraan(true);
-//                System.out.println("Mängijad otsas");
                 return;
             }
 

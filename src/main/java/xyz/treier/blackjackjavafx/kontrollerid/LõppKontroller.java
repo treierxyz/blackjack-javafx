@@ -4,9 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import xyz.treier.blackjackjavafx.*;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 
@@ -38,95 +36,101 @@ public class LõppKontroller {
             diileriKaardidHBox.getChildren().add(kaart);
         }
 
+        int diileriTulemus = diiler.getKäsi().summa();
         boolean diilerilBlackjack = false;
-        // Lisa diileri tulemusele kas blackjack või bust kiri
-        switch (Integer.compare(diiler.getKäsi().summa(), 21)) {
-            case 0 -> {
-                // Kui on üle kahe kaardi siis blackjack olla ei saa
-                if (diiler.getKäsi().getKaardid().size() > 2)
-                    break;
 
-                diilerilBlackjack = true;
-                Label blackjack = new Label("Blackjack!");
-//                blackjack.setFont(new Font(16));
-                blackjack.setTextFill(Color.GREEN);
-                diileriKaardidHBox.getChildren().add(blackjack);
-            }
-            case 1 -> {
-                Label bust = new Label("Bust!");
-//                bust.setFont(new Font(16));
-                bust.setTextFill(Color.RED);
-                diileriKaardidHBox.getChildren().add(bust);
-            }
+        // Diileril bust kui üle 21
+        if (diileriTulemus > 21) {
+            Label bust = new Label("Bust!");
+            bust.setTextFill(Color.RED);
+            diileriKaardidHBox.getChildren().add(bust);
         }
 
-        // Mängija tulemus
+        // Diileril blackjack kui on 2 kaarti ja kokku 21
+        else if (diileriTulemus == 21 && diiler.getKäsi().getKaardid().size() == 2) {
+            diilerilBlackjack = true;
+
+            Label blackjack = new Label("Blackjack!");
+            blackjack.setTextFill(Color.GREEN);
+            diileriKaardidHBox.getChildren().add(blackjack);
+        }
+
+        // Mängijate tulemused
         for (Mängija m : mängijadList) {
-            MängijaSeis seis = m.getSeis();
+            // Kõik mängija käed läbi
+            for (Käsi käsi : m.getKäed()) {
+                // nimi + kaardid
+                HBox mängijaHBox = new HBox();
 
-            HBox mängijaHBox = new HBox(); // nimi + kaardid
+                // lisa mängija nimi
+                Label nimi = new Label(m.getNimi() + ": ");
+                mängijaHBox.getChildren().add(nimi);
 
-            // Mängija nimi
-            Label nimi = new Label(m.getNimi() + ": ");
-//            nimi.setFont(new Font(16));
-            mängijaHBox.getChildren().add(nimi);
-
-            // lisa mängija kaardid ekraanile
-            for (Label kaart : m.getKäsi().getKaardidLabelid()) {
-                kaart.setText(kaart.getText() + " ");
-                mängijaHBox.getChildren().add(kaart);
-            }
-
-            switch (seis) {
-                // Kaotajad
-                case BUST -> {
-                    kaotajadVBox.getChildren().add(mängijaHBox);
-                    m.lisaKrediit(-m.getPanus()); // 1:1 kaotus
+                // lisa käe kaardid
+                for (Label kaart : käsi.getKaardidLabelid()) {
+                    kaart.setText(kaart.getText() + " ");
+                    mängijaHBox.getChildren().add(kaart);
                 }
 
-                case STAND -> {
-                    int mängijaTulemus = m.getKäsi().summa();
-                    int diileriTulemus = diiler.getKäsi().summa();
+                int käsiTulemus = käsi.summa();
 
-                    // Kui mängijal on blackjack
-                    if (mängijaTulemus == 21 && m.getKäsi().getKaardid().size() == 2) {
+                // Kui käsi on bust
+                if (käsi.getSeis() == KäsiSeis.BUST) {
+                    kaotajadVBox.getChildren().add(mängijaHBox);
+                    m.lisaKrediit(-käsi.getPanus()); // 1:1 kaotus
+                }
+
+                // Kui käsi on blackjack
+                else if (käsiTulemus == 21 && m.getKäsi().getKaardid().size() == 2) {
+                    // Blackjacki saab olla siis kui ei ole splititud
+                    if (m.getKäed().size() == 1) {
                         // Viik, kui diileril on ka blackjack
-                        if (diilerilBlackjack) {
+                        if (diilerilBlackjack)
                             viikVBox.getChildren().add(mängijaHBox);
-                            m.setPanus(0);
-                            continue;
+
+                        // Muidu võit
+                        else {
+                            võitjadVBox.getChildren().add(mängijaHBox);
+                            m.lisaKrediit(käsi.getPanus() * 3 / 2);
                         }
-                        // Võit
-                        võitjadVBox.getChildren().add(mängijaHBox);
-                        m.lisaKrediit((int) Math.round(m.getPanus() * 3.0 / 2.0)); // 3:2 võit TODO: kas peaks ikka ümardama?
-                        m.setPanus(0);
-                        continue;
                     }
 
-                    // Kui diiler bust siis kõik standijad võidavad
-                    if (diileriTulemus > 21) {
+                    // Kui mängija on splittinud siis tavaline võit
+                    else {
                         võitjadVBox.getChildren().add(mängijaHBox);
-                        m.lisaKrediit(m.getPanus()); // 1:1 võit
-                        break;
+                        m.lisaKrediit(käsi.getPanus()); // 1:1 võit
                     }
+                }
 
-                    // Võrdle mängija tulemust diileri omaga
-                    switch (Integer.compare(mängijaTulemus, diileriTulemus)) {
+                // Kui diiler bust siis kõik standijad võidavad
+                else if (diileriTulemus > 21) {
+                    võitjadVBox.getChildren().add(mängijaHBox);
+                    m.lisaKrediit(m.getPanus()); // 1:1 võit
+                }
+
+                else {
+                    // Võrdle käe tulemust diileri omaga
+                    switch (Integer.compare(käsiTulemus, diileriTulemus)) {
+                        // Mängijal on väiksem summa
                         case -1 -> {
                             kaotajadVBox.getChildren().add(mängijaHBox);
-                            m.lisaKrediit(-m.getPanus()); // 1:1 kaotus
+                            m.lisaKrediit(-käsi.getPanus()); // 1:1 kaotus
                         }
+
+                        // Mängijal on diileriga sama summa
                         case 0 -> {
                             // Kui diileril blackjack ja mängijal ei ole, siis mängija kaotab
                             if (diilerilBlackjack) {
                                 kaotajadVBox.getChildren().add(mängijaHBox);
-                                continue;
+                                m.lisaKrediit(-käsi.getPanus()); // 1:1 kaotus
                             }
                             viikVBox.getChildren().add(mängijaHBox);
                         }
+
+                        // Mängijal on suurem summa
                         case 1 -> {
                             võitjadVBox.getChildren().add(mängijaHBox);
-                            m.lisaKrediit(m.getPanus()); // 1:1 võit
+                            m.lisaKrediit(käsi.getPanus()); // 1:1 võit
                         }
                     }
                 }
@@ -147,6 +151,8 @@ public class LõppKontroller {
      */
     public void jätka() {
         MängKontroller mängKontroller = VaateVahetaja.vaheta(Vaade.MÄNG);
+
+        assert mängKontroller != null;
         mängKontroller.setMängijad(mängijadList);
         mängKontroller.mängijadInit();
         mängKontroller.mängijadMustaks();

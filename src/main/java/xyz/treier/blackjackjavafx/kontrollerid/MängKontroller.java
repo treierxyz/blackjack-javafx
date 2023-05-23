@@ -354,11 +354,9 @@ public class MängKontroller {
             // Võrdle uut tulemust 21-ga
             if (käsi.summa() > 21) {
                 käsi.setSeis(KäsiSeis.BUST);
-                System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " BUST");
             }
             else {
                 käsi.setSeis(KäsiSeis.OOTAB);
-                System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " OOTAB");
             }
         }
 
@@ -386,7 +384,7 @@ public class MängKontroller {
         } else {
             // Järgmine käsi mustaks
             kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB);
-            System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " MÄNGIB");
+            System.out.println(kelleKäik.getNimi() + ": käsi " + mitmesKasi + " aktiivne");
         }
     }
 
@@ -419,6 +417,8 @@ public class MängKontroller {
      * Kontrollib saadud tulemust 21-ga.
      */
     public void doubleNupp() {
+        //TODO: meelespea, et vaataks splitiga seonduv üle
+
         // kui mängijal ei ole krediiti et doubleida
         if (kelleKäik.getKrediit() < (kelleKäik.käePanused() + kelleKäik.getKäed().get(mitmesKasi).getPanus())) return;
 
@@ -480,7 +480,7 @@ public class MängKontroller {
         if (kelleKäik.getKäed().size() > 3) return;
 
         System.out.println("esimene kaart käest" + mitmesKasi);
-        System.out.println("Käsi " + mitmesKasi + kelleKäik.getKäed().get(mitmesKasi)); // käe kaardid, debug
+        System.out.println("Käsi " + mitmesKasi + " " + kelleKäik.getKäed().get(mitmesKasi)); // käe kaardid, debug
         Käsi käsi = kelleKäik.getKäed().get(mitmesKasi);
 
         Kaart esimene = käsi.getKaardid().get(0);
@@ -497,14 +497,15 @@ public class MängKontroller {
         }
 
         // Kui mängijal pole krediiti, et splittida
-        if (kelleKäik.getKrediit() < (kelleKäik.käePanused() + kelleKäik.getPanus())) return;
+        if (kelleKäik.getKrediit() < (kelleKäik.käePanused() + kelleKäik.getPanus()))
+            return;
 
         // Mängijale uus käsi
         kelleKäik.lisaKäsi(new Käsi(), mitmesKasi + 1);
 
         // Esimese käe teine kaart
         Kaart splitKaart = käsi.getKaardid().get(1);
-        kelleKäik.getKäed().get(mitmesKasi + 1).setPanus(kelleKäik.getPanus()); // Teise käe panus
+        kelleKäik.getKäed().get(mitmesKasi + 1).setPanus(kelleKäik.getPanus()); // Uue käe panus
 
         // Lisa teine kaart uude kätte ja eemalda vanast
         kelleKäik.getKäed().get(mitmesKasi + 1).lisaKaart(splitKaart);
@@ -516,10 +517,10 @@ public class MängKontroller {
         splitHBox.setSpacing(5);
         splitHBox.getStyleClass().add("kaardid");
         splitHBox.opacityProperty().bind(kelleKäik.getKäed().get(mitmesKasi + 1).labipaistvusProperty()); // Käe läbipaistvus binditud selle seisuga
-        splitHBox.getChildren().add(splitKaart.kaartLabel()); // Lisa uude kätte kaart
+        splitHBox.getChildren().add(splitKaart.kaartLabel()); // Lisa kaart uude kätte
 
         // Kuva kaardid ekraanil
-        ((HBox) kelleKäik.getMängijaVBox().getChildren().get(mitmesKasi)).getChildren().remove(1); // Kustuta ekraanilt teine kaart algsest käest
+        ((HBox) kelleKäik.getMängijaVBox().getChildren().get(mitmesKasi)).getChildren().remove(1); // Kustuta ekraanilt algse käe teine kaart
         kelleKäik.lisaHBox(splitHBox, mitmesKasi + 1); // Lisa teine käsi ekraanile
 
         käsi.setSeis(KäsiSeis.OOTAB); // split käsi ootab
@@ -530,8 +531,8 @@ public class MängKontroller {
             kelleKäik.setSeis(MängijaSeis.OOTAB);
             mäng.järgmineMängija();
         } else {
-            System.out.println(kelleKäik.getNimi() +  " käsi " + mitmesKasi);
-            kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB); // Järgmine käsi aktiviseks
+            kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB); // Järgmine käsi aktiivseks
+            System.out.println(kelleKäik.getNimi() + ": käsi " + mitmesKasi + " aktiivne");
         }
     }
 
@@ -547,7 +548,6 @@ public class MängKontroller {
 
     public void initialize() {
         lõppEkraan.setVisible(false);
-//        System.out.println(lõppEkraanController);
     }
 
     public void setMängijad(List<Mängija> mängijad) {

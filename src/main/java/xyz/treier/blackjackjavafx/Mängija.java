@@ -14,13 +14,13 @@ public class Mängija implements Comparable<Mängija> {
     private final IntegerProperty krediit = new SimpleIntegerProperty();
     private final IntegerProperty panus = new SimpleIntegerProperty();
     private final Käsi käsi;
-    private List<Käsi> käed; // split käed
+    private List<Käsi> käed; // Mängija käed
     private final MängijaSeisProperty seis = new MängijaSeisProperty();
     private final DoubleProperty läbipaistvus = new SimpleDoubleProperty();
     private final StringProperty värv = new SimpleStringProperty();
 
-    private final HBox mängijaHbox = new HBox();
-    private VBox mängijaVBox = new VBox();
+    // private final HBox mängijaHbox = new HBox(); // Ei tohiks enam vaja minna
+    private final VBox mängijaVBox = new VBox();
 
     private static final List<String> debugNimed = new ArrayList<>(List.of("Artur", "Peeter", "Joonas", "Kaarel", "Johanna", "Liina", "Mia", "Lisete"));
 
@@ -172,9 +172,9 @@ public class Mängija implements Comparable<Mängija> {
      * HBox mängija kaartide hoidmiseks.
      * @return Mängija kaartide HBox.
      */
-    public HBox getMängijaHbox() {
-        return mängijaHbox;
-    }
+    // public HBox getMängijaHbox() {
+    //     return mängijaHbox;
+    // }
 
     public VBox getMängijaVBox() {
         return mängijaVBox;
