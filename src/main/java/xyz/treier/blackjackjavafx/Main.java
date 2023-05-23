@@ -12,10 +12,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
 
 public class Main extends Application {
 
@@ -37,8 +35,17 @@ public class Main extends Application {
 
         Random random = new Random();
         // Mõned suvaliselt valitud sõnumid mida näidatakse mängijale väljudes, natuke nalja peab ikka saama ;)
-        List<String> väljuSõnumid = List.of("Annad juba alla?", "Diiler lootis, et jääd kauemaks.", "Tagasi tööle, eks?", "Sa olid ju nii lähedal!", "Kas panus oli liiga suur?", "Värske õhk ei teeks liiga...");
-        kinnita.setHeaderText(väljuSõnumid.get(random.nextInt(väljuSõnumid.size())));
+
+        try (BufferedReader sc = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("quitmsg.txt")))) {
+            List<String> väljuSõnumid = new ArrayList<>();
+            String rida;
+            while ((rida = sc.readLine()) != null) {
+                väljuSõnumid.add(rida);
+            }
+            kinnita.setHeaderText(väljuSõnumid.get(random.nextInt(väljuSõnumid.size())));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Optional<ButtonType> kinnitus = kinnita.showAndWait();
         if (kinnitus.isPresent() && !ButtonType.OK.equals(kinnitus.get())) {
@@ -55,7 +62,7 @@ public class Main extends Application {
         VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
         pealava.setScene(stseen);
         pealava.setTitle("Blackjack");
-        pealava.getIcons().add(new Image(getClass().getResource("icon.png").openStream()));
+        pealava.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
 
         pealava.setOnCloseRequest(sulgeProgramm);
 
