@@ -274,7 +274,7 @@ public class MängKontroller {
             // Mängija ikoon
             FontIcon icon = new FontIcon("mdmz-person_outline");
             icon.setIconColor(Paint.valueOf("#F8F8F7"));
-            icon.setIconSize(42);
+            icon.setIconSize(36);
 
             // Mängija nimi
             Label nimi = new Label(m.getNimi());
@@ -287,7 +287,7 @@ public class MängKontroller {
             // Kuva mängija kaardid
             VBox mängijaVBox = m.getMängijaVBox();
             mängijaVBox.setAlignment(Pos.CENTER);
-            mängijaVBox.setSpacing(5);
+            mängijaVBox.setSpacing(2);
             vBox.getChildren().add(mängijaVBox);
 
 //            HBox hBox = m.getMängijaHbox();
@@ -488,8 +488,8 @@ public class MängKontroller {
 
             // Kui ei ole samad kaardid siis ei saa splittida
             // TODO: Kommenteeritud kiiremaks testimiseks, et ei peaks samad kaardid olema
-            // if (!esimene.equals(teine))
-            //     return;
+//             if (!esimene.equals(teine))
+//                 return;
         } else {
             return;
         }
