@@ -185,6 +185,9 @@ public class MängKontroller {
      */
     public void mängijadHalliks() {
         for (Mängija m : mängijadList) {
+            if (lõpetanudList.contains(m)) {
+                continue;
+            }
             m.setSeis(MängijaSeis.OOTAB);
         }
     }
