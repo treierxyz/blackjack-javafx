@@ -29,7 +29,7 @@ public class MängKontroller {
     @FXML
     private HBox diileriKaardid;
     @FXML
-    private ButtonBar actionBar;
+    private HBox actionBar;
     @FXML
     private Parent lõppEkraan;
     @FXML
