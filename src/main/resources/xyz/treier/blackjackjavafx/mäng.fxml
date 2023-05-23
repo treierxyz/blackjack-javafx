@@ -26,16 +26,6 @@
             <StackPane>
                <children>
                   <BorderPane fx:id="mängEkraan">
-                     <bottom>
-                        <ButtonBar fx:id="actionBar" disable="true" BorderPane.alignment="CENTER">
-                          <buttons>
-                              <Button fx:id="doubleBtn" mnemonicParsing="false" onAction="#doubleNupp" text="Double" ButtonBar.buttonData="RIGHT" />
-                              <Button fx:id="hitBtn" mnemonicParsing="false" onAction="#hitNupp" text="Hit" />
-                              <Button fx:id="splitBtn" mnemonicParsing="false" onAction="#splitNupp" text="Split" />
-                              <Button fx:id="standBtn" mnemonicParsing="false" onAction="#standNupp" text="Stand" ButtonBar.buttonData="LEFT" />
-                          </buttons>
-                        </ButtonBar>
-                     </bottom>
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -54,6 +44,14 @@
                                    </children>
                                </VBox>
                               <FlowPane fx:id="mängijadFlow" alignment="CENTER" columnHalignment="CENTER" hgap="25.0" vgap="15.0" />
+                              <ButtonBar fx:id="actionBar" disable="true" maxWidth="350.0" translateX="-10.0">
+                                <buttons>
+                                    <Button fx:id="standBtn" mnemonicParsing="false" onAction="#standNupp" text="Stand" />
+                                    <Button fx:id="hitBtn" mnemonicParsing="false" onAction="#hitNupp" text="Hit" />
+                                    <Button fx:id="splitBtn" mnemonicParsing="false" onAction="#splitNupp" text="Split" />
+                                    <Button fx:id="doubleBtn" mnemonicParsing="false" onAction="#doubleNupp" text="Double" />
+                                </buttons>
+                              </ButtonBar>
                            </children>
                            <padding>
                               <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
