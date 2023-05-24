@@ -133,6 +133,7 @@ public class MängKontroller {
                     int panusKogus = Integer.parseInt(panus.getText());
                     if (panusKogus > mängija.getKrediit() || panusKogus <= 0) return;
                     mängija.getKäed().get(0).setPanus(panusKogus); // määra esimese käe panus
+                    mängija.setAlgnePanus(panusKogus);
 
                     System.out.println(mängija.panusListProperty().toString());
                     System.out.println(mängija.panusSummaProperty().get());
@@ -151,7 +152,6 @@ public class MängKontroller {
             });
 
             // Lisa iga mängija puhul ekraanile panuse kast ja ok nupp
-//            mängija.getMängijaHbox().getChildren().addAll(panus, ok);
             mängija.getMängijaVBox().getChildren().addAll(panus, ok);
         }
     }
@@ -301,12 +301,6 @@ public class MängKontroller {
             mängijaVBox.setSpacing(2);
             vBox.getChildren().add(mängijaVBox);
 
-//            HBox hBox = m.getMängijaHbox();
-//            hBox.setAlignment(Pos.CENTER);
-//            hBox.setSpacing(5);
-//            hBox.getStyleClass().add("kaardid");
-//            vBox.getChildren().add(vBox);
-
             mängijaVBox.getParent().opacityProperty().bind(m.läbipaistvusProperty());
 //            m.getMängijaHbox().getParent().getChildrenUnmodifiable().forEach(() label -> label.styleProperty().bind(m.värvProperty()));
             rekursiivneStyleBind(m.getMängijaVBox().getParent(), m);
@@ -332,7 +326,6 @@ public class MängKontroller {
     public void standNupp() {
         Käsi kasi = kelleKäik.getKäed().get(mitmesKasi);
         kasi.setSeis(KäsiSeis.STAND);
-        System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " STAND");
 
         mitmesKasi = mitmesKäsiMängitav(mitmesKasi, kelleKäik.getKäed());
 
@@ -350,7 +343,6 @@ public class MängKontroller {
             // Järgmine käsi mustaks
 
             kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB);
-            System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " MÄNGIB");
         }
     }
 
@@ -385,14 +377,142 @@ public class MängKontroller {
         } else {
             // Järgmine käsi mustaks
             kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB);
-            System.out.println(kelleKäik.getNimi() + ": käsi " + mitmesKasi + " aktiivne");
         }
     }
 
+    /**
+     * Double nupp. Kahekordistab mängija panuse (kui võimalik) ja võtab mängijale viimase kaardi.
+     * Kontrollib saadud tulemust 21-ga.
+     */
+    public void doubleNupp() {
+        // kui mängijal ei ole krediiti et doubleida
+        if (kelleKäik.getKrediit() < (kelleKäik.käePanused() + kelleKäik.getKäed().get(mitmesKasi).getPanus())) {
+            infoText.setText("Pole küllalt krediiti!");
+            ft.stop();
+            ft.play();
+            return;
+        }
+
+        Kaart uusKaart = mänguPakk.suvaline(); // uus kaart
+        Käsi käsi = kelleKäik.getKäed().get(mitmesKasi);
+        käsi.lisaKaart(uusKaart); // lisa kätte uus kaart
+
+        // Määra uus käe panus
+        käsi.setPanus(käsi.getPanus() * 2);
+
+        // Lisa kaart ekraanile õigesse kätte
+        ((HBox) kelleKäik.getMängijaVBox().getChildren().get(mitmesKasi)).getChildren().add(uusKaart.kaartLabel());
+
+        // Võrdle uut tulemust 21-ga
+        if (käsi.summa() > 21)
+            käsi.setSeis(KäsiSeis.BUST);
+        else
+            käsi.setSeis(KäsiSeis.STAND);
+
+
+        mitmesKasi = mitmesKäsiMängitav(mitmesKasi + 1, kelleKäik.getKäed());
+
+        // Kui kõik käed on mängitud
+        if (mitmesKasi >= kelleKäik.getKäed().size()) {
+            käteKontroll();
+            mäng.järgmineMängija();
+        } else {
+            // Järgmine käsi mustaks
+            kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB);
+        }
+    }
+
+    public void splitNupp() {
+        // Maksimaalselt saab 3 korda splittida
+        if (kelleKäik.getKäed().size() > 3) {
+            infoText.setText("Rohkem ei saa splittida!");
+            ft.stop();
+            ft.play();
+            return;
+        }
+
+        Käsi käsi = kelleKäik.getKäed().get(mitmesKasi);
+
+        //Splittida saab ainult siis kui on kaks samat kaarti
+        if (käsi.getKaardid().size() == 2) {
+            Kaart esimene = käsi.getKaardid().get(0);
+            Kaart teine = käsi.getKaardid().get(1);
+
+            // Kui ei ole samad kaardid siis ei saa splittida
+            if (!esimene.equals(teine)) {
+                infoText.setText("Pole samad kaardid!");
+                ft.stop();
+                ft.play();
+                return;
+            }
+        } else {
+            return;
+        }
+
+        // Kui mängijal pole krediiti, et splittida
+        if (kelleKäik.getKrediit() < (kelleKäik.käePanused() + kelleKäik.getAlgnePanus())) {
+            infoText.setText("Pole küllalt krediiti!");
+            ft.stop();
+            ft.play();
+            return;
+        }
+
+        // Mängijale uus käsi
+        Käsi uusKäsi = new Käsi();
+        uusKäsi.setPanus(kelleKäik.getAlgnePanus());
+        kelleKäik.lisaKäsi(uusKäsi, mitmesKasi + 1); // Lisa käsi mängijale
+
+        // Esimese käe teine kaart
+        Kaart splitKaart = käsi.getKaardid().get(1);
+        uusKäsi.setPanus(käsi.getPanus()); // Uue käe panus
+
+        // Lisa teine kaart uude kätte ja eemalda vanast
+        uusKäsi.lisaKaart(splitKaart);
+        käsi.getKaardid().remove(1);
+
+        // Lisa mõlemasse kätte uus kaart
+        uusKäsi.lisaKaart(mänguPakk.suvaline());
+        käsi.lisaKaart(mänguPakk.suvaline());
+
+        // Uue käe HBox
+        HBox splitHBox = new HBox();
+        splitHBox.setAlignment(Pos.CENTER);
+        splitHBox.setSpacing(5);
+        splitHBox.getStyleClass().add("kaardid");
+        splitHBox.opacityProperty().bind(kelleKäik.getKäed().get(mitmesKasi + 1).labipaistvusProperty()); // Käe läbipaistvus binditud selle seisuga
+
+        // Lisa uue käe kaardid ekraanile
+        splitHBox.getChildren().add(splitKaart.kaartLabel());
+        splitHBox.getChildren().add(uusKäsi.getKaardid().get(1).kaartLabel());
+        kelleKäik.lisaHBox(splitHBox, mitmesKasi + 1);
+
+        // Lisa algse käe kaardid ekraanile
+        HBox aglseKäeHBox = ((HBox) kelleKäik.getMängijaVBox().getChildren().get(mitmesKasi));
+        aglseKäeHBox.getChildren().remove(1); // Kustuta ekraanilt algse käe teine kaart
+        aglseKäeHBox.getChildren().add(kelleKäik.getKäed().get(mitmesKasi).getKaardid().get(1).kaartLabel()); // Lisa uus kaart
+
+        käsi.setSeis(KäsiSeis.OOTAB); // split käsi ootab
+        mitmesKasi += 2; // Üle uue käe
+
+        // Kui kõik käed on mängitud, siis võta järgmine mängija
+        if (mitmesKasi >= kelleKäik.getKäed().size()) {
+            kelleKäik.setSeis(MängijaSeis.OOTAB);
+            mäng.järgmineMängija();
+        } else {
+            kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB); // Järgmine käsi aktiivseks
+        }
+    }
+
+    /**
+     * Leiab mängija kätest esimese, millega saab mängida.
+     *
+     * @param algus Mis indeksist peale käsi vaadata
+     * @param käed Mängija käed
+     * @return Indeks esimesele käele, mis on ooteseisus.
+     */
     public int mitmesKäsiMängitav(int algus, List<Käsi> käed) {
         int i;
         for (i = algus; i < käed.size(); i++)
-            // Kui käsi ei ole bust või stand, siis saab seda mängida
             if (käed.get(i).getSeis() == KäsiSeis.OOTAB)
                 return i;
 
@@ -434,142 +554,6 @@ public class MängKontroller {
         // Kui saab veel mingi käega mängida
         else {
             kelleKäik.setSeis(MängijaSeis.OOTAB);
-        }
-    }
-
-    /**
-     * Double nupp. Kahekordistab mängija panuse (kui võimalik) ja võtab mängijale viimase kaardi.
-     * Kontrollib saadud tulemust 21-ga.
-     */
-    public void doubleNupp() {
-        //TODO: meelespea, et vaataks splitiga seonduv üle
-
-        // kui mängijal ei ole krediiti et doubleida
-        if (kelleKäik.getKrediit() < (kelleKäik.käePanused() + kelleKäik.getKäed().get(mitmesKasi).getPanus())) {
-            infoText.setText("Pole küllalt krediiti!");
-            ft.stop();
-            ft.play();
-            return;
-        }
-
-
-//        kelleKäik.setPanus(kelleKäik.getPanus() * 2); // kahekordista panust
-        Kaart uusKaart = mänguPakk.suvaline(); // uus kaart
-        Käsi käsi = kelleKäik.getKäed().get(mitmesKasi);
-        käsi.lisaKaart(uusKaart); // lisa uus kaart mängijale
-
-        // Uus käe panus
-        käsi.setPanus(käsi.getPanus() * 2);
-
-//        System.out.println("Panus on nüüd " + kelleKäik.getPanus());
-//        System.out.println("Tuli kaart " + uusKaart.toString());
-
-        // Lisa kaart ekraanile õigesse kätte
-        ((HBox) kelleKäik.getMängijaVBox().getChildren().get(mitmesKasi)).getChildren().add(uusKaart.kaartLabel());
-
-        // Võrdle uut tulemust 21-ga
-        if (käsi.summa() > 21) {
-            käsi.setSeis(KäsiSeis.BUST);
-            System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " BUST");
-        } else {
-            käsi.setSeis(KäsiSeis.STAND);
-            System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " OOTAB");
-        }
-
-        mitmesKasi = mitmesKäsiMängitav(mitmesKasi + 1, kelleKäik.getKäed());
-
-        // Kui kõik käed on mängitud
-        if (mitmesKasi >= kelleKäik.getKäed().size()) {
-            käteKontroll();
-            mäng.järgmineMängija();
-        } else {
-            // Järgmine käsi mustaks
-            kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB);
-            System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " MÄNGIB");
-        }
-    }
-
-    public void splitNupp() {
-        // Maksimaalselt saab 3 korda splittida
-        if (kelleKäik.getKäed().size() > 3) {
-            infoText.setText("Rohkem ei saa splittida!");
-            ft.stop();
-            ft.play();
-            return;
-        }
-
-        Käsi käsi = kelleKäik.getKäed().get(mitmesKasi);
-
-        Kaart esimene = käsi.getKaardid().get(0);
-        //Splittida saab ainult siis kui on kaks samat kaarti
-        if (käsi.getKaardid().size() == 2) {
-            Kaart teine = käsi.getKaardid().get(1);
-
-            // Kui ei ole samad kaardid siis ei saa splittida
-            // TODO: Kommenteeritud kiiremaks testimiseks, et ei peaks samad kaardid olema
-            if (!esimene.equals(teine)) {
-                infoText.setText("Pole samad kaardid!");
-                ft.stop();
-                ft.play();
-                return;
-            }
-        } else {
-            return;
-        }
-
-        // Kui mängijal pole krediiti, et splittida
-        if (kelleKäik.getKrediit() < kelleKäik.käePanused()) {
-            infoText.setText("Pole küllalt krediiti!");
-            ft.stop();
-            ft.play();
-            return;
-        }
-
-        // Mängijale uus käsi
-        Käsi uusKäsi = new Käsi();
-        kelleKäik.lisaKäsi(uusKäsi, mitmesKasi + 1); // Lisa käsi mängijale
-
-        // Esimese käe teine kaart
-        Kaart splitKaart = käsi.getKaardid().get(1);
-        uusKäsi.setPanus(käsi.getPanus()); // Uue käe panus
-
-        // Lisa teine kaart uude kätte ja eemalda vanast
-        uusKäsi.lisaKaart(splitKaart);
-        käsi.getKaardid().remove(1);
-
-        // Lisa mõlemasse kätte uus kaart
-        uusKäsi.lisaKaart(mänguPakk.suvaline());
-        käsi.lisaKaart(mänguPakk.suvaline());
-
-        // Uue käe HBox
-        HBox splitHBox = new HBox();
-        splitHBox.setAlignment(Pos.CENTER);
-        splitHBox.setSpacing(5);
-        splitHBox.getStyleClass().add("kaardid");
-        splitHBox.opacityProperty().bind(kelleKäik.getKäed().get(mitmesKasi + 1).labipaistvusProperty()); // Käe läbipaistvus binditud selle seisuga
-
-        // Lisa uue käe kaardid ekraanile
-        splitHBox.getChildren().add(splitKaart.kaartLabel());
-        splitHBox.getChildren().add(uusKäsi.getKaardid().get(1).kaartLabel());
-        kelleKäik.lisaHBox(splitHBox, mitmesKasi + 1);
-
-        // Lisa algse käe kaardid ekraanile
-        HBox aglseKäeHBox = ((HBox) kelleKäik.getMängijaVBox().getChildren().get(mitmesKasi));
-        // Kustuta ekraanilt algse käe teine kaart
-        aglseKäeHBox.getChildren().remove(1);
-        // Lisa uus kaart
-        aglseKäeHBox.getChildren().add(kelleKäik.getKäed().get(mitmesKasi).getKaardid().get(1).kaartLabel());
-
-        käsi.setSeis(KäsiSeis.OOTAB); // split käsi ootab
-        mitmesKasi += 2; // Üle uue käe
-
-        // Kui kõik käed on mängitud, siis võta järgmine mängija
-        if (mitmesKasi >= kelleKäik.getKäed().size()) {
-            kelleKäik.setSeis(MängijaSeis.OOTAB);
-            mäng.järgmineMängija();
-        } else {
-            kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB); // Järgmine käsi aktiivseks
-            System.out.println(kelleKäik.getNimi() + ": käsi " + mitmesKasi + " aktiivne");
         }
     }
 

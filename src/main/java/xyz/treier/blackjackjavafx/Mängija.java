@@ -4,6 +4,7 @@ import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
@@ -20,11 +21,10 @@ public class Mängija implements Comparable<Mängija> {
     private final List<Käsi> käed = new ArrayList<>(); // Mängija käed
     private final ObservableList<IntegerProperty> panusList = FXCollections.observableArrayList();
     private final IntegerProperty panusSumma = new SimpleIntegerProperty();
+    private int algnePanus;
     private final MängijaSeisProperty seis = new MängijaSeisProperty();
     private final DoubleProperty läbipaistvus = new SimpleDoubleProperty();
     private final StringProperty värv = new SimpleStringProperty();
-
-    // private final HBox mängijaHbox = new HBox(); // Ei tohiks enam vaja minna
     private final VBox mängijaVBox = new VBox();
 
     private static final List<String> debugNimed = new ArrayList<>(List.of("Artur", "Peeter", "Joonas", "Kaarel", "Johanna", "Liina", "Mia", "Lisete"));
@@ -45,7 +45,9 @@ public class Mängija implements Comparable<Mängija> {
             panusList.add(käsi.panusProperty());
         }
 
-        panusSumma.bind(Bindings.createIntegerBinding(() -> panusList.stream().mapToInt(IntegerProperty::get).sum(), panusList));
+        //panusSumma.bind(Bindings.createIntegerBinding(() -> panusList.stream().mapToInt(IntegerProperty::get).sum(), panusList));
+        panusSumma.bind(Bindings.createIntegerBinding(() -> käed.stream().mapToInt(Käsi::getPanus).sum(),
+                käed.stream().map(Käsi::panusProperty).toArray(IntegerProperty[]::new)));
 
 //        System.out.println(panusSumma.intValue());
 //        panusSumma.bind(Bindings.createIntegerBinding(() -> {
@@ -142,6 +144,9 @@ public class Mängija implements Comparable<Mängija> {
 
     public void lisaKäsi(Käsi käsi, int index) {
         käed.add(index, käsi);
+
+        panusSumma.bind(Bindings.createIntegerBinding(() -> käed.stream().mapToInt(Käsi::getPanus).sum(),
+                käed.stream().map(Käsi::panusProperty).toArray(IntegerProperty[]::new)));
     }
 
     /**
@@ -174,6 +179,12 @@ public class Mängija implements Comparable<Mängija> {
     public ObservableList<IntegerProperty> panusListProperty() {
         return panusList;
     }
+    public int getAlgnePanus() {
+        return algnePanus;
+    }
+    public void setAlgnePanus(int panus) {
+        this.algnePanus = panus;
+    }
 
     public int käePanused() {
         int sum = 0;
@@ -182,14 +193,6 @@ public class Mängija implements Comparable<Mängija> {
 
         return sum;
     }
-
-    /**
-     * HBox mängija kaartide hoidmiseks.
-     * @return Mängija kaartide HBox.
-     */
-    // public HBox getMängijaHbox() {
-    //     return mängijaHbox;
-    // }
 
     public VBox getMängijaVBox() {
         return mängijaVBox;
