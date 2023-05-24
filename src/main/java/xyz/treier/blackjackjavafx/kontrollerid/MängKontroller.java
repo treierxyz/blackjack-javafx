@@ -131,13 +131,21 @@ public class MängKontroller {
                 // Kui panus sobib, siis seab mängija panus, kui ei sobi, siis ei tee midagi
                 try {
                     int panusKogus = Integer.parseInt(panus.getText());
-                    if (panusKogus > mängija.getKrediit() || panusKogus <= 0) return;
+                    if (panusKogus > mängija.getKrediit() || panusKogus <= 0) {
+                        infoText.setText("Panus ei sobi!");
+                        ft.stop();
+                        ft.play();
+                        return;
+                    }
                     mängija.getKäed().get(0).setPanus(panusKogus); // määra esimese käe panus
                     mängija.setAlgnePanus(panusKogus);
 
                     System.out.println(mängija.panusListProperty().toString());
                     System.out.println(mängija.panusSummaProperty().get());
                 } catch (NumberFormatException e) {
+                    infoText.setText("Panus ei sobi!");
+                    ft.stop();
+                    ft.play();
                     return;
                 }
 
@@ -507,7 +515,7 @@ public class MängKontroller {
      * Leiab mängija kätest esimese, millega saab mängida.
      *
      * @param algus Mis indeksist peale käsi vaadata
-     * @param käed Mängija käed
+     * @param käed  Mängija käed
      * @return Indeks esimesele käele, mis on ooteseisus.
      */
     public int mitmesKäsiMängitav(int algus, List<Käsi> käed) {
@@ -570,6 +578,7 @@ public class MängKontroller {
 
     public void initialize() {
         infoText.setOpacity(0.0);
+        infoText.getStyleClass().add("teade");
         ft = new FadeTransition(Duration.seconds(3), infoText);
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
