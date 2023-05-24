@@ -72,4 +72,8 @@ public class Main extends Application {
     public static void sulge() {
         pealava.fireEvent(new WindowEvent(pealava, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
+
+    public static Stage getPealava() {
+        return pealava;
+    }
 }

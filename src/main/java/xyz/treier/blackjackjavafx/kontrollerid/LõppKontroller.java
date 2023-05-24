@@ -1,6 +1,9 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -8,7 +11,13 @@ import xyz.treier.blackjackjavafx.*;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 public class LõppKontroller {
 
@@ -148,6 +157,33 @@ public class LõppKontroller {
      * Uus mäng nupp. Viib tagasi peamenüüsse.
      */
     public void uusMäng() {
+        if (!jätkaNupp.isDisabled()) { // kui jätkamine on lubatud
+            Alert kinnita = new Alert(Alert.AlertType.CONFIRMATION, "Kas soovid kindlasti uut mängu alustada?");
+            kinnita.setTitle("Kinnita uus mäng");
+            ((Button) kinnita.getDialogPane().lookupButton(ButtonType.OK)).setText("Jah");
+            ((Button) kinnita.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Ei");
+            Platform.runLater(() -> kinnita.getDialogPane().lookupButton(ButtonType.CANCEL).requestFocus());
+            kinnita.initOwner(Main.getPealava());
+
+            Random random = new Random();
+            // Sarnaselt väljumisele on uue mängu alustusel erinevad sõnumid
+
+            try (BufferedReader sc = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream("newmsg.txt")))) {
+                List<String> väljuSõnumid = new ArrayList<>();
+                String rida;
+                while ((rida = sc.readLine()) != null) {
+                    väljuSõnumid.add(rida);
+                }
+                kinnita.setHeaderText(väljuSõnumid.get(random.nextInt(väljuSõnumid.size())));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Optional<ButtonType> kinnitus = kinnita.showAndWait();
+            if (kinnitus.isPresent() && !ButtonType.OK.equals(kinnitus.get())) {
+                return;
+            }
+        }
         VaateVahetaja.vaheta(Vaade.PEAMENÜÜ);
     }
 
