@@ -1,7 +1,9 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
+import javafx.application.HostServices;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.commonmark.Extension;
@@ -61,7 +63,7 @@ public class AbiKontroller {
         }
     }
 
-    public void initialize() throws IOException, URISyntaxException {
+    public void initialize() throws IOException {
         URL mdUrl = VaateVahetaja.class.getResource("abi.md");
         URL cssUrl = VaateVahetaja.class.getResource("abi.css");
         String mdSisu = new Scanner(mdUrl.openStream(), StandardCharsets.UTF_8).useDelimiter("\\A").next();

@@ -23,7 +23,7 @@ public class MängijateNimedKontroller {
     @FXML
     private Label sisestaPrompt;
 
-    private final int maxNimiPikkus = 30;
+    private final int maxNimiPikkus = 20; // Loodetavasti 20 on küllalt pikk nime jaoks
 
     /**
      * Genereerib mängijate nimede sisestamise kastid.

@@ -1,7 +1,13 @@
+@font-face
+{
+    -fx-font-family: "Raleway SemiBold";
+    src: url("fonts/Raleway-SemiBold.ttf");
+}
+
 body {
     background-color: #394050;
     color: #F8F8F7;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Raleway SemiBold";
     padding: 1em;
 }
 
@@ -9,9 +15,15 @@ a {
     color: #CE6243;
 }
 
-table, th, td {
+table {
     border-collapse: collapse;
+    width: 50%;
+
+}
+
+th, td {
+    border-bottom: 1px solid;
+
 }
 tr {
-    border-bottom: 1px solid;
 }
