@@ -85,12 +85,16 @@ public class MängKontroller {
 
         // TODO: EEMALDA SEE PEALE TESTIMIST
         // AINULT DEBUGIMISEKS
-        // See ajutiselt määrab panusteks 100 ja alustab mänguga. See on võibolla natuke katkine kuid see pole mõeldud
-        // muuks kui debugimiseks. See on kasulik panuste kiireks sisestamiseks et katsetada mängu funktsionaalsust.
+        // See ajutiselt määrab panusteks 100 ja alustab mänguga. See on üpris katkine kuid see on mõeldud
+        // ainult debugimiseks. See on kasulik panuste kiireks sisestamiseks et katsetada mängu funktsionaalsust.
         VaateVahetaja.getStseen().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.F8) {
                 for (Mängija mängija : mängijadList) {
-                    if (100 > mängija.getKrediit() || lõpetanudList.contains(mängija)) continue;
+                    if (100 > mängija.getKrediit()) {
+                        if (lõpetanudList.contains(mängija)) continue;
+                        mängija.getKäed().get(0).setPanus(mängija.getKrediit());
+                        continue;
+                    }
                     mängija.getKäed().get(0).setPanus(100);
                     mängija.setSeis(MängijaSeis.PANUS_VALMIS);
                 }
@@ -454,6 +458,9 @@ public class MängKontroller {
                 return;
             }
         } else {
+            infoText.setText("Ei saa "+käsi.getKaardid().size()+" kaardiga splittida!");
+            ft.stop();
+            ft.play();
             return;
         }
 
