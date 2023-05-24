@@ -1,6 +1,8 @@
 package xyz.treier.blackjackjavafx;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Label;
 
 import java.util.ArrayList;
@@ -8,8 +10,7 @@ import java.util.List;
 
 public class Käsi {
     private final List<Kaart> kaardid;
-    private int panus;
-
+    private IntegerProperty panus = new SimpleIntegerProperty();
     private KasiSeisProperty seis = new KasiSeisProperty();
     private DoubleProperty labipaistvus = new SimpleDoubleProperty();
 
@@ -72,10 +73,14 @@ public class Käsi {
     }
 
     public void setPanus(int panus) {
-        this.panus = panus;
+        this.panus.set(panus);
     }
 
     public int getPanus() {
+        return panus.get();
+    }
+
+    public IntegerProperty panusProperty() {
         return panus;
     }
 

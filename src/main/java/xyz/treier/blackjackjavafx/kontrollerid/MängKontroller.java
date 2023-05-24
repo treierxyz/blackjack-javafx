@@ -1,5 +1,6 @@
 package xyz.treier.blackjackjavafx.kontrollerid;
 
+import javafx.animation.FadeTransition;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -13,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.treier.blackjackjavafx.*;
 
@@ -36,14 +38,17 @@ public class MängKontroller {
     private LõppKontroller lõppEkraanController; // siin peab olema formaadis id+"Controller", muidu ei tööta
     @FXML
     private BorderPane mängEkraan;
+    @FXML
+    private Label infoText;
 
     private List<Mängija> mängijadList;
     private List<Mängija> lõpetanudList;
     private Mängija kelleKäik;
     private int mitmesKasi = 0;
-    private Mängija diiler;
+    private Diiler diiler;
     private Kaardipakk mänguPakk;
     private Mäng mäng;
+    private FadeTransition ft;
 
     /**
      * Kutsutakse iga kord kui on vaja edetabelit värskendada
@@ -60,7 +65,7 @@ public class MängKontroller {
             Label krediit = new Label();
             Label panus = new Label();
             krediit.textProperty().bind(m.krediitProperty().asString());
-            panus.textProperty().bind(Bindings.when(m.panusProperty().isEqualTo(0)).then("").otherwise(Bindings.concat("-", m.panusProperty().asString())));
+            panus.textProperty().bind(Bindings.when(m.panusSummaProperty().isEqualTo(0)).then("").otherwise(Bindings.concat("-", m.panusSummaProperty().asString())));
             panus.getStyleClass().add("panus");
             HBox krediitbox = new HBox(krediit, panus);
 
@@ -86,7 +91,7 @@ public class MängKontroller {
             if (event.getCode() == KeyCode.F8) {
                 for (Mängija mängija : mängijadList) {
                     if (100 > mängija.getKrediit()) return;
-                    mängija.setPanus(100);
+                    mängija.getKäed().get(0).setPanus(100);
                     mängija.setSeis(MängijaSeis.PANUS_VALMIS);
                 }
                 alustaMängu();
@@ -127,7 +132,10 @@ public class MängKontroller {
                 try {
                     int panusKogus = Integer.parseInt(panus.getText());
                     if (panusKogus > mängija.getKrediit() || panusKogus <= 0) return;
-                    mängija.setPanus(panusKogus);
+                    mängija.getKäed().get(0).setPanus(panusKogus); // määra esimese käe panus
+
+                    System.out.println(mängija.panusListProperty().toString());
+                    System.out.println(mängija.panusSummaProperty().get());
                 } catch (NumberFormatException e) {
                     return;
                 }
@@ -150,8 +158,9 @@ public class MängKontroller {
 
     /**
      * Kontrollib, kas kõik mängijad on oma panused teinud.
+     *
      * @return true, kui kõik panused on tehtud,
-     *         false, kui ei ole.
+     * false, kui ei ole.
      */
     public boolean panusedTehtud() {
         for (Mängija mängija : mängijadList) {
@@ -192,6 +201,7 @@ public class MängKontroller {
             m.setSeis(MängijaSeis.OOTAB);
         }
     }
+
     /**
      * Teeb kõik mängijad mänguvaates mustaks.
      */
@@ -206,7 +216,7 @@ public class MängKontroller {
      */
     public void jagaKaardid() {
         // Diiler
-        Mängija diiler = new Mängija("Diiler", 1000);
+        Diiler diiler = new Diiler();
         this.diiler = diiler;
 
         // Jaga diilerile 2 kaarti
@@ -236,7 +246,8 @@ public class MängKontroller {
             mängija.getKäed().get(0).setSeis(KäsiSeis.OOTAB);
 
             // Esimese käe panus sama mis mängija panus
-            mängija.getKäed().get(0).setPanus(mängija.getPanus());
+            // seda pole enam vaja, käe panus määratakse individuaalselt
+//            mängija.getKäed().get(0).setPanus(mängija.getPanus());
 
             // 0 krediidiga mängijale kaarte ei jaga
             if (mängija.getKrediit() == 0)
@@ -360,8 +371,7 @@ public class MängKontroller {
             // Võrdle uut tulemust 21-ga
             if (käsi.summa() > 21) {
                 käsi.setSeis(KäsiSeis.BUST);
-            }
-            else {
+            } else {
                 käsi.setSeis(KäsiSeis.OOTAB);
             }
         }
@@ -390,14 +400,14 @@ public class MängKontroller {
     }
 
     public boolean kõikKäedBust(List<Käsi> kaed) {
-        for (Käsi k: kaed)
+        for (Käsi k : kaed)
             if (k.getSeis() != KäsiSeis.BUST)
                 return false;
         return true;
     }
 
     public boolean kõikKäedLäbi(List<Käsi> kaed) {
-        for (Käsi k: kaed)
+        for (Käsi k : kaed)
             if (k.getSeis() != KäsiSeis.BUST && k.getSeis() != KäsiSeis.STAND)
                 return false;
         return true;
@@ -435,7 +445,12 @@ public class MängKontroller {
         //TODO: meelespea, et vaataks splitiga seonduv üle
 
         // kui mängijal ei ole krediiti et doubleida
-        if (kelleKäik.getKrediit() < (kelleKäik.käePanused() + kelleKäik.getKäed().get(mitmesKasi).getPanus())) return;
+        if (kelleKäik.getKrediit() < (kelleKäik.käePanused() + kelleKäik.getKäed().get(mitmesKasi).getPanus())) {
+            infoText.setText("Pole küllalt krediiti!");
+            ft.stop();
+            ft.play();
+            return;
+        }
 
 
 //        kelleKäik.setPanus(kelleKäik.getPanus() * 2); // kahekordista panust
@@ -456,8 +471,7 @@ public class MängKontroller {
         if (käsi.summa() > 21) {
             käsi.setSeis(KäsiSeis.BUST);
             System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " BUST");
-        }
-        else {
+        } else {
             käsi.setSeis(KäsiSeis.STAND);
             System.out.println(kelleKäik.getNimi() + " käsi " + mitmesKasi + " OOTAB");
         }
@@ -477,7 +491,12 @@ public class MängKontroller {
 
     public void splitNupp() {
         // Maksimaalselt saab 3 korda splittida
-        if (kelleKäik.getKäed().size() > 3) return;
+        if (kelleKäik.getKäed().size() > 3) {
+            infoText.setText("Rohkem ei saa splittida!");
+            ft.stop();
+            ft.play();
+            return;
+        }
 
         Käsi käsi = kelleKäik.getKäed().get(mitmesKasi);
 
@@ -488,15 +507,23 @@ public class MängKontroller {
 
             // Kui ei ole samad kaardid siis ei saa splittida
             // TODO: Kommenteeritud kiiremaks testimiseks, et ei peaks samad kaardid olema
-//             if (!esimene.equals(teine))
-//                 return;
+            if (!esimene.equals(teine)) {
+                infoText.setText("Pole samad kaardid!");
+                ft.stop();
+                ft.play();
+                return;
+            }
         } else {
             return;
         }
 
         // Kui mängijal pole krediiti, et splittida
-        if (kelleKäik.getKrediit() < (kelleKäik.käePanused() + kelleKäik.getPanus()))
+        if (kelleKäik.getKrediit() < kelleKäik.käePanused()) {
+            infoText.setText("Pole küllalt krediiti!");
+            ft.stop();
+            ft.play();
             return;
+        }
 
         // Mängijale uus käsi
         Käsi uusKäsi = new Käsi();
@@ -504,7 +531,7 @@ public class MängKontroller {
 
         // Esimese käe teine kaart
         Kaart splitKaart = käsi.getKaardid().get(1);
-        uusKäsi.setPanus(kelleKäik.getPanus()); // Uue käe panus
+        uusKäsi.setPanus(käsi.getPanus()); // Uue käe panus
 
         // Lisa teine kaart uude kätte ja eemalda vanast
         uusKäsi.lisaKaart(splitKaart);
@@ -549,6 +576,7 @@ public class MängKontroller {
     /**
      * Näita lõppekraani või mitte.
      * Näitamisel peidab mänguekraani, peitmisel kuvab mänguekraani.
+     *
      * @param näita Tõeväärtus, kas näidata lõppekraani.
      */
     public void näitaLõppEkraan(boolean näita) {
@@ -557,6 +585,12 @@ public class MängKontroller {
     }
 
     public void initialize() {
+        infoText.setOpacity(0.0);
+        ft = new FadeTransition(Duration.seconds(3), infoText);
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        ft.setCycleCount(1);
+//        ft.play();
         lõppEkraan.setVisible(false);
     }
 
@@ -575,7 +609,8 @@ public class MängKontroller {
     public void setMitmesKäsi(int i) {
         this.mitmesKasi = i;
     }
-    public Mängija getDiiler() {
+
+    public Diiler getDiiler() {
         return this.diiler;
     }
 

@@ -1,6 +1,10 @@
 package xyz.treier.blackjackjavafx;
 
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -12,9 +16,10 @@ import java.util.List;
 public class Mängija implements Comparable<Mängija> {
     private final String nimi;
     private final IntegerProperty krediit = new SimpleIntegerProperty();
-    private final IntegerProperty panus = new SimpleIntegerProperty();
-    private final Käsi käsi;
-    private List<Käsi> käed; // Mängija käed
+//    private final Käsi käsi;
+    private final List<Käsi> käed = new ArrayList<>(); // Mängija käed
+    private final ObservableList<IntegerProperty> panusList = FXCollections.observableArrayList();
+    private final IntegerProperty panusSumma = new SimpleIntegerProperty();
     private final MängijaSeisProperty seis = new MängijaSeisProperty();
     private final DoubleProperty läbipaistvus = new SimpleDoubleProperty();
     private final StringProperty värv = new SimpleStringProperty();
@@ -34,9 +39,22 @@ public class Mängija implements Comparable<Mängija> {
         this.nimi = nimi;
         this.krediit.set(krediit);
 
-        this.käsi = new Käsi();
-        this.käed = new ArrayList<>();
-        this.käed.add(käsi);
+        this.käed.add(new Käsi());
+
+        for (Käsi käsi : käed) {
+            panusList.add(käsi.panusProperty());
+        }
+
+        panusSumma.bind(Bindings.createIntegerBinding(() -> panusList.stream().mapToInt(IntegerProperty::get).sum(), panusList));
+
+//        System.out.println(panusSumma.intValue());
+//        panusSumma.bind(Bindings.createIntegerBinding(() -> {
+//            int summa = 0;
+//            for (Käsi käsi : this.käed) {
+//                summa += käsi.getPanus();
+//            }
+//            return summa;
+//        }, käed.stream().map(Käsi::panusProperty).toArray(IntegerProperty[]::new)));
 
         this.seis.addListener(((observable, oldValue, newValue) -> {
             läbipaistvus.set(newValue.getLäbipaistvus());
@@ -110,9 +128,9 @@ public class Mängija implements Comparable<Mängija> {
      * Tagastab mängija käe.
      * @return mängija käsi.
      */
-    public Käsi getKäsi() {
-        return käsi;
-    }
+//    public Käsi getKäsi() {
+//        return käsi;
+//    }
 
     public List<Käsi> getKäed() {
         return käed;
@@ -145,19 +163,16 @@ public class Mängija implements Comparable<Mängija> {
      * Tagastab mängija panuse.
      * @return mängija panus.
      */
-    public int getPanus() {
-        return this.panus.get();
+//    public int getPanus() {
+//        return this.panus.get();
+//    }
+
+    public IntegerProperty panusSummaProperty() {
+        return panusSumma;
     }
 
-    /**
-     * Väärtustab mängija panuse.
-     */
-    public void setPanus(int panus) {
-        this.panus.set(panus);
-    }
-
-    public IntegerProperty panusProperty() {
-        return panus;
+    public ObservableList<IntegerProperty> panusListProperty() {
+        return panusList;
     }
 
     public int käePanused() {

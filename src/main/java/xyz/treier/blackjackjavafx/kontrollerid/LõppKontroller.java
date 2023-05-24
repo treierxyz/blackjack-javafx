@@ -24,7 +24,7 @@ public class LõppKontroller {
     private Button jätkaNupp;
 
     private List<Mängija> mängijadList;
-    private Mängija diiler;
+    private Diiler diiler;
 
     /**
      * Kuvab mängu lõpus võitjad, kaotajad ja viiki jäänud mängijad ja nende kaardid.
@@ -85,7 +85,7 @@ public class LõppKontroller {
                 }
 
                 // Kui käsi on blackjack
-                else if (käsiTulemus == 21 && m.getKäsi().getKaardid().size() == 2) {
+                else if (käsiTulemus == 21 && käsi.getKaardid().size() == 2) {
                     // Blackjacki saab olla siis kui ei ole splititud
                     if (m.getKäed().size() == 1) {
                         // Viik, kui diileril on ka blackjack
@@ -109,7 +109,7 @@ public class LõppKontroller {
                 // Kui diiler bust siis kõik standijad võidavad
                 else if (diileriTulemus > 21) {
                     võitjadVBox.getChildren().add(mängijaHBox);
-                    m.lisaKrediit(m.getPanus()); // 1:1 võit
+                    m.lisaKrediit(käsi.getPanus()); // 1:1 võit
                 }
 
                 else {
@@ -138,8 +138,9 @@ public class LõppKontroller {
                         }
                     }
                 }
+                käsi.setPanus(0); // Peale käe võidu/kaotuse arvutamist ja tasustamist eemaldame sellelt panuse
             }
-            m.setPanus(0); // Mängija panus nulliks
+//            m.setPanus(0); // Mängija panus nulliks
         }
     }
 
@@ -175,7 +176,7 @@ public class LõppKontroller {
         this.mängijadList = mängijadList;
     }
 
-    public void setDiiler(Mängija diiler) {
+    public void setDiiler(Diiler diiler) {
         this.diiler = diiler;
     }
 

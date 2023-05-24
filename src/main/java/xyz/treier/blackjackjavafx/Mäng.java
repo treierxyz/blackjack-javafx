@@ -36,13 +36,13 @@ public class Mäng {
      * Ringi lõpus sooritab ka diileri käigu.
      * Kui kõik mängijad on lõpetanud, siis kuvab lõpuvaate.
      */
-    public void järgmineMängija() {
+    public void järgmineMängija() { // holy moly mis siin toimub
         Mängija järgmine;
 
         // Kui järjekord on tühi ehk mängijate ring tehtud
         if ((järgmine = mängijad.poll()) == null) {
             // Diileri käik
-            Mängija diiler = mängKontroller.getDiiler();
+            Diiler diiler = mängKontroller.getDiiler();
             // Kui diileril on alla 17-ne või on soft 17, siis lisa kaart
             if (diiler.getKäsi().summa() < 17 ||
                 diiler.getKäsi().summa() == 17 && diiler.getKäsi().getKaardid().contains(new Kaart(null, Väärtus.ÄSS)))
@@ -118,7 +118,7 @@ public class Mäng {
      * Lisab diilerile kaardi juurde.
      * @param diiler Mängu diiler
      */
-    public void lisaDiilerileKaart(Mängija diiler) {
+    public void lisaDiilerileKaart(Diiler diiler) {
         HBox diileriKaardid = mängKontroller.getDiileriKaardid();
         Kaardipakk pakk = mängKontroller.getMänguPakk();
         diiler.getKäsi().lisaKaart(pakk.suvaline());
