@@ -144,8 +144,8 @@ public class MängKontroller {
                     mängija.getKäed().get(0).setPanus(panusKogus); // määra esimese käe panus
                     mängija.setAlgnePanus(panusKogus);
 
-                    System.out.println(mängija.panusListProperty().toString());
-                    System.out.println(mängija.panusSummaProperty().get());
+//                    System.out.println(mängija.panusListProperty().toString());
+//                    System.out.println(mängija.panusSummaProperty().get());
                 } catch (NumberFormatException e) {
                     infoText.setText("Panus ei sobi!");
                     ft.stop();
