@@ -149,7 +149,6 @@ public class LõppKontroller {
                 }
                 käsi.setPanus(0); // Peale käe võidu/kaotuse arvutamist ja tasustamist eemaldame sellelt panuse
             }
-//            m.setPanus(0); // Mängija panus nulliks
         }
     }
 

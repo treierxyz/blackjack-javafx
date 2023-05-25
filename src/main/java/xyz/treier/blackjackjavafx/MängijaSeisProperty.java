@@ -10,10 +10,6 @@ public class MängijaSeisProperty extends ObjectPropertyBase<MängijaSeis> {
     public MängijaSeisProperty() {
     }
 
-    public MängijaSeisProperty(MängijaSeis initialValue) {
-        super(initialValue);
-    }
-
     @Override
     public Object getBean() {
         return this;

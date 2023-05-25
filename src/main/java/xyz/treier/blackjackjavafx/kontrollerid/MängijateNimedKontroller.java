@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,6 @@ public class MängijateNimedKontroller {
                 }
             }));
             textField.setId("mängija"+(i+1)+"nimi");
-//            textField.setOnAction(event -> {}); // TODO: nimede väljal Enter võiks viia järgmise välja/edasi nuppu juurde
             HBox.setHgrow(textField, Priority.ALWAYS);
             hbox.getChildren().addAll(label, textField);
             nimedVbox.getChildren().add(hbox);
@@ -66,7 +64,7 @@ public class MängijateNimedKontroller {
      */
     public void edasi() {
         List<Mängija> mängijad = new ArrayList<>();
-        // Leiab mängijate nimed. Kui nime ei sisestatud, saab mägnija nimeks "Mängija x", kus x on järjekorranumber.
+        // Leiab mängijate nimed. Kui nime ei sisestatud, saab mägnija nimeks "Mängija n", kus n on järjekorranumber.
         for (int i = 0; i < nimedVbox.getChildren().size(); i++) {
             String nimi = ((TextField) VaateVahetaja.getStseen().lookup("#mängija"+(i+1)+"nimi")).getText();
             if (nimi.equals("")) {

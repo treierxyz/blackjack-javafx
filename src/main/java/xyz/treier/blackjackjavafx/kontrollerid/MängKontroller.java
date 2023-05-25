@@ -7,10 +7,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -60,7 +56,7 @@ public class MängKontroller {
         Collections.sort(sorteeritudMängijadList, Collections.reverseOrder());
         for (Mängija m : sorteeritudMängijadList) {
             Label nimi = new Label(m.getNimi());
-            nimi.setTextOverrun(OverrunStyle.CENTER_ELLIPSIS); // TODO: miks overrun ei tööta???
+            nimi.setTextOverrun(OverrunStyle.CENTER_ELLIPSIS);
 
             Label krediit = new Label();
             Label panus = new Label();
@@ -82,27 +78,6 @@ public class MängKontroller {
     }
 
     public void küsiPanuseid() {
-
-        // TODO: EEMALDA SEE PEALE TESTIMIST
-        // AINULT DEBUGIMISEKS
-        // See ajutiselt määrab panusteks 100 ja alustab mänguga. See on üpris katkine kuid see on mõeldud
-        // ainult debugimiseks. See on kasulik panuste kiireks sisestamiseks et katsetada mängu funktsionaalsust.
-        VaateVahetaja.getStseen().setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.F8) {
-                for (Mängija mängija : mängijadList) {
-                    if (100 > mängija.getKrediit()) {
-                        if (lõpetanudList.contains(mängija)) continue;
-                        mängija.getKäed().get(0).setPanus(mängija.getKrediit());
-                        continue;
-                    }
-                    mängija.getKäed().get(0).setPanus(100);
-                    mängija.setSeis(MängijaSeis.PANUS_VALMIS);
-                }
-                alustaMängu();
-            }
-        });
-        // AINULT DEBUGIMISEKS
-
         for (Mängija mängija : mängijadList) {
             mängija.getMängijaVBox().getChildren().clear();
 
@@ -115,7 +90,6 @@ public class MängKontroller {
 
                 // Kaartide asemel näita "VÄLJAS"
                 Label väljas = new Label("VÄLJAS");
-//                väljas.setFont(new Font(16));
                 mängija.getMängijaVBox().getChildren().add(väljas);
 
                 continue;
@@ -143,9 +117,6 @@ public class MängKontroller {
                     }
                     mängija.getKäed().get(0).setPanus(panusKogus); // määra esimese käe panus
                     mängija.setAlgnePanus(panusKogus);
-
-//                    System.out.println(mängija.panusListProperty().toString());
-//                    System.out.println(mängija.panusSummaProperty().get());
                 } catch (NumberFormatException e) {
                     infoText.setText("Panus ei sobi!");
                     ft.stop();
@@ -257,10 +228,6 @@ public class MängKontroller {
             mängija.getKäed().get(0).tühjendaKäsi();
             mängija.getKäed().get(0).setSeis(KäsiSeis.OOTAB);
 
-            // Esimese käe panus sama mis mängija panus
-            // seda pole enam vaja, käe panus määratakse individuaalselt
-//            mängija.getKäed().get(0).setPanus(mängija.getPanus());
-
             // 0 krediidiga mängijale kaarte ei jaga
             if (mängija.getKrediit() == 0)
                 continue;
@@ -314,7 +281,6 @@ public class MängKontroller {
             vBox.getChildren().add(mängijaVBox);
 
             mängijaVBox.getParent().opacityProperty().bind(m.läbipaistvusProperty());
-//            m.getMängijaHbox().getParent().getChildrenUnmodifiable().forEach(() label -> label.styleProperty().bind(m.värvProperty()));
             rekursiivneStyleBind(m.getMängijaVBox().getParent(), m);
             mängijadFlow.getChildren().add(vBox);
         }
@@ -353,7 +319,6 @@ public class MängKontroller {
             mäng.järgmineMängija();
         } else {
             // Järgmine käsi mustaks
-
             kelleKäik.getKäed().get(mitmesKasi).setSeis(KäsiSeis.MÄNGIB);
         }
     }
@@ -445,7 +410,7 @@ public class MängKontroller {
 
         Käsi käsi = kelleKäik.getKäed().get(mitmesKasi);
 
-        //Splittida saab ainult siis kui on kaks samat kaarti
+        // Splittida saab ainult siis kui on kaks samat kaarti
         if (käsi.getKaardid().size() == 2) {
             Kaart esimene = käsi.getKaardid().get(0);
             Kaart teine = käsi.getKaardid().get(1);
@@ -590,7 +555,6 @@ public class MängKontroller {
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
         ft.setCycleCount(1);
-//        ft.play();
         lõppEkraan.setVisible(false);
     }
 

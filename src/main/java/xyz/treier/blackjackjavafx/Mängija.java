@@ -1,11 +1,7 @@
 package xyz.treier.blackjackjavafx;
 
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,9 +13,7 @@ import java.util.List;
 public class Mängija implements Comparable<Mängija> {
     private final String nimi;
     private final IntegerProperty krediit = new SimpleIntegerProperty();
-//    private final Käsi käsi;
     private final List<Käsi> käed = new ArrayList<>(); // Mängija käed
-    private final ObservableList<IntegerProperty> panusList = FXCollections.observableArrayList();
     private final IntegerProperty panusSumma = new SimpleIntegerProperty();
     private int algnePanus;
     private final MängijaSeisProperty seis = new MängijaSeisProperty();
@@ -27,7 +21,6 @@ public class Mängija implements Comparable<Mängija> {
     private final StringProperty värv = new SimpleStringProperty();
     private final VBox mängijaVBox = new VBox();
 
-    private static final List<String> debugNimed = new ArrayList<>(List.of("Artur", "Peeter", "Joonas", "Kaarel", "Johanna", "Liina", "Mia", "Lisete"));
 
     /**
      * Mängija, kelle nime saab määrata
@@ -41,47 +34,15 @@ public class Mängija implements Comparable<Mängija> {
 
         this.käed.add(new Käsi());
 
-        for (Käsi käsi : käed) {
-            panusList.add(käsi.panusProperty());
-        }
-
-        //panusSumma.bind(Bindings.createIntegerBinding(() -> panusList.stream().mapToInt(IntegerProperty::get).sum(), panusList));
         panusSumma.bind(Bindings.createIntegerBinding(() -> käed.stream().mapToInt(Käsi::getPanus).sum(),
                 käed.stream().map(Käsi::panusProperty).toArray(IntegerProperty[]::new)));
-
-//        System.out.println(panusSumma.intValue());
-//        panusSumma.bind(Bindings.createIntegerBinding(() -> {
-//            int summa = 0;
-//            for (Käsi käsi : this.käed) {
-//                summa += käsi.getPanus();
-//            }
-//            return summa;
-//        }, käed.stream().map(Käsi::panusProperty).toArray(IntegerProperty[]::new)));
 
         this.seis.addListener(((observable, oldValue, newValue) -> {
             läbipaistvus.set(newValue.getLäbipaistvus());
             värv.set("-fx-text-fill: "+newValue.getVärv());
-//            System.out.println(newValue.getLäbipaistvus());
         }));
         this.seis.setValue(MängijaSeis.INIT);
     }
-
-    /**
-     * Mängija kellele antakse suvaline nimi.
-     * @param krediit mängija krediit.
-     */
-/*    public Mängija(int krediit) {
-        this.nimi = debugNimed.get((int) (Math.random() * debugNimed.size()));
-        debugNimed.remove(nimi);
-        this.krediit.set(krediit);
-        this.käsi = new Käsi();
-        this.seis.addListener(((observable, oldValue, newValue) -> {
-            läbipaistvus.set(newValue.getLäbipaistvus());
-            värv.set(newValue.getVärv());
-//            System.out.println(newValue.getLäbipaistvus());
-        }));
-        this.seis.setValue(MängijaSeis.INIT);
-    }*/
 
     /**
      * Tagastab mängija nime.
@@ -126,20 +87,8 @@ public class Mängija implements Comparable<Mängija> {
         }
     }
 
-    /**
-     * Tagastab mängija käe.
-     * @return mängija käsi.
-     */
-//    public Käsi getKäsi() {
-//        return käsi;
-//    }
-
     public List<Käsi> getKäed() {
         return käed;
-    }
-
-    public void lisaKäsi(Käsi käsi) {
-        käed.add(käsi);
     }
 
     public void lisaKäsi(Käsi käsi, int index) {
@@ -164,21 +113,10 @@ public class Mängija implements Comparable<Mängija> {
         this.seis.set(seis);
     }
 
-    /**
-     * Tagastab mängija panuse.
-     * @return mängija panus.
-     */
-//    public int getPanus() {
-//        return this.panus.get();
-//    }
-
     public IntegerProperty panusSummaProperty() {
         return panusSumma;
     }
 
-    public ObservableList<IntegerProperty> panusListProperty() {
-        return panusList;
-    }
     public int getAlgnePanus() {
         return algnePanus;
     }

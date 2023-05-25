@@ -16,9 +16,6 @@ import java.io.*;
 import java.util.*;
 
 public class Main extends Application {
-
-    // TODO: äkki liigutaks mõned klassid omaette paketti?
-
     private static Stage pealava;
 
     public static void main(String[] args) {
@@ -34,7 +31,6 @@ public class Main extends Application {
         kinnita.initOwner(pealava);
 
         Random random = new Random();
-        // Mõned suvaliselt valitud sõnumid mida näidatakse mängijale väljudes, natuke nalja peab ikka saama ;)
 
         try (BufferedReader sc = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("quitmsg.txt")))) {
             List<String> väljuSõnumid = new ArrayList<>();
@@ -42,6 +38,7 @@ public class Main extends Application {
             while ((rida = sc.readLine()) != null) {
                 väljuSõnumid.add(rida);
             }
+            // Mõned suvaliselt valitud sõnumid mida näidatakse mängijale väljudes, natuke nalja peab ikka saama ;)
             kinnita.setHeaderText(väljuSõnumid.get(random.nextInt(väljuSõnumid.size())));
         } catch (IOException e) {
             throw new RuntimeException(e);

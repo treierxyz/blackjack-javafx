@@ -3,7 +3,6 @@ package xyz.treier.blackjackjavafx;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.util.Objects;
@@ -42,9 +41,6 @@ public class Kaart {
 
         Label väärtus = new Label(this.väärtus.getLühend());
         Text mast = new Text(this.mast.getSümbol());
-
-//        väärtus.setFont(new Font(20));
-//        mast.setFont(new Font(20));
 
         // Ärtu ja ruutu mastid punaseks
         if (this.mast.equals(Mast.ÄRTU) || this.mast.equals(Mast.RUUTU)) {
